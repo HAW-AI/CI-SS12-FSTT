@@ -1,0 +1,1 @@
+// The generated scanner code

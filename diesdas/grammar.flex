@@ -1,24 +1,53 @@
 package haw.ai.ci;
 
+import java.util.HashMap;
+import java.util.Map;
 
- class Token {
-	private int id, line, column;
+import static haw.ai.ci.TokenID.*;
+
+
+class Token {
+	private int line, column;
 	private String text;
+	private TokenID id;
 	
-	public Token(int id, String text, int line, int column) {
+	public Token(TokenID id, String text, int line, int column) {
 		this.id = id;
 		this.text = text;
 		this.line = line;
 		this.column = column;
 		
-		String out = "Token(" + text + "," + line + "," + column + ")";
+        String out = "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
 		System.out.println(out);
 	}
 	
-	public int id() { return id; }
+	public TokenID id() { return id; }
 	public String text() { return text; }
 	public int line() { return line; }
 	public int column() { return column; }
+}
+
+enum TokenID {
+    MUL, PLUS, MINUS, DIV, ASSIGN,
+    EQ, NEQ, LO, LOEQ, HI, HIEQ,
+    DOT, COMMA, COLON, LPAR, RPAR, LBRAC, RBRAC, SEMICOLON,
+    OF, THEN, DO, PRINT, READ,
+    END, ELSE, ELSIF, IF, WHILE, REPEAT, UNTIL,
+    ARRAY, RECORD, CONST, TYPE,
+    VAR, PROCEDURE, BEGIN, MODULE;
+    
+    private static final int startValue = 256;
+    private static final Map<TokenID, Integer> ids;
+    
+    static {
+        ids = new HashMap<TokenID, Integer>();
+        for (int i = 0; i < values().length; ++i) {
+            ids.put(values()[i], startValue+i);
+        }
+    }
+    
+    // must not be used in constructor!
+    public int id() { return ids.get(this); }
 }
 
 
@@ -33,49 +62,6 @@ package haw.ai.ci;
 %line
 %column
 
-
-%{
-  public static final int 	MUL = 256;
-  public static final int 	PLUS = 257;
-  public static final int 	MINUS = 258;
-  public static final int 	DIV = 259;
-  public static final int 	ASSIGN = 260;
-  public static final int 	EQ = 261;
-  public static final int 	NEQ = 262;
-  
-public static final int LO = 263;
-public static final int DO = 295;
-public static final int LOEQ = 264;
-public static final int HI = 265;
-public static final int HIEQ = 267;
-public static final int DOT = 268;
-public static final int COMMA = 269;
-public static final int COLON = 270;
-public static final int LPAR = 271;
-public static final int RPAR = 272;
-public static final int LBRAC = 273;
-public static final int RBRAC = 274;
-public static final int SEMICOLON = 275;
-public static final int OF = 276;
-public static final int THEN = 277;
-public static final int PRINT = 278;
-public static final int READ = 279;
-public static final int END = 280;
-public static final int ELSE = 281;
-public static final int ELSIF = 282;
-public static final int IF = 283;
-public static final int WHILE = 284;
-public static final int REPEAT = 285;
-public static final int UNTIL = 286;
-public static final int ARRAY = 287;
-public static final int RECORD = 288;
-public static final int CONST = 289;
-public static final int TYPE = 290;
-public static final int VAR = 291;
-public static final int PROCEDURE = 292;
-public static final int BEGIN = 293;
-public static final int MODULE = 294;
-%}
 	
 digit =	[0-9]
 letter=	[a-zA-Z]
@@ -95,6 +81,7 @@ BLANK=[ \t\n\r]
 "<="	{ new Token(LOEQ, yytext(), yyline, yycolumn); }
 ">"		{ new Token(HI, yytext(), yyline, yycolumn); }
 ">="	{ new Token(HIEQ, yytext(), yyline, yycolumn); }
+
 "."		{ new Token(DOT, yytext(), yyline, yycolumn); }
 ","		{ new Token(COMMA, yytext(), yyline, yycolumn); }
 ":"		{ new Token(COLON, yytext(), yyline, yycolumn); }

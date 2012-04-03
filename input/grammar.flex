@@ -1,58 +1,7 @@
 package haw.ai.ci;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static haw.ai.ci.TokenID.*;
 
-
-class Token {
-	private int line, column;
-	private String text;
-	private TokenID id;
-	
-	public Token(TokenID id, String text, int line, int column) {
-		this.id = id;
-		this.text = text;
-		this.line = line;
-		this.column = column;
-		
-        String out = "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
-		System.out.println(out);
-	}
-	
-	public TokenID id() { return id; }
-	public String text() { return text; }
-	public int line() { return line; }
-	public int column() { return column; }
-}
-
-enum TokenID {
-    MUL, PLUS, MINUS, DIV, ASSIGN,
-    EQ, NEQ, LO, LOEQ, HI, HIEQ,
-    DOT, COMMA, COLON, LPAR, RPAR, LBRAC, RBRAC, SEMICOLON,
-    OF, THEN, DO, PRINT, READ,
-    END, ELSE, ELSIF, IF, WHILE, REPEAT, UNTIL,
-    ARRAY, RECORD, CONST, TYPE,
-    VAR, PROCEDURE, BEGIN, MODULE;
-    
-    private static final int startValue = 256;
-    private static final Map<TokenID, Integer> ids;
-    
-    static {
-        ids = new HashMap<TokenID, Integer>();
-        for (int i = 0; i < values().length; ++i) {
-            ids.put(values()[i], startValue+i);
-        }
-    }
-    
-    // must not be used in constructor!
-    public int id() { return ids.get(this); }
-}
-
-
-
-	
 
 %%
 

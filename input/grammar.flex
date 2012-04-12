@@ -66,7 +66,7 @@ BLANK=[ \t\n\r]
 
 
 
-{digit}+ 	{ System.out.println("DIGITS " + yytext()); }
+-?{digit}+ 	{ return new Token(INT, yytext(), yyline, yycolumn); }
 {id}		{ System.out.println("ID " + yytext()); }
 
 {BLANK} {}

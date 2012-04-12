@@ -9,3 +9,4 @@ VAR PROCEDuRE BEGIN MODULE
 932
 ichbineinidentifier
 stringval := "ich bin ein \" string \\"
+$##@%32512wedas1111!!!

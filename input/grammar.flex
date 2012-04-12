@@ -72,4 +72,4 @@ string = \"([^\\\"]|\\.)*\"
 {string}    { return new Token(STR, yytext(), yyline, yycolumn); }
 
 {BLANK} {}
-. { System.out.println("error (" + yytext() + "," + yyline + "," +  yycolumn +")"); System.exit(0);}
+. { return new Token(ERROR, yytext(), yyline, yycolumn); }

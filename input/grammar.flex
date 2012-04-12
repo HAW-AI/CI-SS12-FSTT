@@ -10,9 +10,6 @@ import static haw.ai.ci.TokenID.*;
 %line
 %column
 %type Token
-%eofval{
-    null
-%eofval}
 
 	
 digit =	[0-9]

@@ -10,7 +10,8 @@ public enum TokenID {
     OF, THEN, DO, PRINT, READ,
     END, ELSE, ELSIF, IF, WHILE, REPEAT, UNTIL,
     ARRAY, RECORD, CONST, TYPE,
-    VAR, PROCEDURE, BEGIN, MODULE;
+    VAR, PROCEDURE, BEGIN, MODULE,
+    INT, STR, IDENT, ERROR;
     
     private static final int startValue = 256;
     private static final Map<TokenID, Integer> ids;

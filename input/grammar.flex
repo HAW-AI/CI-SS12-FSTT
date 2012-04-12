@@ -16,6 +16,7 @@ digit =	[0-9]
 letter=	[a-zA-Z]
 id =	{letter}({letter}|{digit}|"_"})*
 BLANK=[ \t\n\r]
+string = \"([^\\\"]|\\.)*\"
 
 %% 
 "*"		{ return new Token(MUL, yytext(), yyline, yycolumn); }
@@ -68,6 +69,7 @@ BLANK=[ \t\n\r]
 
 -?{digit}+ 	{ return new Token(INT, yytext(), yyline, yycolumn); }
 {id}		{ return new Token(IDENT, yytext(), yyline, yycolumn); }
+{string}    { return new Token(STR, yytext(), yyline, yycolumn); }
 
 {BLANK} {}
 . { System.out.println("error (" + yytext() + "," + yyline + "," +  yycolumn +")"); System.exit(0);}

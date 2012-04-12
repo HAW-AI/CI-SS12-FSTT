@@ -8,3 +8,4 @@ VAR PROCEDuRE BEGIN MODULE
 -213
 932
 ichbineinidentifier
+stringval := "ich bin ein \" string \\"

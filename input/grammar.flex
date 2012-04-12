@@ -7,7 +7,6 @@ import static haw.ai.ci.TokenID.*;
 
 %public
 %class MyScanner
-%standalone
 %line
 %column
 %type Token

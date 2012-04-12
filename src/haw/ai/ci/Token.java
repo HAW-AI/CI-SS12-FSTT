@@ -11,8 +11,12 @@ class Token {
 		this.line = line;
 		this.column = column;
 		
-        String out = "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
-		System.out.println(out);
+//        String out = "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
+//		System.out.println(out);
+	}
+	
+	public String toString(){
+		return "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
 	}
 	
 	public TokenID id() { return id; }

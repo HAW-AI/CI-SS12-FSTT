@@ -1,5 +1,7 @@
 package haw.ai.ci;
 
+import static haw.ai.ci.TokenID.*;
+
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -81,5 +83,18 @@ public class ParserTest {
   @Test(expected=ParserException.class)
   public void testFactorNeg1() {
       createParser("_varname").factor();
+  }
+  
+  @Test
+  public void testTestLookAhead() {
+      Parser p = createParser("id 123");
+      
+      assertTrue(p.testLookAhead(INT));
+      assertTrue(p.test(IDENT));
+      
+      p.read();
+      
+      assertTrue(p.test(INT));
+      
   }
 }

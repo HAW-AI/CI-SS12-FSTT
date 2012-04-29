@@ -13,8 +13,7 @@ public class Parser {
     }
     
     public static void error(String str) {
-        System.out.println("==> Error: " + str);
-        System.exit(0);
+        throw new ParserException("==> Error: " + str);
     }
     
     private void expect(TokenID expectedToken, String expectedString) {
@@ -75,9 +74,11 @@ public class Parser {
                     System.out.println(parser.parse());
                     
                 } catch (java.io.FileNotFoundException e) {
-                    System.out.println("File not found : \"" + fileName + "\"");
+                    System.err.println("File not found : \"" + fileName + "\"");
+                } catch (ParserException e) {
+                    System.err.println(e);
                 } catch (Exception e) {
-                    System.out.println("Unexpected exception:");
+                    System.err.println("Unexpected exception:");
                     e.printStackTrace();
                 }
             }

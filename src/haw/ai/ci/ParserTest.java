@@ -2,7 +2,6 @@ package haw.ai.ci;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.io.StringReader;
 
 import org.junit.*;
@@ -16,7 +15,7 @@ public class ParserTest {
     }
     
     @Test
-    public void testProgram() throws IOException {
+    public void testProgram() {
         AbstractNode actual = createParser("123\n32 1").program();
         AbstractNode expected = new IntNode(1);
         assertEquals(expected, actual);

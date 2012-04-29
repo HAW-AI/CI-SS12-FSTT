@@ -14,7 +14,7 @@ import static haw.ai.ci.TokenID.*;
 	
 digit =	[0-9]
 letter=	[a-zA-Z]
-id =	{letter}({letter}|{digit}|"_"})*
+id    =	{letter}({letter}|{digit}|[_])*
 BLANK=[ \t\n\r]
 string = \"([^\\\"]|\\.)*\"
 

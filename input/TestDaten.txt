@@ -1,12 +1,2 @@
-* + - / :=
-= # < <= > >= . , : ( ) [ ] ;
-OF THEN DO PRINT READ
-END ELSE ELSIF IF WHILE REPEAT UNTIL
-ARRAY RECORD CONST TYPE
-VAR PROCEDuRE BEGIN MODULE
-
--213
-932
-ichbineinidentifier
-stringval := "ich bin ein \" string \\"
-$##@%32512wedas1111!!!
+123
+32 1

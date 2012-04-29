@@ -42,6 +42,10 @@ public class Parser {
         return new IdentNode(nextSymbol.text());
     }
     
+    AbstractNode selector() {
+        return null;
+    }
+    
 
     AbstractNode program() {
         AbstractNode tree = null;

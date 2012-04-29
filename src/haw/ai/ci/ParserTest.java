@@ -37,4 +37,27 @@ public class ParserTest {
     public void testConstIdentNeg2() {
         createParser("_varname").constIdent();
     }
+    
+    @Test
+    public void testSelector() {
+        AbstractNode actual, expected;
+
+        actual = createParser("ident1.ident2").selector();
+        expected = new IdentSelectorNode(new IdentNode("ident1"), new IdentNode("ident2"));
+        assertEquals(expected, actual);
+
+        actual = createParser("ident1[-1337]").selector();
+        expected = new ExprSelectorNode(new IdentNode("ident1"), new IntNode(-1337));
+        assertEquals(expected, actual);
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testSelectorNeg1() {
+        createParser("1ident1.ident2").selector();
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testSelectorNeg2() {
+        createParser("ident1.4").selector();
+    }
 }

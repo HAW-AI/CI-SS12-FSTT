@@ -18,8 +18,27 @@ public class Parser {
     
     private void expect(TokenID expectedToken, String expectedString) {
         if (nextSymbol.id() != expectedToken) {
-            error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
+            failExpectation(expectedString);
         }
+    }
+    
+    private void failExpectation(String expectedString) {
+        error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
+    }
+    
+    private boolean test(TokenID token) {
+        return nextSymbol.id() == token;
+    }
+    
+    private void read(TokenID expectedToken, String expectedString) {
+        expect(expectedToken, expectedString);
+        insymbol();
+    }
+    
+    private Token read() {
+        Token curSymbol = nextSymbol;
+        insymbol();
+        return curSymbol;
     }
     
     public void insymbol() {
@@ -37,13 +56,31 @@ public class Parser {
     }
     
     
-    AbstractNode constIdent() {
+    IdentNode constIdent() {
         expect(IDENT, "identifier");
-        return new IdentNode(nextSymbol.text());
+        return new IdentNode(read().text());
     }
     
     AbstractNode selector() {
-        return null;
+        IdentNode subject = constIdent();
+        AbstractNode node = null;
+        
+        if (test(DOT)) {
+            read(DOT, ".");
+            node = new IdentSelectorNode(subject, constIdent());
+        } else if(test(LBRAC)) {
+            read(LBRAC, "[");
+            
+            // @TODO read full expression
+            expect(INT, "expression");
+            node = new ExprSelectorNode(subject, new IntNode(Integer.valueOf(read().text())));
+            
+            read(RBRAC, "]");
+        } else {
+            failExpectation(". or [");
+        }
+        
+        return node;
     }
     
 

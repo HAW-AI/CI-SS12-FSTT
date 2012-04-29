@@ -20,4 +20,17 @@ public class ParserTest {
         AbstractNode expected = new IntNode(1);
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void testConstIdent() {
+        AbstractNode actual = createParser("varn3ame_").constIdent();
+        AbstractNode expected = new IdentNode("varn3ame_");
+        assertEquals(expected, actual);
+        
+        actual = createParser("1varname").constIdent();
+        assertNull(actual);
+        
+        actual = createParser("_varname").constIdent();
+        assertNull(actual);
+    }
 }

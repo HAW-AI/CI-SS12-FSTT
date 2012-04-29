@@ -30,15 +30,34 @@ public class Parser {
         return nextSymbol.id() == token;
     }
     
-    private void read(TokenID expectedToken, String expectedString) {
+    private Token read(TokenID expectedToken, String expectedString) {
         expect(expectedToken, expectedString);
-        insymbol();
+        return read();
     }
     
     private Token read() {
         Token curSymbol = nextSymbol;
         insymbol();
         return curSymbol;
+    }
+    
+    private boolean testLookAhead(TokenID token) {
+        Token afterNextSymbol = null;
+        
+        try {
+            afterNextSymbol = scanner.yylex();
+            scanner.yypushback(1);
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("File not found : \"" + fileName + "\"");
+        } catch (java.io.IOException e) {
+            System.out.println("IO error scanning file \"" + fileName + "\"");
+            System.out.println(e);
+        } catch (Exception e) {
+            System.out.println("Unexpected exception:");
+            e.printStackTrace();
+        }
+        
+        return afterNextSymbol.id() == token;
     }
     
     public void insymbol() {
@@ -57,8 +76,16 @@ public class Parser {
     
     
     IdentNode constIdent() {
-        expect(IDENT, "identifier");
-        return new IdentNode(read().text());
+        return new IdentNode(read(IDENT, "identifier").text());
+    }
+    
+    IntNode integer() {
+        return new IntNode(Integer.valueOf(read(INT, "integer").text()));
+    }
+    
+    StringNode string() {
+        String str = read(STR, "string").text();
+        return new StringNode(str.substring(1, str.length()-1));
     }
     
     AbstractNode selector() {
@@ -78,6 +105,27 @@ public class Parser {
             read(RBRAC, "]");
         } else {
             failExpectation(". or [");
+        }
+        
+        return node;
+    }
+    
+    // @TODO: parse read and (expression)
+    AbstractNode factor() {
+        AbstractNode node = null;
+        
+        if (test(IDENT)) {
+            if (testLookAhead(DOT) || testLookAhead(LBRAC)) {
+                node = selector();
+            } else {
+                node = constIdent();
+            }
+        } else if (test(INT)) {
+            node = integer();
+        } else if (test(STR)) {
+            node = string();
+        } else {
+            failExpectation("identifier, integer, string, read or (expression)");
         }
         
         return node;

@@ -36,8 +36,8 @@ public class Parser {
             e.printStackTrace();
         }
     }
-    
-    private AbstractNode program() {
+
+    AbstractNode program() {
         AbstractNode tree = null;
         
         while (nextSymbol != null) {

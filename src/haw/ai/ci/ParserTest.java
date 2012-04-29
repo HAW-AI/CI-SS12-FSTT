@@ -60,4 +60,26 @@ public class ParserTest {
     public void testSelectorNeg2() {
         createParser("ident1.4").selector();
     }
+    
+  @Test
+  public void testFactor() {
+      AbstractNode actual, expected;
+      
+      actual = createParser("1337").factor();
+      expected = new IntNode(1337);
+      assertEquals(expected, actual);
+      
+      actual = createParser("\"hello wOrld\"").factor();
+      expected = new StringNode("hello wOrld");
+      assertEquals(expected, actual);
+      
+      actual = createParser("-1337").factor();
+      expected = new IntNode(-1337);
+      assertEquals(expected, actual);
+  }
+  
+  @Test(expected=ParserException.class)
+  public void testFactorNeg1() {
+      createParser("_varname").factor();
+  }
 }

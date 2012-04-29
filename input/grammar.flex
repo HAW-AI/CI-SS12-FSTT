@@ -6,7 +6,7 @@ import static haw.ai.ci.TokenID.*;
 %%
 
 %public
-%class MyScanner
+%class Scanner
 %line
 %column
 %type Token

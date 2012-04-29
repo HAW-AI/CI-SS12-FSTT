@@ -4,10 +4,10 @@ import static haw.ai.ci.TokenID.*;
 
 public class Parser {
     private Token nextSymbol;
-    private MyScanner scanner;
+    private Scanner scanner;
     private String fileName;
     
-    public Parser(MyScanner scanner, String fileName) {
+    public Parser(Scanner scanner, String fileName) {
         this.scanner = scanner;
         this.fileName = fileName;
     }
@@ -64,7 +64,7 @@ public class Parser {
                 try {
                     
                     fileName = argv[i];
-                    Parser parser = new Parser(new MyScanner(new java.io.FileReader(fileName)), fileName);
+                    Parser parser = new Parser(new Scanner(new java.io.FileReader(fileName)), fileName);
                     System.out.println(parser.parse());
                     
                 } catch (java.io.FileNotFoundException e) {

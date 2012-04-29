@@ -36,6 +36,13 @@ public class Parser {
             e.printStackTrace();
         }
     }
+    
+    
+    AbstractNode constIdent() {
+        expect(IDENT, "identifier");
+        return new IdentNode(nextSymbol.text());
+    }
+    
 
     AbstractNode program() {
         AbstractNode tree = null;

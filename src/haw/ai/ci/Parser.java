@@ -12,36 +12,36 @@ public class Parser {
         this.fileName = fileName;
     }
     
-    public static void error(String str) {
+    static void error(String str) {
         throw new ParserException("==> Error: " + str);
     }
     
-    private void expect(TokenID expectedToken, String expectedString) {
+    void expect(TokenID expectedToken, String expectedString) {
         if (nextSymbol.id() != expectedToken) {
             failExpectation(expectedString);
         }
     }
     
-    private void failExpectation(String expectedString) {
+    void failExpectation(String expectedString) {
         error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
     }
     
-    private boolean test(TokenID token) {
+    boolean test(TokenID token) {
         return nextSymbol.id() == token;
     }
     
-    private Token read(TokenID expectedToken, String expectedString) {
+    Token read(TokenID expectedToken, String expectedString) {
         expect(expectedToken, expectedString);
         return read();
     }
     
-    private Token read() {
+    Token read() {
         Token curSymbol = nextSymbol;
         insymbol();
         return curSymbol;
     }
     
-    private boolean testLookAhead(TokenID token) {
+    boolean testLookAhead(TokenID token) {
         Token afterNextSymbol = null;
         
         try {

@@ -140,10 +140,10 @@ public class ParserTest {
         assertEquals(expected, actual);
         
         actual = createParser("-\"foo\" + 9 * blub < 42").expr();
-        expected = new BinOpNode(PLUS_OP, new NegationNode(new StringNode("foo")),
-                                          new BinOpNode(MUL_OP, new IntNode(9),
-                                                                new BinOpNode(LO_OP, new IdentNode("blub"),
-                                                                                     new IntNode(42))));
+        expected = new BinOpNode(LO_OP, new BinOpNode(PLUS_OP, new NegationNode(new StringNode("foo")),
+                                                               new BinOpNode(MUL_OP, new IntNode(9),
+                                                                                     new IdentNode("blub"))),
+                                        new IntNode(42));
         assertEquals(expected, actual);
     }
     

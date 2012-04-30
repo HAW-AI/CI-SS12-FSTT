@@ -114,66 +114,66 @@ public class Parser {
         return node;
     }
     
-//    Assignment = ident Selector ’:=’ Expression.
-    AssignmentNode assignment() {
-    	AssignmentNode node = null;
-        IdentNode ident = null;
-        SelectorNode selector = null;
-        ExpressionNode expr = null;
-
-        if (test(IDENT)) {
-        	ident = constIdent();
-            if (testLookAhead(DOT)) {
-            	selector = selector();
-                if (test(ASSIGN)) {
-                	read(ASSIGN,":=");
-                	selector = selector();
-                  expr = expression();
-                	node = new AssignmentNode(ident,selector,expr);
-                } else {
-                    failExpectation(":=");
-                }
-            } else {
-                failExpectation(".");
-            }
-        } else {
-            failExpectation("identifier");
-        }
-        return node;
-    }
-    
-//    ActualParameters = Expression {’,’ Expression}
-    ActualParametersNode actualParameters() {
-    	ArrayList[ExpressionNode] list = new ArrayList[ExpressionNode]();
-        
-		list.add(expression());
-		while (test(COMMA)) {
-        	read(COMMA,",");
-			list.add(expression());
-		}
-		return  new ActualParametersNode(list);
-    }
-    
-//    ProcedureCall = ident ’(’ [ActualParameters] ’)’.
-
-    ProcedureCallNode procedureCall() {
-    	IdentNode ident = null;
-    	ActualParametersNode actualParameters = null;
-
-        if (test(IDENT)) {
-        	ident = constIdent();
-        	if(test(LPAR)){
-        		read(LPAR,"(");
-        		actualParameters = actualParameters();
-            	if(test(RPAR)){
-            		read(RPAR,")");
-            	}else{
-                    failExpectation(")");
-            	}
-        	}
-        }
-		return new ProcedureCallNode(ident,actualParameters);
-    }
+////    Assignment = ident Selector ’:=’ Expression.
+//    AssignmentNode assignment() {
+//    	AssignmentNode node = null;
+//        IdentNode ident = null;
+//        SelectorNode selector = null;
+//        ExpressionNode expr = null;
+//
+//        if (test(IDENT)) {
+//        	ident = constIdent();
+//            if (testLookAhead(DOT)) {
+//            	selector = selector();
+//                if (test(ASSIGN)) {
+//                	read(ASSIGN,":=");
+//                	selector = selector();
+//                  expr = expression();
+//                	node = new AssignmentNode(ident,selector,expr);
+//                } else {
+//                    failExpectation(":=");
+//                }
+//            } else {
+//                failExpectation(".");
+//            }
+//        } else {
+//            failExpectation("identifier");
+//        }
+//        return node;
+//    }
+//    
+////    ActualParameters = Expression {’,’ Expression}
+//    ActualParametersNode actualParameters() {
+//    	ArrayList[ExpressionNode] list = new ArrayList[ExpressionNode]();
+//        
+//		list.add(expression());
+//		while (test(COMMA)) {
+//        	read(COMMA,",");
+//			list.add(expression());
+//		}
+//		return  new ActualParametersNode(list);
+//    }
+//    
+////    ProcedureCall = ident ’(’ [ActualParameters] ’)’.
+//
+//    ProcedureCallNode procedureCall() {
+//    	IdentNode ident = null;
+//    	ActualParametersNode actualParameters = null;
+//
+//        if (test(IDENT)) {
+//        	ident = constIdent();
+//        	if(test(LPAR)){
+//        		read(LPAR,"(");
+//        		actualParameters = actualParameters();
+//            	if(test(RPAR)){
+//            		read(RPAR,")");
+//            	}else{
+//                    failExpectation(")");
+//            	}
+//        	}
+//        }
+//		return new ProcedureCallNode(ident,actualParameters);
+//    }
     
     // @TODO: parse read and (expression)
     AbstractNode factor() {

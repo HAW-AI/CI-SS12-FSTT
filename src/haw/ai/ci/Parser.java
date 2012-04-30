@@ -204,12 +204,14 @@ public class Parser {
     AbstractNode term() {
         AbstractNode node = factor();
         
-        if (test(MUL)) {
-            read(MUL, "*");
-            node = new BinOpNode(MUL_OP, node, factor());
-        } else if (test(DIV)) {
-            read(DIV, "/");
-            node = new BinOpNode(DIV_OP, node, factor());
+        while (test(MUL) || test(DIV)) {
+            if (test(MUL)) {
+                read(MUL, "*");
+                node = new BinOpNode(MUL_OP, node, factor());
+            } else if (test(DIV)) {
+                read(DIV, "/");
+                node = new BinOpNode(DIV_OP, node, factor());
+            }
         }
         
         return node;

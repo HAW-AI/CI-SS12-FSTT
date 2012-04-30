@@ -1,6 +1,7 @@
 package haw.ai.ci;
 
 import static haw.ai.ci.TokenID.*;
+import static haw.ai.ci.BinOpNode.BinOp.*;
 
 import static org.junit.Assert.*;
 
@@ -83,6 +84,22 @@ public class ParserTest {
     @Test(expected=ParserException.class)
     public void testFactorNeg1() {
         createParser("_varname").factor();
+    }
+
+    @Test(expected=ParserException.class)
+    public void testTerm() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("1337*7").term();
+        expected = new BinOpNode(MUL_OP, new IntNode(1337), new IntNode(7));
+        assertEquals(expected, actual);
+        
+        actual = createParser("\"hello wOrld\" / var[7] *   9").term();
+        expected = new BinOpNode(DIV_OP, new StringNode("\"hello wOrld\""),
+                                         new BinOpNode(MUL_OP, new ExprSelectorNode(new IdentNode("var"),
+                                                                                    new IntNode(7)),
+                                                               new IntNode(9)));
+        assertEquals(expected, actual);
     }
     
     @Test

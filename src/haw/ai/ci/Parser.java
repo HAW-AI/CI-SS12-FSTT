@@ -130,6 +130,10 @@ public class Parser {
         
         return node;
     }
+
+    AbstractNode term() {
+        return null;
+    }
     
 
     AbstractNode program() {

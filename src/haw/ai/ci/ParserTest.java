@@ -115,6 +115,12 @@ public class ParserTest {
         actual = createParser("-\"foo\"").simpleExpr();
         expected = new NegationNode(new StringNode("foo"));
         assertEquals(expected, actual);
+        
+        actual = createParser("a-b+c").simpleExpr();
+        expected = new BinOpNode(PLUS_OP, new BinOpNode(MINUS_OP, new IdentNode("a"),
+                                                                  new IdentNode("b")),
+                                          new IdentNode("c"));
+        assertEquals(expected, actual);
     }
     
     @Test

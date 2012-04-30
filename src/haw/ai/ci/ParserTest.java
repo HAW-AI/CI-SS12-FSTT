@@ -110,13 +110,12 @@ public class ParserTest {
                                                               new IntNode(7)));
         assertEquals(expected, actual);
 
-//        test later when term() supports sub-expressions        
-//        actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
-//        expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-//                                         new BinOpNode(MUL_OP, new ExprSelectorNode(new IdentNode("ident"),
-//                                                                                    new IntNode(7)),
-//                                                               new IntNode(9)));
-//        assertEquals(expected, actual);
+        actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
+        expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
+                                         new BinOpNode(MUL_OP, new ExprSelectorNode(new IdentNode("ident"),
+                                                                                    new IntNode(7)),
+                                                               new IntNode(9)));
+        assertEquals(expected, actual);
 
     }
 

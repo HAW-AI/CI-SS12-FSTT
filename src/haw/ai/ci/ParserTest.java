@@ -52,6 +52,12 @@ public class ParserTest {
         actual = createParser("ident1[-1337]").selector();
         expected = new ExprSelectorNode(new IdentNode("ident1"), new IntNode(-1337));
         assertEquals(expected, actual);
+
+        actual = createParser("ident1[\"foo\" >= -0]").selector();
+        expected = new ExprSelectorNode(new IdentNode("ident1"),
+                                        new BinOpNode(HIEQ_OP, new StringNode("foo"),
+                                                               new IntNode(-0)));
+        assertEquals(expected, actual);
     }
     
     @Test(expected=ParserException.class)

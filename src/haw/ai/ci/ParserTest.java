@@ -85,6 +85,10 @@ public class ParserTest {
         actual = createParser("-1337").factor();
         expected = new IntNode(-1337);
         assertEquals(expected, actual);
+        
+        actual = createParser("(a # b)").factor();
+        expected = new BinOpNode(NEQ_OP, new IdentNode("a"), new IdentNode("b"));
+        assertEquals(expected, actual);
     }
     
     @Test(expected=ParserException.class)

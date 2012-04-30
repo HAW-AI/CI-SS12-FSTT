@@ -2,6 +2,9 @@ package haw.ai.ci;
 
 import static haw.ai.ci.TokenID.*;
 
+import java.util.ArrayList;
+
+
 public class Parser {
     private Token nextSymbol;
     private Scanner scanner;
@@ -111,20 +114,21 @@ public class Parser {
     }
     
 //    Assignment = ident Selector ’:=’ Expression.
-    AbstractNode assignment() {
-        AbstractNode node = null;
-        AbstractNode ident = null;
-        AbstractNode selector = null;
-        AbstractNode expr = null;
+    AssignmentNode assignment() {
+    	AssignmentNode node = null;
+        IdentNode ident = null;
+        SelectorNode selector = null;
+        ExpressionNode expr = null;
 
         if (test(IDENT)) {
         	ident = constIdent();
             if (testLookAhead(DOT)) {
             	selector = selector();
                 if (test(ASSIGN)) {
+                	read(ASSIGN,":=");
                 	selector = selector();
-//                  expr = expression();
-//                	node = new AssignmentNode(ident,selector,expr);
+                  expr = expression();
+                	node = new AssignmentNode(ident,selector,expr);
                 } else {
                     failExpectation(":=");
                 }
@@ -137,7 +141,38 @@ public class Parser {
         return node;
     }
     
+//    ActualParameters = Expression {’,’ Expression}
+    ActualParametersNode actualParameters() {
+    	ArrayList[ExpressionNode] list = new ArrayList[ExpressionNode]();
+        
+		list.add(expression());
+		while (test(COMMA)) {
+        	read(COMMA,",");
+			list.add(expression());
+		}
+		return  new ActualParametersNode(list);
+    }
     
+//    ProcedureCall = ident ’(’ [ActualParameters] ’)’.
+
+    ProcedureCallNode procedureCall() {
+    	IdentNode ident = null;
+    	ActualParametersNode actualParameters = null;
+
+        if (test(IDENT)) {
+        	ident = constIdent();
+        	if(test(LPAR)){
+        		read(LPAR,"(");
+        		actualParameters = actualParameters();
+            	if(test(RPAR)){
+            		read(RPAR,")");
+            	}else{
+                    failExpectation(")");
+            	}
+        	}
+        }
+		return new ProcedureCallNode(ident,actualParameters);
+    }
     
     // @TODO: parse read and (expression)
     AbstractNode factor() {

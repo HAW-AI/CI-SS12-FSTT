@@ -110,7 +110,7 @@ public class ParserTest {
 
     }
 
-    @Test(expected=ParserException.class)
+    @Test
     public void testSimpleExpr() {
         AbstractNode actual, expected;
         

@@ -105,9 +105,7 @@ public class Parser {
         } else if(test(LBRAC)) {
             read(LBRAC, "[");
             
-            // @TODO read full expression
-            expect(INT, "expression");
-            node = new ExprSelectorNode(subject, new IntNode(Integer.valueOf(read().text())));
+            node = new ExprSelectorNode(subject, expr());
             
             read(RBRAC, "]");
         } else {

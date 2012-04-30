@@ -42,6 +42,19 @@ public class ParserTest {
     }
     
     @Test
+    public void testIndexExpr() {
+        AbstractNode actual, expected;
+
+        actual = createParser("-123").indexExpr();
+        expected = new IntNode(-123);
+        assertEquals(expected, actual);
+
+        actual = createParser("v_arname1").indexExpr();
+        expected = new IdentNode("v_arname1");
+        assertEquals(expected, actual);
+    }
+    
+    @Test
     public void testSelector() {
         AbstractNode actual, expected;
 

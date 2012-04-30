@@ -95,6 +95,10 @@ public class Parser {
         return new StringNode(str.substring(1, str.length()-1));
     }
     
+    AbstractNode indexExpr() {
+        return null;
+    }
+    
     AbstractNode selector() {
         IdentNode subject = constIdent();
         AbstractNode node = null;

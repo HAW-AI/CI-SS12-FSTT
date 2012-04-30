@@ -1,6 +1,7 @@
 package haw.ai.ci;
 
 import static haw.ai.ci.TokenID.*;
+import static haw.ai.ci.BinOpNode.BinOp.*;
 
 public class Parser {
     private Token nextSymbol;
@@ -132,7 +133,17 @@ public class Parser {
     }
 
     AbstractNode term() {
-        return null;
+        AbstractNode node = factor();
+        
+        if (test(MUL)) {
+            read(MUL, "*");
+            node = new BinOpNode(MUL_OP, node, factor());
+        } else if (test(DIV)) {
+            read(DIV, "/");
+            node = new BinOpNode(DIV_OP, node, factor());
+        }
+        
+        return node;
     }
     
 

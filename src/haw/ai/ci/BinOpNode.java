@@ -4,7 +4,7 @@ public class BinOpNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
 
     public enum BinOp {
-        MUL_OP, DIV_OP
+        MUL_OP, DIV_OP, PLUS_OP, MINUS_OP
     }
 
     private BinOp op;

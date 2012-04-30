@@ -146,6 +146,10 @@ public class Parser {
         return node;
     }
     
+    AbstractNode simpleExpr() {
+        return null;
+    }
+    
 
     AbstractNode program() {
         AbstractNode tree = null;

@@ -101,6 +101,21 @@ public class ParserTest {
                                                                new IntNode(9)));
         assertEquals(expected, actual);
     }
+
+    @Test(expected=ParserException.class)
+    public void testSimpleExpr() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("-1337*7+\"erna\"").simpleExpr();
+        expected = new BinOpNode(PLUS_OP, new BinOpNode(MUL_OP, new IntNode(-1337),
+                                                                new IntNode(7)),
+                                          new StringNode("erna"));
+        assertEquals(expected, actual);
+        
+        actual = createParser("-\"foo\"").simpleExpr();
+        expected = new NegationNode(new StringNode("foo"));
+        assertEquals(expected, actual);
+    }
     
     @Test
     public void testTestLookAhead() {

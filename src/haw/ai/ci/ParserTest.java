@@ -1,6 +1,7 @@
 package haw.ai.ci;
 
 import static haw.ai.ci.TokenID.*;
+import static haw.ai.ci.BinOpNode.BinOp.*;
 
 import static org.junit.Assert.*;
 
@@ -63,38 +64,83 @@ public class ParserTest {
         createParser("ident1.4").selector();
     }
     
-  @Test
-  public void testFactor() {
-      AbstractNode actual, expected;
-      
-      actual = createParser("1337").factor();
-      expected = new IntNode(1337);
-      assertEquals(expected, actual);
-      
-      actual = createParser("\"hello wOrld\"").factor();
-      expected = new StringNode("hello wOrld");
-      assertEquals(expected, actual);
-      
-      actual = createParser("-1337").factor();
-      expected = new IntNode(-1337);
-      assertEquals(expected, actual);
-  }
-  
-  @Test(expected=ParserException.class)
-  public void testFactorNeg1() {
-      createParser("_varname").factor();
-  }
-  
-  @Test
-  public void testTestLookAhead() {
-      Parser p = createParser("id 123");
-      
-      assertTrue(p.testLookAhead(INT));
-      assertTrue(p.test(IDENT));
-      
-      p.read();
-      
-      assertTrue(p.test(INT));
-      
-  }
+    @Test
+    public void testFactor() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("1337").factor();
+        expected = new IntNode(1337);
+        assertEquals(expected, actual);
+        
+        actual = createParser("\"hello wOrld\"").factor();
+        expected = new StringNode("hello wOrld");
+        assertEquals(expected, actual);
+        
+        actual = createParser("-1337").factor();
+        expected = new IntNode(-1337);
+        assertEquals(expected, actual);
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testFactorNeg1() {
+        createParser("_varname").factor();
+    }
+
+    @Test
+    public void testTerm() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("1337*7").term();
+        expected = new BinOpNode(MUL_OP, new IntNode(1337), new IntNode(7));
+        assertEquals(expected, actual);
+        
+        actual = createParser("\"hello wOrld\" / ident[7]").term();
+        expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
+                                         new ExprSelectorNode(new IdentNode("ident"),
+                                                              new IntNode(7)));
+        assertEquals(expected, actual);
+
+//        test later when term() supports sub-expressions        
+//        actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
+//        expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
+//                                         new BinOpNode(MUL_OP, new ExprSelectorNode(new IdentNode("ident"),
+//                                                                                    new IntNode(7)),
+//                                                               new IntNode(9)));
+//        assertEquals(expected, actual);
+
+    }
+
+    @Test(expected=ParserException.class)
+    public void testSimpleExpr() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("-1337*7+\"erna\"").simpleExpr();
+        expected = new BinOpNode(PLUS_OP, new BinOpNode(MUL_OP, new IntNode(-1337),
+                                                                new IntNode(7)),
+                                          new StringNode("erna"));
+        assertEquals(expected, actual);
+        
+        actual = createParser("-\"foo\"").simpleExpr();
+        expected = new NegationNode(new StringNode("foo"));
+        assertEquals(expected, actual);
+        
+        actual = createParser("a-b+c").simpleExpr();
+        expected = new BinOpNode(PLUS_OP, new BinOpNode(MINUS_OP, new IdentNode("a"),
+                                                                  new IdentNode("b")),
+                                          new IdentNode("c"));
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testTestLookAhead() {
+        Parser p = createParser("id 123");
+        
+        assertTrue(p.testLookAhead(INT));
+        assertTrue(p.test(IDENT));
+        
+        p.read();
+        
+        assertTrue(p.test(INT));
+        
+    }
 }

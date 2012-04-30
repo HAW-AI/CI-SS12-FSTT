@@ -1,6 +1,7 @@
 package haw.ai.ci;
 
 import static haw.ai.ci.TokenID.*;
+import static haw.ai.ci.BinOpNode.BinOp.*;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Parser {
     }
     
     void expect(TokenID expectedToken, String expectedString) {
-        if (nextSymbol.id() != expectedToken) {
+        if (!test(expectedToken)) {
             failExpectation(expectedString);
         }
     }
@@ -30,7 +31,7 @@ public class Parser {
     }
     
     boolean test(TokenID token) {
-        return nextSymbol.id() == token;
+        return nextSymbol != null && nextSymbol.id() == token;
     }
     
     Token read(TokenID expectedToken, String expectedString) {
@@ -190,6 +191,42 @@ public class Parser {
             node = string();
         } else {
             failExpectation("identifier, integer, string, read or (expression)");
+        }
+        
+        return node;
+    }
+
+    AbstractNode term() {
+        AbstractNode node = factor();
+        
+        if (test(MUL)) {
+            read(MUL, "*");
+            node = new BinOpNode(MUL_OP, node, factor());
+        } else if (test(DIV)) {
+            read(DIV, "/");
+            node = new BinOpNode(DIV_OP, node, factor());
+        }
+        
+        return node;
+    }
+    
+    AbstractNode simpleExpr() {
+        AbstractNode node;
+        
+        if (test(MINUS)) {
+            node = new NegationNode(term());
+        } else {
+            node = term();
+        }
+        
+        while (test(PLUS) || test(MINUS)) {
+            if (test(PLUS)) {
+                read(PLUS, "+");
+                node = new BinOpNode(PLUS_OP, node, term());
+            } else if (test(MINUS)) {
+                read(MINUS, "-");
+                node = new BinOpNode(MINUS_OP, node, term());
+            }
         }
         
         return node;

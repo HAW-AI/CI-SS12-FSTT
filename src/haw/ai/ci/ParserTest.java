@@ -111,10 +111,10 @@ public class ParserTest {
         assertEquals(expected, actual);
 
         actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
-        expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                                         new BinOpNode(MUL_OP, new ExprSelectorNode(new IdentNode("ident"),
-                                                                                    new IntNode(7)),
-                                                               new IntNode(9)));
+        expected = new BinOpNode(MUL_OP, new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
+                                                               new ExprSelectorNode(new IdentNode("ident"),
+                                                                                    new IntNode(7))),
+                                         new IntNode(9));
         assertEquals(expected, actual);
 
     }

@@ -132,6 +132,22 @@ public class ParserTest {
     }
     
     @Test
+    public void testExpression() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("a # b").expr();
+        expected = new BinOpNode(NEQ_OP, new IdentNode("a"), new IdentNode("b"));
+        assertEquals(expected, actual);
+        
+        actual = createParser("-\"foo\" + 9 * blub < 42").expr();
+        expected = new BinOpNode(PLUS_OP, new NegationNode(new StringNode("foo")),
+                                          new BinOpNode(MUL_OP, new IntNode(9),
+                                                                new BinOpNode(LO_OP, new IdentNode("blub"),
+                                                                                     new IntNode(42))));
+        assertEquals(expected, actual);
+    }
+    
+    @Test
     public void testTestLookAhead() {
         Parser p = createParser("id 123");
         

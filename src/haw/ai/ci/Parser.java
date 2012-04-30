@@ -110,6 +110,35 @@ public class Parser {
         return node;
     }
     
+//    Assignment = ident Selector ’:=’ Expression.
+    AbstractNode assignment() {
+        AbstractNode node = null;
+        AbstractNode ident = null;
+        AbstractNode selector = null;
+        AbstractNode expr = null;
+
+        if (test(IDENT)) {
+        	ident = constIdent();
+            if (testLookAhead(DOT)) {
+            	selector = selector();
+                if (test(ASSIGN)) {
+                	selector = selector();
+//                  expr = expression();
+//                	node = new AssignmentNode(ident,selector,expr);
+                } else {
+                    failExpectation(":=");
+                }
+            } else {
+                failExpectation(".");
+            }
+        } else {
+            failExpectation("identifier");
+        }
+        return node;
+    }
+    
+    
+    
     // @TODO: parse read and (expression)
     AbstractNode factor() {
         AbstractNode node = null;

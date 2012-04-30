@@ -190,6 +190,10 @@ public class Parser {
             node = integer();
         } else if (test(STR)) {
             node = string();
+        } else if (test(LPAR)) {
+            read(LPAR, "(");
+            node = expr();
+            read(RPAR, ")");
         } else {
             failExpectation("identifier, integer, string, read or (expression)");
         }

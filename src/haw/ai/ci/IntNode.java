@@ -3,7 +3,7 @@ package haw.ai.ci;
 public class IntNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
 
-    private int intVal;
+    private final int intVal;
 
     public IntNode(int val) {
         intVal = val;

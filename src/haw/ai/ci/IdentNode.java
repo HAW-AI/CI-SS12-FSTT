@@ -3,7 +3,7 @@ package haw.ai.ci;
 public class IdentNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
 
-    private String identName;
+    private final String identName;
     
     public IdentNode(String identName) {
         this.identName = identName;

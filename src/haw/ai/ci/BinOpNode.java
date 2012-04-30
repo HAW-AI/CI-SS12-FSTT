@@ -7,8 +7,8 @@ public class BinOpNode extends AbstractNode {
         MUL_OP, DIV_OP, PLUS_OP, MINUS_OP
     }
 
-    private BinOp op;
-    private AbstractNode left, right;
+    private final BinOp op;
+    private final AbstractNode left, right;
 
     public BinOpNode(BinOp op, AbstractNode left, AbstractNode right) {
         this.op = op;

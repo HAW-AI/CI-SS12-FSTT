@@ -18,7 +18,7 @@ public class Parser {
     }
     
     void expect(TokenID expectedToken, String expectedString) {
-        if (nextSymbol.id() != expectedToken) {
+        if (!test(expectedToken)) {
             failExpectation(expectedString);
         }
     }
@@ -28,7 +28,7 @@ public class Parser {
     }
     
     boolean test(TokenID token) {
-        return nextSymbol.id() == token;
+        return nextSymbol != null && nextSymbol.id() == token;
     }
     
     Token read(TokenID expectedToken, String expectedString) {
@@ -147,7 +147,25 @@ public class Parser {
     }
     
     AbstractNode simpleExpr() {
-        return null;
+        AbstractNode node;
+        
+        if (test(MINUS)) {
+            node = new NegationNode(term());
+        } else {
+            node = term();
+        }
+        
+        while (test(PLUS) || test(MINUS)) {
+            if (test(PLUS)) {
+                read(PLUS, "+");
+                node = new BinOpNode(PLUS_OP, node, term());
+            } else if (test(MINUS)) {
+                read(MINUS, "-");
+                node = new BinOpNode(MINUS_OP, node, term());
+            }
+        }
+        
+        return node;
     }
     
 

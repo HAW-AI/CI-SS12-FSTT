@@ -96,7 +96,17 @@ public class Parser {
     }
     
     AbstractNode indexExpr() {
-        return null;
+        AbstractNode node = null;
+        
+        if (test(INT)) {
+            node = integer();
+        } else if (test(IDENT)) {
+            node = constIdent();
+        } else {
+            failExpectation("integer or identifier");
+        }
+        
+        return node;
     }
     
     AbstractNode selector() {

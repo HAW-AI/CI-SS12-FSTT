@@ -63,38 +63,38 @@ public class ParserTest {
         createParser("ident1.4").selector();
     }
     
-  @Test
-  public void testFactor() {
-      AbstractNode actual, expected;
-      
-      actual = createParser("1337").factor();
-      expected = new IntNode(1337);
-      assertEquals(expected, actual);
-      
-      actual = createParser("\"hello wOrld\"").factor();
-      expected = new StringNode("hello wOrld");
-      assertEquals(expected, actual);
-      
-      actual = createParser("-1337").factor();
-      expected = new IntNode(-1337);
-      assertEquals(expected, actual);
-  }
-  
-  @Test(expected=ParserException.class)
-  public void testFactorNeg1() {
-      createParser("_varname").factor();
-  }
-  
-  @Test
-  public void testTestLookAhead() {
-      Parser p = createParser("id 123");
-      
-      assertTrue(p.testLookAhead(INT));
-      assertTrue(p.test(IDENT));
-      
-      p.read();
-      
-      assertTrue(p.test(INT));
-      
-  }
+    @Test
+    public void testFactor() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("1337").factor();
+        expected = new IntNode(1337);
+        assertEquals(expected, actual);
+        
+        actual = createParser("\"hello wOrld\"").factor();
+        expected = new StringNode("hello wOrld");
+        assertEquals(expected, actual);
+        
+        actual = createParser("-1337").factor();
+        expected = new IntNode(-1337);
+        assertEquals(expected, actual);
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testFactorNeg1() {
+        createParser("_varname").factor();
+    }
+    
+    @Test
+    public void testTestLookAhead() {
+        Parser p = createParser("id 123");
+        
+        assertTrue(p.testLookAhead(INT));
+        assertTrue(p.test(IDENT));
+        
+        p.read();
+        
+        assertTrue(p.test(INT));
+        
+    }
 }

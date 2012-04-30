@@ -237,7 +237,31 @@ public class Parser {
     }
     
     AbstractNode expr() {
-        return null;
+        AbstractNode node = simpleExpr();
+        
+        if (test(EQ)) {
+            read(EQ, "=");
+            node = new BinOpNode(EQ_OP, node, simpleExpr());
+        } else if (test(NEQ)) {
+            read(NEQ, "#");
+            node = new BinOpNode(NEQ_OP, node, simpleExpr());
+        } else if (test(LO)) {
+            read(LO, "<");
+            node = new BinOpNode(LO_OP, node, simpleExpr());
+        } else if (test(LOEQ)) {
+            read(LOEQ, "<=");
+            node = new BinOpNode(LOEQ_OP, node, simpleExpr());
+        } else if (test(HI)) {
+            read(HI, ">");
+            node = new BinOpNode(HI_OP, node, simpleExpr());
+        } else if (test(HIEQ)) {
+            read(HIEQ, ">=");
+            node = new BinOpNode(HIEQ_OP, node, simpleExpr());
+        } else {
+            failExpectation("=, #, <, <=, > or >=");
+        }
+        
+        return node;
     }
     
 

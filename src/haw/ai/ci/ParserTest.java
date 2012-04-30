@@ -141,6 +141,10 @@ public class ParserTest {
     public void testExpression() {
         AbstractNode actual, expected;
         
+        actual = createParser("1").expr();
+        expected = new IntNode(1);
+        assertEquals(expected, actual);
+        
         actual = createParser("a # b").expr();
         expected = new BinOpNode(NEQ_OP, new IdentNode("a"), new IdentNode("b"));
         assertEquals(expected, actual);

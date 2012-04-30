@@ -255,8 +255,6 @@ public class Parser {
         } else if (test(HIEQ)) {
             read(HIEQ, ">=");
             node = new BinOpNode(HIEQ_OP, node, simpleExpr());
-        } else {
-            failExpectation("=, #, <, <=, > or >=");
         }
         
         return node;

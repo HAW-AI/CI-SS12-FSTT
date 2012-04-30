@@ -31,7 +31,7 @@ public class Parser {
     }
     
     boolean test(TokenID token) {
-        return nextSymbol != null && nextSymbol.id() == token;
+        return nextSymbol == null ? token == null : nextSymbol.id() == token;
     }
     
     Token read(TokenID expectedToken, String expectedString) {
@@ -47,10 +47,13 @@ public class Parser {
     
     boolean testLookAhead(TokenID token) {
         Token afterNextSymbol = null;
-        
+
         try {
             afterNextSymbol = scanner.yylex();
             scanner.yypushback(1);
+        } catch (java.lang.Error e) {
+            // will be thrown when next symbol is EOF
+            // in this case null is a good value for afterNextSymbol
         } catch (java.io.FileNotFoundException e) {
             System.out.println("File not found : \"" + fileName + "\"");
         } catch (java.io.IOException e) {
@@ -61,7 +64,7 @@ public class Parser {
             e.printStackTrace();
         }
         
-        return afterNextSymbol.id() == token;
+        return afterNextSymbol == null ? token == null : afterNextSymbol.id() == token;
     }
     
     public void insymbol() {
@@ -214,6 +217,7 @@ public class Parser {
         AbstractNode node;
         
         if (test(MINUS)) {
+            read(MINUS, "-");
             node = new NegationNode(term());
         } else {
             node = term();

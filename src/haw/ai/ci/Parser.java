@@ -20,31 +20,81 @@ public class Parser {
         throw new ParserException("==> Error: " + str);
     }
     
+    /**
+     * Check if the next token is expectedToken or fail with an error message
+     * otherwise.
+     * 
+     * An expectedToken value of null will verify that the remaining scanner
+     * output is empty.
+     * 
+     * @param expectedToken  the expected token
+     * @param expectedString the expected token in human readable form
+     */
     void expect(TokenID expectedToken, String expectedString) {
         if (!test(expectedToken)) {
             failExpectation(expectedString);
         }
     }
     
+    /**
+     * Stop parsing and show the provided error message together with the
+     * current line and column.
+     * 
+     * @param expectedString the expected token(s) in human readable form
+     */
     void failExpectation(String expectedString) {
         error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
     }
     
+    /**
+     * Check if the next token is of the same type as the provided token.
+     * 
+     * A token value of null will test if the remaining scanner output is empty.
+     * 
+     * @param token the token to test against
+     * @return true, if the next token is of the same type as the provided
+     *         token, false otherwise
+     */
     boolean test(TokenID token) {
         return nextSymbol == null ? token == null : nextSymbol.id() == token;
     }
     
+    /**
+     * Read the next token from the scanner and verify that its of type
+     * expectedToken. If it's not then fail with expectedString.
+     * 
+     * A token value of null will test if the remaining scanner output is empty.
+     * 
+     * @param expectedToken  the expected token
+     * @param expectedString the expected token in human readable form
+     * @return the next token
+     */
     Token read(TokenID expectedToken, String expectedString) {
         expect(expectedToken, expectedString);
         return read();
     }
     
+    /**
+     * Read the next token from the scanner.
+     * 
+     * @return the next token or null if the scanner output is empty
+     */
     Token read() {
         Token curSymbol = nextSymbol;
         insymbol();
         return curSymbol;
     }
-    
+
+    /**
+     * Check if the token after the next token is of the same type as the
+     * provided token.
+     * 
+     * A token value of null will test if the remaining scanner output is empty.
+     * 
+     * @param token the token to test against
+     * @return true, if the token after the next token is of the same type as
+     *         the provided token, false otherwise
+     */
     boolean testLookAhead(TokenID token) {
         Token afterNextSymbol = null;
 

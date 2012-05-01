@@ -20,5 +20,34 @@ public class WhileStatementNode extends AbstractNode {
         
         return str;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((exp1 == null) ? 0 : exp1.hashCode());
+		result = prime * result + ((stateSeq1 == null) ? 0 : stateSeq1.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WhileStatementNode other = (WhileStatementNode) obj;
+		if (exp1 == null) {
+			if (other.exp1 != null)
+				return false;
+		} else if (!exp1.equals(other.exp1))
+			return false;
+		if (stateSeq1 == null) {
+			if (other.stateSeq1 != null)
+				return false;
+		} else if (!stateSeq1.equals(other.stateSeq1))
+			return false;
+		return true;
+	}
 
 }

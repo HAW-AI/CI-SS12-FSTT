@@ -8,6 +8,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import org.junit.*;
 
@@ -201,6 +202,77 @@ public class ParserTest {
         assertTrue(createParser("1").testLookAhead(null));
         assertFalse(createParser("1 2").testLookAhead(null));
     }
+    
+    
+    @Test
+    public void assignment() {
+        AbstractNode actual, expected;
+        actual = createParser("ident1.kp:=10").assignment();
+        expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) );
+        assertEquals(expected, actual);
+
+        actual = createParser("ident1.kp[1].lol:=10").assignment();
+        expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"),new IntNode(1),new IdentNode("lol"))),new IntNode(10) );
+        assertEquals(expected, actual);
+        
+    }
+    @Test
+    public void actualParameters() {
+        AbstractNode actual, expected;
+        actual = createParser("10,10,10+10").actualParameters();
+        expected = new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) ));
+        assertEquals(expected, actual);
+        
+    }
+    
+    @Test
+    public void procedureCall() {
+        AbstractNode actual, expected;
+        actual = createParser("callMe(10,10,10+10)").procedureCall();
+        expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));
+        assertEquals(expected, actual);
+        
+    }
+    
+
+    @Test
+    public void statement() {
+        AbstractNode actual, expected;
+        actual = createParser("callMe(10,10,10+10)").statement();
+        expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));
+        assertEquals(expected, actual);
+        
+    }
+//    @Test
+//    public void statementSequenz() {
+//        AbstractNode actual, expected;
+//        actual = createParser("callMe(10,10,10+10);IF 10 > 5 THEN 4;h1 ELSIF 3 < 4 THEN 6;h1 ELSE 3 END").statementSequenz();
+//        expected = new StatementSequenzNode(asList(new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) ))),
+//        	new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)),new StatementSequenzNode(asList(new IntNode(4),new IdentNode("h1"))), asList(new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)),new IntNode(6)), new StatementSequenzNode(asList(new IntNode(3),new IdentNode("h1"))))));
+//        assertEquals(expected, actual);
+//        
+//    }
+    
+
+//    @Test
+//    public void statementSequenz() {
+//        AbstractNode actual, expected;
+//        actual = createParser("callMe(10,10,10+10);IF 10 > 5 THEN 4 ELSIF 3 < 4 THEN 6 ELSE 3").ifStatement();
+//        expected = new StatementSequenzNode(asList(new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) ))),
+//        	new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)),new StatementSequenzNode(asList(new IntNode(4))), asList(new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)),new IntNode(6)), new StatementSequenzNode(asList(new IntNode(3))))));
+//        assertEquals(expected, actual);
+//        
+//    }
+    
+    
+//    @Test
+//    public void ifStatement() {
+//        AbstractNode actual, expected;
+//        actual = createParser("IF 10 > 5 THEN ident1.kp:=10;PRINT h1 ELSIF 3 < 4 THEN ident1.kp:=10;PRINT h1 ELSE 3 END").ifStatement();
+//        expected = new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)),new StatementSequenzNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1"))), asList(new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)), new StatementSequenzNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1")))),new IntNode(6));
+//        assertEquals(expected, actual); 
+//    }
+    
     
     @Test(expected=ParserException.class)
     public void testFailExpectationNeg1() {

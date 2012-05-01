@@ -196,14 +196,15 @@ public class Parser {
         AbstractNode expr = null;
 
         if (test(IDENT)) {
-        	ident = constIdent();
+//        	ident = constIdent();
             if (testLookAhead(DOT)) {
             	selector = selector();
                 if (test(ASSIGN)) {
                 	read(ASSIGN,":=");
-                	selector = selector();
+//                	selector = selector();
                   expr = expr();
-                	node = new AssignmentNode(ident,selector,expr);
+//              		node = new AssignmentNode(ident,selector,expr);
+                	node = new AssignmentNode(selector,expr);
                 } else {
                     failExpectation(":=");
                 }
@@ -285,14 +286,17 @@ public class Parser {
        		if(test(END)){
                	read(END,"END");
             	node = new IfStatementNode(exp1,stateSeq1,list,stateSeq2);
-       		}else{
+                return node;
+       		}
            		if(test(ELSE)){
                    	read(ELSE,"ELSE");
            			stateSeq2 = statementSequenz();
                    	read(END,"END");
                 	node = new IfStatementNode(exp1,stateSeq1,list,stateSeq2);
+                    return node;
+           		}else{
+                    failExpectation("ELSE or END");
            		}
-       		}
         }
         return node;
     }
@@ -305,8 +309,8 @@ public class Parser {
     	AbstractNode stateSeq1 = null;
     	
 
-        if (test(IF)) {
-        	read(IF,"IF");
+        if (test(WHILE)) {
+        	read(WHILE,"WHILE");
         	exp1 = expr();
 
             if (test(DO)) {
@@ -345,34 +349,37 @@ public class Parser {
     	AbstractNode node = null;
     	
 
-        if (test(IDENT)) {
-        	if(testLookAhead(DOT))
-        	read(IDENT,"IDENT");
-        	read(DOT,".");
-       		node = assignment();
-        }
-        if (test(IDENT)) {
-        	if(testLookAhead(LPAR))
-        	read(IDENT,"IDENT");
-        	read(LPAR,"(");
-       		node = procedureCall();
-        }
         if (test(IF)) {
-        	read(IF,"IF");
        		node = ifStatement();
+            return node;
         }
         if (test(PRINT)) {
         	read(PRINT,"PRINT");
+        	//hier gehts nicht weiter
        		node = expr();
+            return node;
         }
         if (test(WHILE)) {
-        	read(WHILE,"WHILE");
        		node = whileStatement();
+            return node;
         }
         if (test(REPEAT)) {
-        	read(REPEAT,"REPEAT");
        		node = repeatStatement();
+            return node;
         }
+        if (test(IDENT)) {
+        	if(testLookAhead(DOT)){
+	       		node = assignment();
+	            return node;
+        	}
+        }
+        if (test(IDENT)) {
+        	if(testLookAhead(LPAR)){
+	       		node = procedureCall();
+	            return node;
+        	}
+        }
+        failExpectation("Assignment | ProcedureCall | IfStatement | ’PRINT’ Expression | WhileStatement | RepeatStatement");
         return node;
     }
     

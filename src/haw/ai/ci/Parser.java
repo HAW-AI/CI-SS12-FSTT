@@ -397,7 +397,7 @@ public class Parser {
     		read(SEMICOLON,";");
     		list.add(statement());
     	}
-    	node = new StatementSequenzNode(list);
+    	node = new StatementSequenceNode(list);
     	return node;
     }
     

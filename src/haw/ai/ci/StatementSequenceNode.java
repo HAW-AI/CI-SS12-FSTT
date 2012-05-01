@@ -2,13 +2,13 @@ package haw.ai.ci;
 
 import java.util.List;
 
-public class StatementSequenzNode extends AbstractNode {
+public class StatementSequenceNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
 	
 	private final List<AbstractNode> list;
 	
-	StatementSequenzNode(List<AbstractNode> list){
+	StatementSequenceNode(List<AbstractNode> list){
 		this.list = list;
 	}
 	
@@ -40,7 +40,7 @@ public class StatementSequenzNode extends AbstractNode {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StatementSequenzNode other = (StatementSequenzNode) obj;
+		StatementSequenceNode other = (StatementSequenceNode) obj;
 		if (list == null) {
 			if (other.list != null)
 				return false;

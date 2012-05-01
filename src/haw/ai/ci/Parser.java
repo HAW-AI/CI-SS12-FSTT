@@ -49,7 +49,7 @@ public class Parser {
         String location;
         
         if (nextSymbol != null) {
-            location = "line " + nextSymbol.line() + ", column " + nextSymbol.column();
+            location = "line " + (nextSymbol.line() + 1) + ", column " + (nextSymbol.column() + 1);
         } else {
             location = "end of file";
         }

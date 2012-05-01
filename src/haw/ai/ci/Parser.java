@@ -338,30 +338,80 @@ public class Parser {
         return node;
     }
     
-    // Phil
-    AbstractNode procedureDeclaration() {
+    ProcedureDeclarationNode procedureDeclaration() {
+    	//TODO: tests
 //    	ProcedureDeclaration	=  ProcedureHeading ’;’ ProcedureBody ident
-//    	ProcedureHeading		=  ’PROCEDURE’ ident ’ (’  [FormalParameters]  ’)’
-//    	ProcedureBody			=  Declarations ’BEGIN’  StatementSequence  ’END’
     	
-        AbstractNode node = procedureHeading();
-        //TODO
+    	//TODO: man müsste sich hier den ident aus procHeading holen, damit man den ident nach procBody auf gleichheit prüfen kann. readAhead methode? oder hier tatsächlich getter in procHeadingNode benötigt?
+        AbstractNode procHeadingNode = procedureHeading();
+        read(SEMICOLON, ";");
+        AbstractNode procBodyNode = procedureBody();
+        IdentNode identNode = constIdent();
+        
+        ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
+    	
         return node;
     }
     
-    // Phil
     AbstractNode declaration() {
+    	//TODO: nodes (evtl nur unnötige ebene? - alles (auch procedures) innerhalb module reicht aus oder?) und tests
 //    	Declarations =	[’CONST’  ident  ’=’  Expression  ’;’ {ident  ’=’  Expression  ’;’}]
 //    					[’TYPE’  ident  ’=’  Type  ’;’ {ident  ’=’  Type  ’;’}]
 //    					[’VAR’  IdentList  ’:’  Type  ’;’ {IdentList  ’:’  Type  ’;’}]
 //    					{ProcedureDeclaration  ’;’}
-    	AbstractNode node = null;
-    	//TODO
-    	return node;
+    	
+    	if (test(CONST)){
+    		read(CONST, "const");
+    		constIdent();
+    		read(ASSIGN, "=");
+    		expr();
+    		read(SEMICOLON, ";");
+    		while (test(IDENT)){
+    			constIdent();
+    			read(ASSIGN, "=");
+    			expr();
+    			read(SEMICOLON, ";");
+    		}
+    	}
+    	else if (test(TYPE)){
+    		read(TYPE, "type");
+    		constIdent();
+    		read(ASSIGN, "=");
+    		type();
+    		read(SEMICOLON, ";");
+    		while (test(TYPE)){
+    			constIdent();
+    			read(ASSIGN, "=");
+    			type();
+    			read(SEMICOLON, ";");
+    		}
+    	}
+    	else if (test(VAR)){
+    		read(VAR, "var");
+    		identList();
+    		read(COLON, ":");
+    		identList();
+    		read(SEMICOLON, ";");
+    		while (test(VAR)){
+    			identList();
+    			read(COLON, ":");
+    			type();
+    			read(SEMICOLON, ";");
+    		}
+    	}
+    	else if (test(PROCEDURE)){
+    		procedureDeclaration();
+    		read(SEMICOLON, ";");
+    	}
+    	else {
+    		failExpectation("const, type, var or procedure declaration");
+    	}
+    	
+    	return null;
     }
     
-    // Phil
     ModuleNode module() {
+    	//TODO: tests
 //    	Module =	’MODULE’  ident  ’;’  Declarations
 //    				’BEGIN’  StatementSequence
 //    				’END’  ident  ’.’
@@ -385,9 +435,7 @@ public class Parser {
     }
     
     AbstractNode statementSequence(){
-    	AbstractNode node = null;
-    	//TODO
-    	return node;
+    	return null;
     }
 
     AbstractNode identList(){

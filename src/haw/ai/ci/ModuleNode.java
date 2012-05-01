@@ -2,10 +2,9 @@ package haw.ai.ci;
 
 public class ModuleNode extends AbstractNode {
 
-	IdentNode ident;
-	AbstractNode declaration;
-	AbstractNode statementSequence;
-	
+	private final IdentNode ident;
+	private final AbstractNode declaration;
+	private final AbstractNode statementSequence;
 
 	public ModuleNode(IdentNode ident, AbstractNode declaration,
 			AbstractNode statementSequence) {
@@ -14,12 +13,10 @@ public class ModuleNode extends AbstractNode {
 		this.statementSequence = statementSequence;
 	}
 
-
 	@Override
 	protected String toString(int indent) {
 		return toString(indent, "Module(" + ident.toString() + ")") + "\n" + declaration.toString(indent+1) + "\n" + statementSequence.toString(indent+1);
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -34,7 +31,6 @@ public class ModuleNode extends AbstractNode {
 						.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {

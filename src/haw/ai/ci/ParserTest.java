@@ -201,6 +201,11 @@ public class ParserTest {
         assertTrue(createParser("").testLookAhead(null));
         assertTrue(createParser("1").testLookAhead(null));
         assertFalse(createParser("1 2").testLookAhead(null));
+        
+        
+        p = createParser("a:=b");
+        assertTrue(p.testLookAhead(ASSIGN));
+        assertTrue(p.testLookAhead(ASSIGN));
     }
     
     

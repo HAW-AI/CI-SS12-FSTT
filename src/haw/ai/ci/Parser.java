@@ -111,7 +111,9 @@ public class Parser {
 
         try {
             afterNextSymbol = scanner.yylex();
-            scanner.yypushback(1);
+            if (afterNextSymbol != null) {
+                scanner.yypushback(afterNextSymbol.text().length());
+            }
         } catch (java.lang.Error e) {
             // will be thrown when next symbol is EOF
             // in this case null is a good value for afterNextSymbol

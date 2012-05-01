@@ -277,13 +277,13 @@ public class Parser {
         	exp1 = expr();
             if (test(THEN)) {
             	read(THEN,"THEN");
-            	stateSeq1 = statementSequenz();
+            	stateSeq1 = statementSequence();
             }
        		while (test(ELSIF)) {
                	read(ELSIF,"ELSIF");
        			list.add(expr());
                	read(THEN,"THEN");
-       			list.add(statementSequenz());
+       			list.add(statementSequence());
        		}
        		if(test(END)){
                	read(END,"END");
@@ -292,7 +292,7 @@ public class Parser {
        		}
            		if(test(ELSE)){
                    	read(ELSE,"ELSE");
-           			stateSeq2 = statementSequenz();
+           			stateSeq2 = statementSequence();
                    	read(END,"END");
                 	node = new IfStatementNode(exp1,stateSeq1,list,stateSeq2);
                     return node;
@@ -317,7 +317,7 @@ public class Parser {
 
             if (test(DO)) {
             	read(DO,"DO");
-       			stateSeq1 = statementSequenz();
+       			stateSeq1 = statementSequence();
                 if (test(END)) {
                 	read(END,"END");
                 	node = new WhileStatementNode(exp1,stateSeq1);
@@ -336,7 +336,7 @@ public class Parser {
 
         if (test(REPEAT)) {
         	read(REPEAT,"REPEAT");
-       		stateSeq1 = statementSequenz();
+       		stateSeq1 = statementSequence();
             if (test(UNTIL)) {
             	read(UNTIL,"UNTIL");
             	exp1 = expr();
@@ -388,7 +388,7 @@ public class Parser {
 //    StatementSequence = Statement {’;’ Statement}.
     
 
-    AbstractNode statementSequenz(){
+    AbstractNode statementSequence(){
     	AbstractNode node = null;
     	ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
     	
@@ -584,10 +584,6 @@ public class Parser {
         ModuleNode node = new ModuleNode(moduleName, declaration, statementSequence);
         
     	return node;
-    }
-    
-    AbstractNode statementSequence(){
-    	return null;
     }
 
     AbstractNode identList(){

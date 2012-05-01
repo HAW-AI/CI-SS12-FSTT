@@ -63,13 +63,7 @@ public class ParserTest {
         assertEquals(expected, actual);
 
         actual = createParser("ident1[-1337]").selector();
-        expected = new ExprSelectorNode(new IdentNode("ident1"), new IntNode(-1337));
-        assertEquals(expected, actual);
-
-        actual = createParser("ident1[\"foo\" >= -0]").selector();
-        expected = new ExprSelectorNode(new IdentNode("ident1"),
-                                        new BinOpNode(HIEQ_OP, new StringNode("foo"),
-                                                               new IntNode(-0)));
+        expected = new IndexExprSelectorNode(new IdentNode("ident1"), new IntNode(-1337));
         assertEquals(expected, actual);
     }
     
@@ -81,6 +75,11 @@ public class ParserTest {
     @Test(expected=ParserException.class)
     public void testSelectorNeg2() {
         createParser("ident1.4").selector();
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testSelectorNeg3() {
+        createParser("ident1[\"foo\" >= -0]").selector();
     }
     
     @Test
@@ -119,14 +118,14 @@ public class ParserTest {
         
         actual = createParser("\"hello wOrld\" / ident[7]").term();
         expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                                         new ExprSelectorNode(new IdentNode("ident"),
-                                                              new IntNode(7)));
+                                         new IndexExprSelectorNode(new IdentNode("ident"),
+                                                                   new IntNode(7)));
         assertEquals(expected, actual);
 
         actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
         expected = new BinOpNode(MUL_OP, new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                                                               new ExprSelectorNode(new IdentNode("ident"),
-                                                                                    new IntNode(7))),
+                                                               new IndexExprSelectorNode(new IdentNode("ident"),
+                                                                                         new IntNode(7))),
                                          new IntNode(9));
         assertEquals(expected, actual);
 

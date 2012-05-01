@@ -169,7 +169,7 @@ public class Parser {
         } else if(test(LBRAC)) {
             read(LBRAC, "[");
             
-            node = new ExprSelectorNode(subject, expr());
+            node = new IndexExprSelectorNode(subject, indexExpr());
             
             read(RBRAC, "]");
         } else {

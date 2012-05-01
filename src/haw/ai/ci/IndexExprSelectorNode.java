@@ -1,12 +1,12 @@
 package haw.ai.ci;
 
-public class ExprSelectorNode extends AbstractNode {
+public class IndexExprSelectorNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
     
     private final IdentNode subject;
     private final AbstractNode selector;
     
-    public ExprSelectorNode(IdentNode subject, AbstractNode selector) {
+    public IndexExprSelectorNode(IdentNode subject, AbstractNode selector) {
         this.subject = subject;
         this.selector = selector;
     }
@@ -37,7 +37,7 @@ public class ExprSelectorNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ExprSelectorNode other = (ExprSelectorNode) obj;
+        IndexExprSelectorNode other = (IndexExprSelectorNode) obj;
         if (selector == null) {
             if (other.selector != null)
                 return false;

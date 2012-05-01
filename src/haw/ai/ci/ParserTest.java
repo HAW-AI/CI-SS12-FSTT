@@ -201,4 +201,11 @@ public class ParserTest {
         assertTrue(createParser("1").testLookAhead(null));
         assertFalse(createParser("1 2").testLookAhead(null));
     }
+    
+    @Test(expected=ParserException.class)
+    public void testFailExpectationNeg1() {
+        // verify that no NullPointerException is thrown when the scanner
+        // output is empty
+        createParser("").failExpectation("test");
+    }
 }

@@ -45,8 +45,16 @@ public class Parser {
      * 
      * @param expectedString the expected token(s) in human readable form
      */
-    void failExpectation(String expectedString) {
-        error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
+    void failExpectation(String expectation) {
+        String location;
+        
+        if (nextSymbol != null) {
+            location = "line " + nextSymbol.line() + ", column " + nextSymbol.column();
+        } else {
+            location = "end of file";
+        }
+        
+        error("expected " + expectation + " at " + location);
     }
     
     /**

@@ -179,66 +179,209 @@ public class Parser {
         return node;
     }
     
-////    Assignment = ident Selector ’:=’ Expression.
-//    AssignmentNode assignment() {
-//    	AssignmentNode node = null;
-//        IdentNode ident = null;
-//        SelectorNode selector = null;
-//        ExpressionNode expr = null;
-//
-//        if (test(IDENT)) {
-//        	ident = constIdent();
-//            if (testLookAhead(DOT)) {
-//            	selector = selector();
-//                if (test(ASSIGN)) {
-//                	read(ASSIGN,":=");
-//                	selector = selector();
-//                  expr = expression();
-//                	node = new AssignmentNode(ident,selector,expr);
-//                } else {
-//                    failExpectation(":=");
-//                }
-//            } else {
-//                failExpectation(".");
-//            }
-//        } else {
-//            failExpectation("identifier");
-//        }
-//        return node;
-//    }
-//    
-////    ActualParameters = Expression {’,’ Expression}
-//    ActualParametersNode actualParameters() {
-//    	ArrayList[ExpressionNode] list = new ArrayList[ExpressionNode]();
-//        
-//		list.add(expression());
-//		while (test(COMMA)) {
-//        	read(COMMA,",");
-//			list.add(expression());
-//		}
-//		return  new ActualParametersNode(list);
-//    }
-//    
-////    ProcedureCall = ident ’(’ [ActualParameters] ’)’.
-//
-//    ProcedureCallNode procedureCall() {
-//    	IdentNode ident = null;
-//    	ActualParametersNode actualParameters = null;
-//
-//        if (test(IDENT)) {
-//        	ident = constIdent();
-//        	if(test(LPAR)){
-//        		read(LPAR,"(");
-//        		actualParameters = actualParameters();
-//            	if(test(RPAR)){
-//            		read(RPAR,")");
-//            	}else{
-//                    failExpectation(")");
-//            	}
-//        	}
-//        }
-//		return new ProcedureCallNode(ident,actualParameters);
-//    }
+//    Assignment = ident Selector ’:=’ Expression.
+    AbstractNode assignment() {
+    	AbstractNode node = null;
+        IdentNode ident = null;
+        AbstractNode selector = null;
+        AbstractNode expr = null;
+
+        if (test(IDENT)) {
+        	ident = constIdent();
+            if (testLookAhead(DOT)) {
+            	selector = selector();
+                if (test(ASSIGN)) {
+                	read(ASSIGN,":=");
+                	selector = selector();
+                  expr = expr();
+                	node = new AssignmentNode(ident,selector,expr);
+                } else {
+                    failExpectation(":=");
+                }
+            } else {
+                failExpectation(".");
+            }
+        } else {
+            failExpectation("identifier");
+        }
+        return node;
+    }
+    
+//    ActualParameters = Expression {’,’ Expression}
+    AbstractNode actualParameters() {
+    	ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
+    	AbstractNode node = null;
+        
+		list.add(expr());
+		while (test(COMMA)) {
+        	read(COMMA,",");
+			list.add(expr());
+		}
+		node = new ActualParametersNode(list);
+		return node;
+    }
+    
+//    ProcedureCall = ident ’(’ [ActualParameters] ’)’.
+
+    AbstractNode procedureCall() {
+    	AbstractNode node = null;
+    	IdentNode ident = null;
+    	AbstractNode actualParameters = null;
+
+        if (test(IDENT)) {
+        	ident = constIdent();
+        	if(test(LPAR)){
+        		read(LPAR,"(");
+        		actualParameters = actualParameters();
+            	if(test(RPAR)){
+            		read(RPAR,")");
+            	}else{
+                    failExpectation(")");
+            	}
+        	}
+        }
+        node = new ProcedureCallNode(ident,actualParameters);
+		return node;
+    }
+    
+//    IfStatement = ’IF’ Expression
+//    		’THEN’ StatementSequence
+//    		{’ELSIF’ Expression ’THEN’
+//    		StatementSequence}
+//    		[’ELSE’ StatementSequence] ’END’.
+    
+    
+    
+    AbstractNode ifStatement(){
+    	AbstractNode node = null;
+    	AbstractNode exp1 = null;
+    	AbstractNode stateSeq1 = null;
+    	AbstractNode stateSeq2 = null;
+//    	abwechselnd expr und statementSeq
+    	ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
+    	
+        if (test(IF)) {
+        	read(IF,"IF");
+        	exp1 = expr();
+            if (test(THEN)) {
+            	read(THEN,"THEN");
+            	stateSeq1 = statementSequenz();
+            }
+       		while (test(ELSIF)) {
+               	read(ELSIF,"ELSIF");
+       			list.add(expr());
+               	read(THEN,"THEN");
+       			list.add(statementSequenz());
+       		}
+       		if(test(END)){
+               	read(END,"END");
+            	node = new IfStatementNode(exp1,stateSeq1,list,stateSeq2);
+       		}else{
+           		if(test(ELSE)){
+                   	read(ELSE,"ELSE");
+           			stateSeq2 = statementSequenz();
+                   	read(END,"END");
+                	node = new IfStatementNode(exp1,stateSeq1,list,stateSeq2);
+           		}
+       		}
+        }
+        return node;
+    }
+    
+//    WhileStatement = ’WHILE’ Expression ’DO’ StatementSequence ’END’.
+
+    AbstractNode whileStatement(){
+    	AbstractNode node = null;
+    	AbstractNode exp1 = null;
+    	AbstractNode stateSeq1 = null;
+    	
+
+        if (test(IF)) {
+        	read(IF,"IF");
+        	exp1 = expr();
+
+            if (test(DO)) {
+            	read(DO,"DO");
+       			stateSeq1 = statementSequenz();
+                if (test(END)) {
+                	read(END,"END");
+                	node = new WhileStatementNode(exp1,stateSeq1);
+                }
+            }
+        }
+        return node;
+    }
+//    RepeatStatement = ’REPEAT’ StatementSequence ’UNTIL’ Expression.
+
+    AbstractNode repeatStatement(){
+    	AbstractNode node = null;
+    	AbstractNode exp1 = null;
+    	AbstractNode stateSeq1 = null;
+    	
+
+        if (test(REPEAT)) {
+        	read(REPEAT,"REPEAT");
+       		stateSeq1 = statementSequenz();
+            if (test(UNTIL)) {
+            	read(UNTIL,"UNTIL");
+            	exp1 = expr();
+                node = new RepeatStatementNode(exp1,stateSeq1);
+            }
+        }
+        return node;
+    }
+//    Statement = [Assignment | ProcedureCall | IfStatement | ’PRINT’ Expression | WhileStatement | RepeatStatement].
+
+    AbstractNode statement(){
+    	AbstractNode node = null;
+    	
+
+        if (test(IDENT)) {
+        	if(testLookAhead(DOT))
+        	read(IDENT,"IDENT");
+        	read(DOT,".");
+       		node = assignment();
+        }
+        if (test(IDENT)) {
+        	if(testLookAhead(LPAR))
+        	read(IDENT,"IDENT");
+        	read(LPAR,"(");
+       		node = procedureCall();
+        }
+        if (test(IF)) {
+        	read(IF,"IF");
+       		node = ifStatement();
+        }
+        if (test(PRINT)) {
+        	read(PRINT,"PRINT");
+       		node = expr();
+        }
+        if (test(WHILE)) {
+        	read(WHILE,"WHILE");
+       		node = whileStatement();
+        }
+        if (test(REPEAT)) {
+        	read(REPEAT,"REPEAT");
+       		node = repeatStatement();
+        }
+        return node;
+    }
+    
+//    StatementSequence = Statement {’;’ Statement}.
+    
+
+    AbstractNode statementSequenz(){
+    	AbstractNode node = null;
+    	ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
+    	
+    	list.add(statement());
+    	while(test(SEMICOLON)){
+    		read(SEMICOLON,";");
+    		list.add(statement());
+    	}
+    	node = new StatementSequenzNode(list);
+    	return node;
+    }
     
     AbstractNode factor() {
         AbstractNode node = null;

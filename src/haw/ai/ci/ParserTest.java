@@ -189,5 +189,10 @@ public class ParserTest {
         p.read();
         
         assertTrue(p.test(INT));
+        
+
+        assertTrue(createParser("").testLookAhead(null));
+        assertTrue(createParser("1").testLookAhead(null));
+        assertFalse(createParser("1 2").testLookAhead(null));
     }
 }

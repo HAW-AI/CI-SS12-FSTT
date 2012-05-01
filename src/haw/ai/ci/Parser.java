@@ -4,6 +4,8 @@ import static haw.ai.ci.TokenID.*;
 import static haw.ai.ci.BinOpNode.BinOp.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Parser {
@@ -161,22 +163,20 @@ public class Parser {
     
     AbstractNode selector() {
         IdentNode subject = constIdent();
-        AbstractNode node = null;
+        List<AbstractNode> selectors = new LinkedList<AbstractNode>();
         
-        if (test(DOT)) {
-            read(DOT, ".");
-            node = new IdentSelectorNode(subject, constIdent());
-        } else if(test(LBRAC)) {
-            read(LBRAC, "[");
-            
-            node = new IndexExprSelectorNode(subject, indexExpr());
-            
-            read(RBRAC, "]");
-        } else {
-            failExpectation(". or [");
+        while (test(DOT) || test(LBRAC)) {
+            if (test(DOT)) {
+                read(DOT, ".");
+                selectors.add(constIdent());
+            } else {
+                read(LBRAC, "[");
+                selectors.add(indexExpr());
+                read(RBRAC, "]");
+            }
         }
         
-        return node;
+        return new SelectorNode(subject, selectors);
     }
     
 ////    Assignment = ident Selector ’:=’ Expression.

@@ -183,6 +183,5 @@ public class ParserTest {
         p.read();
         
         assertTrue(p.test(INT));
-        
     }
 }

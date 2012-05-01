@@ -488,6 +488,85 @@ public class Parser {
         return node;
     }
     
+    // Phil
+    AbstractNode procedureDeclaration() {
+//    	ProcedureDeclaration	=  ProcedureHeading ’;’ ProcedureBody ident
+//    	ProcedureHeading		=  ’PROCEDURE’ ident ’ (’  [FormalParameters]  ’)’
+//    	ProcedureBody			=  Declarations ’BEGIN’  StatementSequence  ’END’
+    	
+        AbstractNode node = procedureHeading();
+        //TODO
+        return node;
+    }
+    
+    // Phil
+    AbstractNode declaration() {
+//    	Declarations =	[’CONST’  ident  ’=’  Expression  ’;’ {ident  ’=’  Expression  ’;’}]
+//    					[’TYPE’  ident  ’=’  Type  ’;’ {ident  ’=’  Type  ’;’}]
+//    					[’VAR’  IdentList  ’:’  Type  ’;’ {IdentList  ’:’  Type  ’;’}]
+//    					{ProcedureDeclaration  ’;’}
+    	AbstractNode node = null;
+    	//TODO
+    	return node;
+    }
+    
+    // Phil
+    ModuleNode module() {
+//    	Module =	’MODULE’  ident  ’;’  Declarations
+//    				’BEGIN’  StatementSequence
+//    				’END’  ident  ’.’
+    	
+        read(MODULE, "module");
+        IdentNode moduleName = constIdent();
+        read(SEMICOLON, "semicolon");
+        AbstractNode declaration = declaration();
+        read(BEGIN, "begin");
+        AbstractNode statementSequence = statementSequence();
+        read(END, "end");
+        IdentNode moduleEndName = constIdent();
+        if (!moduleName.equals(moduleEndName)){
+        	failExpectation("identifiers of module and end are supposed to be the same");
+        }
+        read(DOT, ".");
+        
+        ModuleNode node = new ModuleNode(moduleName, declaration, statementSequence);
+        
+    	return node;
+    }
+    
+    AbstractNode statementSequence(){
+    	AbstractNode node = null;
+    	//TODO
+    	return node;
+    }
+
+    AbstractNode identList(){
+    	return null;
+    }
+    AbstractNode arrayType(){
+    	return null;
+    }
+    AbstractNode fieldList(){
+    	return null;
+    }
+    AbstractNode recordType(){
+    	return null;
+    }
+    AbstractNode type(){
+    	return null;	
+    }
+    AbstractNode fpSection(){
+    	return null;
+    }
+    AbstractNode formalParameters(){
+    	return null;
+    }
+    AbstractNode procedureHeading(){
+    	return null;
+    }
+    AbstractNode procedureBody(){
+    	return null;
+    }
 
     AbstractNode program() {
         AbstractNode tree = null;

@@ -174,6 +174,12 @@ public class ParserTest {
     }
     
     @Test
+    public void testTest() {
+        assertTrue(createParser("").test(null));
+        assertTrue(createParser("1").test(INT));
+    }
+    
+    @Test
     public void testTestLookAhead() {
         Parser p = createParser("id 123");
         

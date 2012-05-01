@@ -14,9 +14,7 @@ import org.junit.*;
 public class ParserTest {
     private Parser createParser(String code) {
         Scanner scanner = new Scanner(new StringReader(code));
-        Parser parser = new Parser(scanner, "test");
-        parser.insymbol();
-        return parser;
+        return new Parser(scanner, "test");
     }
     
     @Test

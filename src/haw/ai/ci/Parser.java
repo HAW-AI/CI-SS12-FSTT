@@ -16,6 +16,7 @@ public class Parser {
     public Parser(Scanner scanner, String fileName) {
         this.scanner = scanner;
         this.fileName = fileName;
+        insymbol();
     }
     
     static void error(String str) {
@@ -344,7 +345,6 @@ public class Parser {
     }
     
     public AbstractNode parse() {
-        insymbol();
         return program();
     }
     

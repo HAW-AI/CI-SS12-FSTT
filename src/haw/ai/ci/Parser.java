@@ -338,7 +338,33 @@ public class Parser {
         return node;
     }
     
-
+    AbstractNode identList(){
+    	return null;
+    }
+    AbstractNode arrayType(){
+    	return null;
+    }
+    AbstractNode fieldList(){
+    	return null;
+    }
+    AbstractNode recordType(){
+    	return null;
+    }
+    AbstractNode type(){
+    	return null;	
+    }
+    AbstractNode fpSection(){
+    	return null;
+    }
+    AbstractNode formalParameters(){
+    	return null;
+    }
+    AbstractNode procedureHeading(){
+    	return null;
+    }
+    AbstractNode procedureBody(){
+    	return null;
+    }
     AbstractNode program() {
         AbstractNode tree = null;
         

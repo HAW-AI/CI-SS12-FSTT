@@ -3,6 +3,8 @@ package haw.ai.ci;
 import static haw.ai.ci.TokenID.*;
 import static haw.ai.ci.BinOpNode.BinOp.*;
 
+import static java.util.Arrays.asList;
+
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
@@ -12,9 +14,7 @@ import org.junit.*;
 public class ParserTest {
     private Parser createParser(String code) {
         Scanner scanner = new Scanner(new StringReader(code));
-        Parser parser = new Parser(scanner, "test");
-        parser.insymbol();
-        return parser;
+        return new Parser(scanner, "test");
     }
     
     @Test
@@ -59,11 +59,18 @@ public class ParserTest {
         AbstractNode actual, expected;
 
         actual = createParser("ident1.ident2").selector();
-        expected = new IdentSelectorNode(new IdentNode("ident1"), new IdentNode("ident2"));
+        expected = new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("ident2")));
         assertEquals(expected, actual);
 
         actual = createParser("ident1[-1337]").selector();
-        expected = new IndexExprSelectorNode(new IdentNode("ident1"), new IntNode(-1337));
+        expected = new SelectorNode(new IdentNode("ident1"), asList(new IntNode(-1337)));
+        assertEquals(expected, actual);
+
+        actual = createParser("ident1[-1337].sel[1]").selector();
+        expected = new SelectorNode(new IdentNode("ident1"),
+                                    asList(new IntNode(-1337),
+                                           new IdentNode("sel"),
+                                           new IntNode(1)));
         assertEquals(expected, actual);
     }
     
@@ -118,14 +125,14 @@ public class ParserTest {
         
         actual = createParser("\"hello wOrld\" / ident[7]").term();
         expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                                         new IndexExprSelectorNode(new IdentNode("ident"),
-                                                                   new IntNode(7)));
+                                         new SelectorNode(new IdentNode("ident"),
+                                                          asList(new IntNode(7))));
         assertEquals(expected, actual);
 
         actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
         expected = new BinOpNode(MUL_OP, new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                                                               new IndexExprSelectorNode(new IdentNode("ident"),
-                                                                                         new IntNode(7))),
+                                                               new SelectorNode(new IdentNode("ident"),
+                                                                                asList(new IntNode(7)))),
                                          new IntNode(9));
         assertEquals(expected, actual);
 
@@ -193,5 +200,12 @@ public class ParserTest {
         assertTrue(createParser("").testLookAhead(null));
         assertTrue(createParser("1").testLookAhead(null));
         assertFalse(createParser("1 2").testLookAhead(null));
+    }
+    
+    @Test(expected=ParserException.class)
+    public void testFailExpectationNeg1() {
+        // verify that no NullPointerException is thrown when the scanner
+        // output is empty
+        createParser("").failExpectation("test");
     }
 }

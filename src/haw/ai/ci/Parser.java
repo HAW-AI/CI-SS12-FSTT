@@ -4,6 +4,8 @@ import static haw.ai.ci.TokenID.*;
 import static haw.ai.ci.BinOpNode.BinOp.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Parser {
@@ -14,6 +16,7 @@ public class Parser {
     public Parser(Scanner scanner, String fileName) {
         this.scanner = scanner;
         this.fileName = fileName;
+        insymbol();
     }
     
     static void error(String str) {
@@ -42,8 +45,16 @@ public class Parser {
      * 
      * @param expectedString the expected token(s) in human readable form
      */
-    void failExpectation(String expectedString) {
-        error("expected " + expectedString + " at line " + nextSymbol.line() + ", column " + nextSymbol.column());
+    void failExpectation(String expectation) {
+        String location;
+        
+        if (nextSymbol != null) {
+            location = "line " + (nextSymbol.line() + 1) + ", column " + (nextSymbol.column() + 1);
+        } else {
+            location = "end of file";
+        }
+        
+        error("expected " + expectation + " at " + location);
     }
     
     /**
@@ -161,22 +172,20 @@ public class Parser {
     
     AbstractNode selector() {
         IdentNode subject = constIdent();
-        AbstractNode node = null;
+        List<AbstractNode> selectors = new LinkedList<AbstractNode>();
         
-        if (test(DOT)) {
-            read(DOT, ".");
-            node = new IdentSelectorNode(subject, constIdent());
-        } else if(test(LBRAC)) {
-            read(LBRAC, "[");
-            
-            node = new IndexExprSelectorNode(subject, indexExpr());
-            
-            read(RBRAC, "]");
-        } else {
-            failExpectation(". or [");
+        while (test(DOT) || test(LBRAC)) {
+            if (test(DOT)) {
+                read(DOT, ".");
+                selectors.add(constIdent());
+            } else {
+                read(LBRAC, "[");
+                selectors.add(indexExpr());
+                read(RBRAC, "]");
+            }
         }
         
-        return node;
+        return new SelectorNode(subject, selectors);
     }
     
 ////    Assignment = ident Selector ’:=’ Expression.
@@ -381,6 +390,34 @@ public class Parser {
     	return node;
     }
 
+    AbstractNode identList(){
+    	return null;
+    }
+    AbstractNode arrayType(){
+    	return null;
+    }
+    AbstractNode fieldList(){
+    	return null;
+    }
+    AbstractNode recordType(){
+    	return null;
+    }
+    AbstractNode type(){
+    	return null;	
+    }
+    AbstractNode fpSection(){
+    	return null;
+    }
+    AbstractNode formalParameters(){
+    	return null;
+    }
+    AbstractNode procedureHeading(){
+    	return null;
+    }
+    AbstractNode procedureBody(){
+    	return null;
+    }
+
     AbstractNode program() {
         AbstractNode tree = null;
         
@@ -395,7 +432,6 @@ public class Parser {
     }
     
     public AbstractNode parse() {
-        insymbol();
         return program();
     }
     

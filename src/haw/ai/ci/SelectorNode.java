@@ -1,22 +1,22 @@
 package haw.ai.ci;
 
-public class IndexExprSelectorNode extends AbstractNode {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SelectorNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
     
     private final IdentNode subject;
-    private final AbstractNode selector;
+    private final List<AbstractNode> selectors;
     
-    public IndexExprSelectorNode(IdentNode subject, AbstractNode selector) {
+    public SelectorNode(IdentNode subject, List<? extends AbstractNode> selectors) {
         this.subject = subject;
-        this.selector = selector;
+        this.selectors = new ArrayList<AbstractNode>(selectors);
     }
 
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "ExprSelectorNode\n");
-        str += subject.toString(indent+1) + "\n";
-        str += selector.toString(indent+1);
-        return str;
+        return toString(indent, "SelectorNode(" + subject + ", " + selectors + ")");
     }
 
     @Override
@@ -24,7 +24,7 @@ public class IndexExprSelectorNode extends AbstractNode {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((selector == null) ? 0 : selector.hashCode());
+                + ((selectors == null) ? 0 : selectors.hashCode());
         result = prime * result + ((subject == null) ? 0 : subject.hashCode());
         return result;
     }
@@ -37,11 +37,11 @@ public class IndexExprSelectorNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        IndexExprSelectorNode other = (IndexExprSelectorNode) obj;
-        if (selector == null) {
-            if (other.selector != null)
+        SelectorNode other = (SelectorNode) obj;
+        if (selectors == null) {
+            if (other.selectors != null)
                 return false;
-        } else if (!selector.equals(other.selector))
+        } else if (!selectors.equals(other.selectors))
             return false;
         if (subject == null) {
             if (other.subject != null)
@@ -50,5 +50,5 @@ public class IndexExprSelectorNode extends AbstractNode {
             return false;
         return true;
     }
-
+    
 }

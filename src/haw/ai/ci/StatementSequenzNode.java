@@ -2,24 +2,26 @@ package haw.ai.ci;
 
 import java.util.List;
 
-public class ActualParametersNode extends AbstractNode {
+public class StatementSequenzNode extends AbstractNode {
 
-    private static final long serialVersionUID = 1L;
-    
-    private final List<AbstractNode> list;
-    
-    public ActualParametersNode(List<AbstractNode> list) {
-        this.list = list;
-    }
-    
+	private static final long serialVersionUID = 1L;
+	
+	private final List<AbstractNode> list;
+	
+	StatementSequenzNode(List<AbstractNode> list){
+		this.list = list;
+	}
+	
+	
 	@Override
 	protected String toString(int indent) {
-        String str = toString(indent, "ActualParametersNode\n");
+        String str = toString(indent, "StatementSequenz\n");
         for(int i = 0; i < list.size();i++){
         str += list.get(i).toString(indent+1) + "\n";
         }
         return str;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -29,6 +31,7 @@ public class ActualParametersNode extends AbstractNode {
 		return result;
 	}
 
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -37,7 +40,7 @@ public class ActualParametersNode extends AbstractNode {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ActualParametersNode other = (ActualParametersNode) obj;
+		StatementSequenzNode other = (StatementSequenzNode) obj;
 		if (list == null) {
 			if (other.list != null)
 				return false;
@@ -45,8 +48,5 @@ public class ActualParametersNode extends AbstractNode {
 			return false;
 		return true;
 	}
-	
-
-	// TODO hash equals
 
 }

@@ -16,6 +16,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -210,17 +212,31 @@ public class ParserTest {
     
     @Test
     public void testProcedureDeclaration() {
+    	//TODO phil: mehr fälle testen
         ProcedureDeclarationNode actual, expected;
-        
-        actual = createParser("procedure foo(); begin bar := 42; end foo").procedureDeclaration();
-        //TODO: folgender test failt noch, arbeite dran. push für felix. - phil
-        expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(null, null), new IdentNode("foo"));
+        actual = createParser("procedure foo(); begin bar := 101; end foo").procedureDeclaration();
+        List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
+        assignment.add(new AssignmentNode(new IdentNode("bar"), new IntNode(101)));
+        expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(assignment)), new IdentNode("foo"));
         assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testDeclaration() {
+    	//TODO phil
+    	// declaration darf auch leer sein
+    }
+    
+    @Test
+    public void testModule() {
+    	//TODO phil
+    	// auch testen ob "module foo ... end bar" geht. müsste gehen, da parser nur syntax prüft
     }
     
     
     @Test
     public void assignment() {
+    	//TODO felix: ident ohne selektor testen
         AbstractNode actual, expected;
         actual = createParser("ident1.kp:=10").assignment();
         expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) );
@@ -252,7 +268,7 @@ public class ParserTest {
 
     @Test
     public void statement() {
-    	//TODO: testen: statement darf auch leer sein
+    	//TODO felix: testen: statement darf auch leer sein
         AbstractNode actual, expected;
         actual = createParser("callMe(10,10,10+10)").statement();
         expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));

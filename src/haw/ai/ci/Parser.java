@@ -479,31 +479,26 @@ public class Parser {
 	}
 
 	ProcedureDeclarationNode procedureDeclaration() {
-		// TODO: tests
 		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
-
-		// TODO: man müsste sich hier den ident aus procHeading holen, damit man
-		// den ident nach procBody auf gleichheit prüfen kann. readAhead
-		// methode? oder hier tatsächlich getter in procHeadingNode benötigt?
+		
 		AbstractNode procHeadingNode = procedureHeading();
 		read(SEMICOLON, ";");
 		AbstractNode procBodyNode = procedureBody();
-		IdentNode identNode = constIdent();
+		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
 
 		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
 
 		return node;
 	}
 
-	AbstractNode declaration() {
-		// TODO: tests
+	DeclarationsNode declaration() {
 		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
 		// Expression ’;’}]
 		// [’TYPE’ ident ’=’ Type ’;’ {ident ’=’ Type ’;’}]
 		// [’VAR’ IdentList ’:’ Type ’;’ {IdentList ’:’ Type ’;’}]
 		// {ProcedureDeclaration ’;’}
 		
-		AbstractNode node = null;
+		DeclarationsNode node = null;
 		ArrayList<ConstDeclarationNode> consts = new ArrayList<ConstDeclarationNode>();
 	    List<TypeDeclarationNode> types = new ArrayList<TypeDeclarationNode>();
 	    List<VarDeclarationNode> vars = new ArrayList<VarDeclarationNode>();
@@ -570,7 +565,6 @@ public class Parser {
 	}
 
 	ModuleNode module() {
-		// TODO: tests
 		// Module = ’MODULE’ ident ’;’ Declarations
 		// ’BEGIN’ StatementSequence
 		// ’END’ ident ’.’
@@ -584,6 +578,7 @@ public class Parser {
 		AbstractNode statementSequence = statementSequence();
 		read(END, "end");
 		IdentNode moduleEndName = constIdent();
+		// folgendes eigtl schon vorgegriffen, ist nicht mehr nur syntax prüfung. aber macht den node einfacher und schadet nicht
 		if (!moduleName.equals(moduleEndName)) {
 			failExpectation("identifiers of module and end are supposed to be the same");
 		}

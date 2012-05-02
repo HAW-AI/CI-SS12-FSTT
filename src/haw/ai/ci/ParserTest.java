@@ -258,6 +258,10 @@ public class ParserTest {
         expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));
         assertEquals(expected, actual);
         
+        actual = createParser("").statement();
+        expected = null;
+        assertEquals(expected, actual);
+        
     }
     @Test
     public void statementSequence() {

@@ -17,7 +17,8 @@ public class StatementSequenceNode extends AbstractNode {
 	protected String toString(int indent) {
         String str = toString(indent, "StatementSequence\n");
         for(int i = 0; i < list.size();i++){
-        str += list.get(i).toString(indent+1) + "\n";
+        	if(list.get(i) != null )
+        	str += list.get(i).toString(indent+1) + "\n";
         }
         return str;
 	}

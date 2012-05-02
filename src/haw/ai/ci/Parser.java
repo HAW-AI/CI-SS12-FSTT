@@ -587,30 +587,100 @@ public class Parser {
     }
 
     AbstractNode identList(){
-    	return null;
+    	List<IdentNode> idents = new ArrayList<IdentNode>();
+		if(test(IDENT)){
+    		idents.add(constIdent());
+    		while(test(COMMA)){
+    			read(COMMA,",");
+    			idents.add(constIdent());
+    		}
+    	}else{
+    		failExpectation("ident");
+    	}
+    	return new IdentListNode(idents);
     }
     AbstractNode arrayType(){
-    	return null;
+		read(ARRAY, "ARRAY");
+		read(LBRAC,"[");
+		AbstractNode node = indexExpr();
+		read(RBRAC,"]");
+		read(OF,"OF");
+		AbstractNode t=type();
+    	return new ArrayTypeNode(node, t);
     }
+    /**
+     * If nextSymbol is ident then return FieldListNode
+     * else null
+     * @return
+     */
     AbstractNode fieldList(){
-    	return null;
+    	if(test(IDENT)){
+	    	AbstractNode il=identList();
+	    	read(COLON,":");
+	    	AbstractNode t=type();
+	    	return new FieldListNode(il,t);
+    	}else
+    		return null;
     }
     AbstractNode recordType(){
-    	return null;
+    	read(RECORD,"RECORD");
+    	List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
+    	fieldLists.add((FieldListNode)fieldList());
+    	while (test(SEMICOLON)) {
+    		fieldLists.add((FieldListNode)fieldList());
+		}
+    	read(END,"END");
+    	return new RecordTypeNode(fieldLists);
     }
     AbstractNode type(){
-    	return null;	
+    	AbstractNode node = null;
+    	if(test(IDENT)){
+    		node = constIdent();
+    	}else if(test(ARRAY)){
+    		node = arrayType(); 
+    	}else if(test(RECORD)){
+    		node = recordType();
+    	}else{
+    		failExpectation("type");
+    	}
+    	return node;	
     }
     AbstractNode fpSection(){
-    	return null;
+    	if(test(VAR))
+    		read(VAR,"VAR");
+    	AbstractNode node = identList();
+    	read(COLON,":");
+    	AbstractNode type = type();
+    	return new FPSectionNode(node, type);
     }
     AbstractNode formalParameters(){
-    	return null;
+    	List<FPSectionNode> fpsections = new ArrayList<FPSectionNode>();
+    	FPSectionNode fpsection = (FPSectionNode)fpSection();
+    	fpsections.add(fpsection);
+    	while (test(SEMICOLON)) {
+			read(SEMICOLON,";");
+			fpsection = (FPSectionNode)fpSection();
+	    	fpsections.add(fpsection);
+		}
+    	return new FormalParametersNode(fpsections);
     }
     AbstractNode procedureHeading(){
-    	return null;
+    	read(PROCEDURE,"PROCEDURE");
+    	AbstractNode node = constIdent();
+    	AbstractNode fparams=null;
+    	read(LPAR,"(");
+    	if(test(VAR) || test(IDENT)){
+    		fparams = formalParameters();
+    	}
+    	read(RPAR,")");
+    	return new ProcedureHeadingNode(((IdentNode)node), (FormalParametersNode)fparams);
     }
     AbstractNode procedureBody(){
+    	/*AbstractNode node = declarations();
+    	read(BEGIN,"BEGIN");
+    	AbstractNode statseq=statementSequence();
+    	return new ProcedureBodyNode(node, statseq);
+    	*/
     	return null;
     }
 

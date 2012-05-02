@@ -163,6 +163,11 @@ public class Parser {
 		String str = read(STR, "string").text();
 		return new StringNode(str.substring(1, str.length() - 1));
 	}
+	
+	ReadNode readParser() {
+	    read(READ, "READ");
+	    return test(STR) ? new ReadNode(string()) : new ReadNode();
+	}
 
 	AbstractNode indexExpr() {
 		AbstractNode node = null;

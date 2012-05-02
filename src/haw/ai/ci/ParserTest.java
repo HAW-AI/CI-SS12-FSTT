@@ -43,6 +43,17 @@ public class ParserTest {
     }
     
     @Test
+    public void testRead() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("READ").readParser();
+        expected = new ReadNode();
+        
+        actual = createParser("read \"format C:? (y/n)\"").readParser();
+        expected = new ReadNode(new StringNode("format C:? (y/n)"));
+    }
+    
+    @Test
     public void testIndexExpr() {
         AbstractNode actual, expected;
 

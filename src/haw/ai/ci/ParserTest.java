@@ -219,6 +219,16 @@ public class ParserTest {
         assertTrue(p.testLookAhead(ASSIGN));
     }
     
+    @Test
+    public void testProcedureDeclaration() {
+        ProcedureDeclarationNode actual, expected;
+        
+        actual = createParser("procedure foo(); begin bar := 42; end foo").procedureDeclaration();
+        //TODO: folgender test failt noch, arbeite dran. push für felix. - phil
+        expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(null, null), new IdentNode("foo"));
+        assertEquals(expected, actual);
+    }
+    
     
     @Test
     public void assignment() {
@@ -253,6 +263,7 @@ public class ParserTest {
 
     @Test
     public void statement() {
+    	//TODO: testen: statement darf auch leer sein
         AbstractNode actual, expected;
         actual = createParser("callMe(10,10,10+10)").statement();
         expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));

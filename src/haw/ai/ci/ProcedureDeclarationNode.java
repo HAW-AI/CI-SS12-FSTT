@@ -19,7 +19,6 @@ public class ProcedureDeclarationNode extends AbstractNode {
 
 	@Override
 	protected String toString(int indent) {
-		//TODO: kein einrücken da head und body auf gleicher "ebene", richtig?
 		return toString(indent, "ProcedureDeclaration(" + procHeading.toString(indent+1) + "\n" +  procBody.toString(indent+1) + "\n");
 	}
 

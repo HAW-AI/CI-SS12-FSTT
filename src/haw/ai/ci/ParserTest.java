@@ -259,6 +259,9 @@ public class ParserTest {
         expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"),new IntNode(1),new IdentNode("lol"))),new IntNode(10) );
         assertEquals(expected, actual);
         
+        actual = createParser("ident1[0]:=10").assignment();
+        expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IntNode(0))),new IntNode(10) );
+        assertEquals(expected, actual);
     }
     @Test
     public void actualParameters() {

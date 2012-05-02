@@ -207,7 +207,7 @@ public class Parser {
 		AbstractNode selector = null;
 		AbstractNode expr = null;
 
-		if (testLookAhead(DOT)) {
+		if (testLookAhead(DOT) || testLookAhead(LBRAC)) {
 			selector = selector();
 
 			read(ASSIGN, ":=");

@@ -48,9 +48,11 @@ public class ParserTest {
         
         actual = createParser("READ").readParser();
         expected = new ReadNode();
+        assertEquals(expected, actual);
         
         actual = createParser("read \"format C:? (y/n)\"").readParser();
         expected = new ReadNode(new StringNode("format C:? (y/n)"));
+        assertEquals(expected, actual);
     }
     
     @Test

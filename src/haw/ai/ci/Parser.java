@@ -624,9 +624,14 @@ public class Parser {
 	RecordTypeNode recordType() {
 		read(RECORD, "RECORD");
 		List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
-		fieldLists.add((FieldListNode) fieldList());
+		FieldListNode node = fieldList();
+		if(node!=null)
+			fieldLists.add(node);
 		while (test(SEMICOLON)) {
-			fieldLists.add((FieldListNode) fieldList());
+			read(SEMICOLON,";");
+			node = fieldList();
+			if(node!=null)
+				fieldLists.add(node);
 		}
 		read(END, "END");
 		return new RecordTypeNode(fieldLists);
@@ -657,11 +662,11 @@ public class Parser {
 
 	FormalParametersNode formalParameters() {
 		List<FPSectionNode> fpsections = new ArrayList<FPSectionNode>();
-		FPSectionNode fpsection = (FPSectionNode) fpSection();
+		FPSectionNode fpsection = fpSection();
 		fpsections.add(fpsection);
 		while (test(SEMICOLON)) {
 			read(SEMICOLON, ";");
-			fpsection = (FPSectionNode) fpSection();
+			fpsection = fpSection();
 			fpsections.add(fpsection);
 		}
 		return new FormalParametersNode(fpsections);
@@ -670,13 +675,13 @@ public class Parser {
 	ProcedureHeadingNode procedureHeading() {
 		read(PROCEDURE, "PROCEDURE");
 		AbstractNode node = constIdent();
-		AbstractNode fparams = null;
+		FormalParametersNode fparams = null;
 		read(LPAR, "(");
 		if (test(VAR) || test(IDENT)) {
 			fparams = formalParameters();
 		}
 		read(RPAR, ")");
-		return new ProcedureHeadingNode(((IdentNode) node), (FormalParametersNode) fparams);
+		return new ProcedureHeadingNode(((IdentNode) node), fparams);
 	}
 
 	ProcedureBodyNode procedureBody() {

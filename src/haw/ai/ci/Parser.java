@@ -366,12 +366,11 @@ public class Parser {
 		AbstractNode node = null;
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
 		list.add(statement());
-		while (test(SEMICOLON)) {
+		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {
 			read(SEMICOLON, ";");
 			list.add(statement());
 		}
-		//Semicolon am ende nicht im skript aufgeführt, müsste aber so sein
-//		read(SEMICOLON, ";");
+		read(SEMICOLON, ";");
 		node = new StatementSequenceNode(list);
 		return node;
 	}

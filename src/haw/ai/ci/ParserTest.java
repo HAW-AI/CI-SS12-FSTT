@@ -26,6 +26,11 @@ public class ParserTest {
         Scanner scanner = new Scanner(new StringReader(code));
         return new Parser(scanner, "test");
     }
+    
+    @Test(expected=ParserException.class)
+    public void testProgramNeg() {
+        createParser("MODULE m1; BEGIN a:=b; END m1. MODULE m2; BEGIN a:=b; END m2.").program();
+    }
 
     @Test
     public void testConstIdent() {
@@ -266,6 +271,9 @@ public class ParserTest {
         expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"),new IntNode(1),new IdentNode("lol"))),new IntNode(10) );
         assertEquals(expected, actual);
         
+        actual = createParser("ident1[0]:=10").assignment();
+        expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IntNode(0))),new IntNode(10) );
+        assertEquals(expected, actual);
     }
     @Test
     public void actualParameters() {
@@ -354,5 +362,187 @@ public class ParserTest {
         // verify that no NullPointerException is thrown when the scanner
         // output is empty
         createParser("").failExpectation("test");
+    }
+    @Test
+    public void testIdentList(){
+    	AbstractNode actual=createParser("varname1, varname2, varname3").identList();
+    	List<IdentNode> idents=new ArrayList<IdentNode>();
+    	idents.add(new IdentNode("varname1"));
+    	idents.add(new IdentNode("varname2"));
+    	idents.add(new IdentNode("varname3"));
+    	AbstractNode expected=new IdentListNode(idents);
+    	assertEquals(expected, actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testIdentListNeg(){
+    	createParser("varname1, 2varname, varname3").identList();
+    }
+    @Test(expected=ParserException.class)
+    public void testArrayTypeNeg(){
+    	createParser("ARRAY2] OF typename").arrayType();
+    }
+    @Test(expected=ParserException.class)
+    public void testArrayTypeNeg2(){
+    	createParser("ARRAY[] OF typename").arrayType();
+    }
+    @Test(expected=ParserException.class)
+    public void testArrayTypeNeg3(){
+    	createParser("ARRAY[2] OF 1234").arrayType();
+    }
+    @Test(expected=ParserException.class)
+    public void testArrayTypeNeg4(){
+    	createParser("ARRAY[2 OF typename").arrayType();
+    }
+    @Test
+    public void testArrayType(){
+    	AbstractNode actual = createParser("ARRAY[2] OF typename").arrayType();
+    	AbstractNode expected = new ArrayTypeNode(new IntNode(2), new IdentNode("typename"));
+    	assertEquals(expected, actual);
+    }
+    @Test
+    public void testFieldList(){
+    	AbstractNode actual=createParser("varname1, varname2, varname3 : typename").fieldList();	
+    	List<IdentNode> idents=new ArrayList<IdentNode>();
+    	idents.add(new IdentNode("varname1"));
+    	idents.add(new IdentNode("varname2"));
+    	idents.add(new IdentNode("varname3"));
+    	AbstractNode expected=new FieldListNode(new IdentListNode(idents), new IdentNode("typename"));
+    	assertEquals(expected, actual);
+    }
+    @Test
+    public void testFieldList2(){
+    	AbstractNode actual=createParser(";").fieldList();	
+    	assertEquals(null, actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testFieldListNeg(){
+    	createParser("varname1, varname2, varname3 : 123").fieldList();	
+    }
+    @Test(expected=ParserException.class)
+    public void testFieldListNeg2(){
+    	createParser("varname1, varname2, varname3  typename").fieldList();	
+    }
+    @Test
+    public void testRecordType(){
+    	AbstractNode actual=createParser("RECORD varname1, varname2 : integer; varname3, varname4 : boolean END").recordType();
+    	List<IdentNode> idents=new ArrayList<IdentNode>();
+    	idents.add(new IdentNode("varname1"));
+    	idents.add(new IdentNode("varname2"));
+    	FieldListNode fl1=new FieldListNode(new IdentListNode(idents), new IdentNode("integer"));
+    	List<IdentNode> idents2=new ArrayList<IdentNode>();
+    	idents2.add(new IdentNode("varname3"));
+    	idents2.add(new IdentNode("varname4"));
+    	FieldListNode fl2=new FieldListNode(new IdentListNode(idents2), new IdentNode("boolean"));
+    	List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
+    	fieldLists.add(fl1);
+    	fieldLists.add(fl2);
+    	AbstractNode expected=new RecordTypeNode(fieldLists);
+    	assertEquals(expected, actual);
+    }
+    @Test
+    public void testRecordType2(){
+    	AbstractNode actual=createParser("RECORD ; varname3, varname4 : boolean END").recordType();
+    	List<IdentNode> idents2=new ArrayList<IdentNode>();
+    	idents2.add(new IdentNode("varname3"));
+    	idents2.add(new IdentNode("varname4"));
+    	FieldListNode fl2=new FieldListNode(new IdentListNode(idents2), new IdentNode("boolean"));
+    	List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
+    	fieldLists.add(fl2);
+    	AbstractNode expected=new RecordTypeNode(fieldLists);
+    	assertEquals(expected, actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testRecordTypeNeg(){
+    	createParser("RECORD ; varname3, varname4 : boolean ").recordType();
+    }
+    @Test(expected=ParserException.class)
+    public void testRecordTypeNeg2(){
+    	createParser(" ; varname3, varname4 : boolean END").recordType();
+    }
+    @Test(expected=ParserException.class)
+    public void testRecordTypeNeg3(){
+    	createParser("RECORD varname3, varname4 :  END").recordType();
+    }
+    @Test
+    public void testType(){
+    	AbstractNode actual=createParser("typename").type();
+    	assertEquals(new IdentNode("typename"), actual);
+    }
+    @Test
+    public void testType2(){
+    	AbstractNode actual=createParser("RECORD varname : boolean END").type();
+    	List<IdentNode> idents2=new ArrayList<IdentNode>();
+    	idents2.add(new IdentNode("varname"));
+    	FieldListNode fl2=new FieldListNode(new IdentListNode(idents2), new IdentNode("boolean"));
+    	List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
+    	fieldLists.add(fl2);
+    	AbstractNode expected=new RecordTypeNode(fieldLists);
+    	assertEquals(expected, actual);
+    }
+    @Test
+    public void testType3(){
+    	AbstractNode actual=createParser("ARRAY[2] OF boolean").type();
+       	AbstractNode expected = new ArrayTypeNode(new IntNode(2), new IdentNode("boolean"));
+        assertEquals(expected, actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testTypeNeg(){
+    	createParser("123").type();
+    }
+    @Test
+    public void testFPSection(){
+    	AbstractNode actual=createParser("VAR varname1, varname2 : boolean").fpSection();
+    	IdentListNode identList=(IdentListNode) createParser("varname1, varname2").identList();
+    	assertEquals(new FPSectionNode(identList, new IdentNode("boolean")), actual);
+    }
+    @Test
+    public void testFPSection2(){
+    	AbstractNode actual=createParser("varname1, varname2 : boolean").fpSection();
+    	IdentListNode identList=(IdentListNode) createParser("varname1, varname2").identList();
+    	assertEquals(new FPSectionNode(identList, new IdentNode("boolean")), actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testFPSectionNeg(){
+    	createParser("varname1, varname2 : ").fpSection();
+    }
+    @Test(expected=ParserException.class)
+    public void testFPSectionNeg2(){
+    	createParser("VAR varname1  boolean").fpSection();
+    }
+    @Test(expected=ParserException.class)
+    public void testFPSectionNeg3(){
+    	createParser("VAR : boolean").fpSection();
+    }
+    @Test
+    public void testFormalParams(){
+    	AbstractNode actual=createParser("VAR varname: boolean; VAR varname2: integer").formalParameters();
+    	List<FPSectionNode> fpsections= new ArrayList<FPSectionNode>();
+    	fpsections.add(createParser("VAR varname: boolean").fpSection());
+    	fpsections.add(createParser("VAR varname2: integer").fpSection());
+    	assertEquals(new FormalParametersNode(fpsections), actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testFormalParamsNeg(){
+    	createParser("VAR varname: ; VAR varname2: integer").formalParameters();
+    }
+    @Test
+    public void testProcedureHeading(){
+    	AbstractNode actual=createParser("PROCEDURE mytest (VAR varname: boolean; VAR varname2: integer)").procedureHeading();
+    	FormalParametersNode fp=createParser("VAR varname: boolean; VAR varname2: integer").formalParameters();
+    	assertEquals(new ProcedureHeadingNode(new IdentNode("mytest"),fp), actual);
+    }
+    @Test(expected=ParserException.class)
+    public void testProcedureHeadingNeg(){
+    	createParser("PROCEDURE  (VAR varname: boolean; VAR varname2: integer)").procedureHeading();
+    }
+    @Test(expected=ParserException.class)
+    public void testProcedureHeadingNeg2(){
+    	createParser("PROCEDURE mytest ").procedureHeading();
+    }
+    @Test
+    public void testProcedureBody(){
+//    	AbstractNode actual=createParser("VAR varname: boolean BEGIN END").procedureBody();
+//    	AbstractNode declarations=createParser("VAR varname: boolean").
+//    	assertEquals(new ProcedureBodyNode(new IdentNode("mytest"),fp), actual);
     }
 }

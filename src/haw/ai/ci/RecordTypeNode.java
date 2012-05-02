@@ -12,7 +12,11 @@ public class RecordTypeNode extends AbstractNode {
     }
     @Override
     protected String toString(int indent) {
-        return toString(indent, "RecordTypeNode("+ fieldLists + ")");
+        String str = toString(indent, "RecordTypeNode");
+        for (AbstractNode node : fieldLists) {
+            str += "\n" + node.toString(indent+1);
+        }
+        return str;
     }
 
     @Override

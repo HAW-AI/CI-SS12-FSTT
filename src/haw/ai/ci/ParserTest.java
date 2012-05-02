@@ -278,6 +278,11 @@ public class ParserTest {
         assertEquals(expected, actual); 
     }
     
+    @Test(expected=ParserException.class)
+    public void ifStatementNeg1() {
+        createParser("ELSIF 1 < 2 THEN a:=b; END").ifStatement();
+    }
+    
     @Test
     public void repeatStatement() {
         AbstractNode actual, expected;

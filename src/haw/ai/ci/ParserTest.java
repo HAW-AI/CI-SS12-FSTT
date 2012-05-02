@@ -227,10 +227,17 @@ public class ParserTest {
     public void testProcedureDeclaration() {
     	//TODO phil: mehr fälle testen
         ProcedureDeclarationNode actual, expected;
+        
+        //TODO in Parser.statementSequence(): eigtl müsste nach nur einem statement kein ";" stehen, ist aber der fall - nicht mehr grammar konform?
         actual = createParser("procedure foo(); begin bar := 101; end foo").procedureDeclaration();
         List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
         assignment.add(new AssignmentNode(new IdentNode("bar"), new IntNode(101)));
         expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(assignment)), new IdentNode("foo"));
+        assertEquals(expected, actual);
+        
+        // nicht nur andere werte, sondern auch expected anders aufgebaut - nicht händisch sondern per createParser("").<parsesMethode>()
+        actual = createParser("procedure foo(); begin end foo").procedureDeclaration();
+        expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(createParser("").declaration(), createParser("").statementSequence()), new IdentNode("foo"));
         assertEquals(expected, actual);
     }
     

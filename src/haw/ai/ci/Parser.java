@@ -475,16 +475,12 @@ public class Parser {
 	}
 
 	ProcedureDeclarationNode procedureDeclaration() {
-		// TODO: tests
 		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
-
-		// TODO: man müsste sich hier den ident aus procHeading holen, damit man
-		// den ident nach procBody auf gleichheit prüfen kann. readAhead
-		// methode? oder hier tatsächlich getter in procHeadingNode benötigt?
+		
 		AbstractNode procHeadingNode = procedureHeading();
 		read(SEMICOLON, ";");
 		AbstractNode procBodyNode = procedureBody();
-		IdentNode identNode = constIdent();
+		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
 
 		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
 
@@ -492,7 +488,6 @@ public class Parser {
 	}
 
 	DeclarationsNode declaration() {
-		// TODO: tests
 		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
 		// Expression ’;’}]
 		// [’TYPE’ ident ’=’ Type ’;’ {ident ’=’ Type ’;’}]
@@ -563,7 +558,6 @@ public class Parser {
 	}
 
 	ModuleNode module() {
-		// TODO: tests
 		// Module = ’MODULE’ ident ’;’ Declarations
 		// ’BEGIN’ StatementSequence
 		// ’END’ ident ’.’
@@ -577,6 +571,7 @@ public class Parser {
 		AbstractNode statementSequence = statementSequence();
 		read(END, "end");
 		IdentNode moduleEndName = constIdent();
+		// folgendes eigtl schon vorgegriffen, ist nicht mehr nur syntax prüfung. aber macht den node einfacher und schadet nicht
 		if (!moduleName.equals(moduleEndName)) {
 			failExpectation("identifiers of module and end are supposed to be the same");
 		}
@@ -629,9 +624,14 @@ public class Parser {
 	RecordTypeNode recordType() {
 		read(RECORD, "RECORD");
 		List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
-		fieldLists.add((FieldListNode) fieldList());
+		FieldListNode node = fieldList();
+		if(node!=null)
+			fieldLists.add(node);
 		while (test(SEMICOLON)) {
-			fieldLists.add((FieldListNode) fieldList());
+			read(SEMICOLON,";");
+			node = fieldList();
+			if(node!=null)
+				fieldLists.add(node);
 		}
 		read(END, "END");
 		return new RecordTypeNode(fieldLists);
@@ -662,11 +662,11 @@ public class Parser {
 
 	FormalParametersNode formalParameters() {
 		List<FPSectionNode> fpsections = new ArrayList<FPSectionNode>();
-		FPSectionNode fpsection = (FPSectionNode) fpSection();
+		FPSectionNode fpsection = fpSection();
 		fpsections.add(fpsection);
 		while (test(SEMICOLON)) {
 			read(SEMICOLON, ";");
-			fpsection = (FPSectionNode) fpSection();
+			fpsection = fpSection();
 			fpsections.add(fpsection);
 		}
 		return new FormalParametersNode(fpsections);
@@ -675,13 +675,13 @@ public class Parser {
 	ProcedureHeadingNode procedureHeading() {
 		read(PROCEDURE, "PROCEDURE");
 		AbstractNode node = constIdent();
-		AbstractNode fparams = null;
+		FormalParametersNode fparams = null;
 		read(LPAR, "(");
 		if (test(VAR) || test(IDENT)) {
 			fparams = formalParameters();
 		}
 		read(RPAR, ")");
-		return new ProcedureHeadingNode(((IdentNode) node), (FormalParametersNode) fparams);
+		return new ProcedureHeadingNode(((IdentNode) node), fparams);
 	}
 
 	ProcedureBodyNode procedureBody() {

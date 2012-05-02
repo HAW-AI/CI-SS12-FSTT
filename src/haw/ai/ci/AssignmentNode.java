@@ -49,7 +49,5 @@ public class AssignmentNode extends AbstractNode {
 			return false;
 		return true;
 	}
-	
-	// TODO hash equals
 
 }

@@ -366,7 +366,8 @@ public class Parser {
 				return node;
 			}
 		}
-		failExpectation("Assignment | ProcedureCall | IfStatement | ’PRINT’ Expression | WhileStatement | RepeatStatement");
+		// auskommentiert weil statement "leer" sein darf
+//		failExpectation("Assignment | ProcedureCall | IfStatement | ’PRINT’ Expression | WhileStatement | RepeatStatement");
 		return node;
 	}
 
@@ -495,8 +496,7 @@ public class Parser {
 	}
 
 	AbstractNode declaration() {
-		// TODO: nodes (evtl nur unnötige ebene? - alles (auch procedures)
-		// innerhalb module reicht aus oder?) und tests
+		// TODO: tests
 		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
 		// Expression ’;’}]
 		// [’TYPE’ ident ’=’ Type ’;’ {ident ’=’ Type ’;’}]
@@ -568,61 +568,6 @@ public class Parser {
 
 		return node;
 	}
-//	AbstractNode declaration() {
-//		// TODO: nodes (evtl nur unnötige ebene? - alles (auch procedures)
-//		// innerhalb module reicht aus oder?) und tests
-//		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
-//		// Expression ’;’}]
-//		// [’TYPE’ ident ’=’ Type ’;’ {ident ’=’ Type ’;’}]
-//		// [’VAR’ IdentList ’:’ Type ’;’ {IdentList ’:’ Type ’;’}]
-//		// {ProcedureDeclaration ’;’}
-//
-//		if (test(CONST)) {
-//			read(CONST, "const");
-//			constIdent();
-//			read(ASSIGN, "=");
-//			expr();
-//			read(SEMICOLON, ";");
-//			while (test(IDENT)) {
-//				constIdent();
-//				read(ASSIGN, "=");
-//				expr();
-//				read(SEMICOLON, ";");
-//			}
-//		} else if (test(TYPE)) {
-//			read(TYPE, "type");
-//			constIdent();
-//			read(ASSIGN, "=");
-//			type();
-//			read(SEMICOLON, ";");
-//			while (test(TYPE)) {
-//				constIdent();
-//				read(ASSIGN, "=");
-//				type();
-//				read(SEMICOLON, ";");
-//			}
-//		} else if (test(VAR)) {
-//			read(VAR, "var");
-//			identList();
-//			read(COLON, ":");
-////			identList();
-//			type();
-//			read(SEMICOLON, ";");
-//			while (test(VAR)) {
-//				identList();
-//				read(COLON, ":");
-//				type();
-//				read(SEMICOLON, ";");
-//			}
-//		} else if (test(PROCEDURE)) {
-//			procedureDeclaration();
-//			read(SEMICOLON, ";");
-//		} else {
-//			failExpectation("const, type, var or procedure declaration");
-//		}
-//
-//		return null;
-//	}
 
 	ModuleNode module() {
 		// TODO: tests

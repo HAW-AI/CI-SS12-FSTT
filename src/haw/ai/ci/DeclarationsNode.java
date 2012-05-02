@@ -36,4 +36,49 @@ public class DeclarationsNode extends AbstractNode {
 
 		return str;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((consts == null) ? 0 : consts.hashCode());
+		result = prime
+				* result
+				+ ((procDeclarations == null) ? 0 : procDeclarations.hashCode());
+		result = prime * result + ((types == null) ? 0 : types.hashCode());
+		result = prime * result + ((vars == null) ? 0 : vars.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DeclarationsNode other = (DeclarationsNode) obj;
+		if (consts == null) {
+			if (other.consts != null)
+				return false;
+		} else if (!consts.equals(other.consts))
+			return false;
+		if (procDeclarations == null) {
+			if (other.procDeclarations != null)
+				return false;
+		} else if (!procDeclarations.equals(other.procDeclarations))
+			return false;
+		if (types == null) {
+			if (other.types != null)
+				return false;
+		} else if (!types.equals(other.types))
+			return false;
+		if (vars == null) {
+			if (other.vars != null)
+				return false;
+		} else if (!vars.equals(other.vars))
+			return false;
+		return true;
+	}
 }

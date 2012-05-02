@@ -234,14 +234,14 @@ public class ParserTest {
         ProcedureDeclarationNode actual, expected;
         
         //TODO in Parser.statementSequence(): eigtl müsste nach nur einem statement kein ";" stehen, ist aber der fall - nicht mehr grammar konform?
-        actual = createParser("procedure foo(); begin bar := 101; end foo").procedureDeclaration();
+        actual = createParser("procedure foo(); begin bar := 101 end foo").procedureDeclaration();
         List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
         assignment.add(new AssignmentNode(new IdentNode("bar"), new IntNode(101)));
         expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(assignment)), new IdentNode("foo"));
         assertEquals(expected, actual);
         
         // nicht nur andere werte, sondern auch expected anders aufgebaut - nicht händisch sondern per createParser("").<parsesMethode>()
-        actual = createParser("procedure foo(); begin end foo").procedureDeclaration();
+        actual = createParser("procedure foo(); BEGIN END foo").procedureDeclaration();
         expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(new IdentNode("foo"), null), new ProcedureBodyNode(createParser("").declaration(), createParser("").statementSequence()), new IdentNode("foo"));
         assertEquals(expected, actual);
     }
@@ -309,7 +309,7 @@ public class ParserTest {
     @Test
     public void statementSequence() {
         AbstractNode actual, expected;
-        actual = createParser("callMe(10,10,10+10);callMe(10,10,10+10);END").statementSequence();
+        actual = createParser("callMe(10,10,10+10);callMe(10,10,10+10) END").statementSequence();
         expected = new StatementSequenceNode(asList(new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) ))),
         		new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )))));
         assertEquals(expected, actual);
@@ -319,19 +319,19 @@ public class ParserTest {
     @Test
     public void ifStatement() {
         AbstractNode actual, expected;
-        actual = createParser("IF 10 > 5 THEN ident1.kp:=10;PRINT h1; ELSIF 3 < 4 THEN ident1.kp:=10;PRINT h1; ELSE ident1.kp:=10; END").ifStatement();
+        actual = createParser("IF 10 > 5 THEN ident1.kp:=10;PRINT h1 ELSIF 3 < 4 THEN ident1.kp:=10;PRINT h1 ELSE ident1.kp:=10 END").ifStatement();
         expected = new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)) , new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1"))) , new IfStatementNode(new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)),new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1"))),null,null) ,  new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10)))));
         assertEquals(expected, actual); 
         
-        actual = createParser("IF 10 > 5 THEN ident1.kp:=10; ELSIF 3 < 4 THEN ident1.kp:=10; ELSE ident1.kp:=10; END").ifStatement();
+        actual = createParser("IF 10 > 5 THEN ident1.kp:=10 ELSIF 3 < 4 THEN ident1.kp:=10 ELSE ident1.kp:=10 END").ifStatement();
         expected = new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)) , new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ))) , new IfStatementNode(new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)),new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ))),null,null) ,  new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10)))));
         assertEquals(expected, actual); 
         
-        actual = createParser("IF 10 > 5 THEN ident1.kp:=10; ELSE ident1.kp:=10; END").ifStatement();
+        actual = createParser("IF 10 > 5 THEN ident1.kp:=10 ELSE ident1.kp:=10 END").ifStatement();
         expected = new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)) , new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ))) , null ,  new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10)))));
         assertEquals(expected, actual); 
         
-        actual = createParser("IF 10 > 5 THEN ident1.kp:=10; END").ifStatement();
+        actual = createParser("IF 10 > 5 THEN ident1.kp:=10 END").ifStatement();
         expected = new IfStatementNode(new BinOpNode(HI_OP, new IntNode(10),new IntNode(5)) , new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ))) ,null ,  null);
         assertEquals(expected, actual); 
     }
@@ -344,7 +344,7 @@ public class ParserTest {
     @Test
     public void repeatStatement() {
         AbstractNode actual, expected;
-        actual = createParser("REPEAT ident1.kp:=10;PRINT h1; UNTIL 3 < 4").repeatStatement();
+        actual = createParser("REPEAT ident1.kp:=10;PRINT h1 UNTIL 3 < 4").repeatStatement();
         expected = new RepeatStatementNode(new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1"))) , new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)));
         assertEquals(expected, actual); 
     }
@@ -352,7 +352,7 @@ public class ParserTest {
     @Test
     public void whileStatement() {
         AbstractNode actual, expected;
-        actual = createParser("WHILE 3 < 4 DO ident1.kp:=10;PRINT h1; END").whileStatement();
+        actual = createParser("WHILE 3 < 4 DO ident1.kp:=10;PRINT h1 END").whileStatement();
         expected = new WhileStatementNode( new BinOpNode(LO_OP, new IntNode(3),new IntNode(4)),new StatementSequenceNode(asList(new AssignmentNode(new SelectorNode(new IdentNode("ident1"), asList(new IdentNode("kp"))),new IntNode(10) ),new IdentNode("h1"))));
         assertEquals(expected, actual); 
     }

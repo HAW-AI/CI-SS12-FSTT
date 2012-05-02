@@ -374,11 +374,11 @@ public class Parser {
 	StatementSequenceNode statementSequence() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
 		list.add(statement());
-		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {
+//		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {
+		while (test(SEMICOLON)) {
 			read(SEMICOLON, ";");
 			list.add(statement());
 		}
-		read(SEMICOLON, ";");
 		return new StatementSequenceNode(list);
 	}
 

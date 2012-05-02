@@ -36,7 +36,5 @@ END Divide;
 BEGIN 
 Multiply(z);
 PRINT z;
-Divide();
-
-
+Divide()
 END Sample.

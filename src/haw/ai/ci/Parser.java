@@ -163,6 +163,11 @@ public class Parser {
 		String str = read(STR, "string").text();
 		return new StringNode(str.substring(1, str.length() - 1));
 	}
+	
+	ReadNode readParser() {
+	    read(READ, "READ");
+	    return test(STR) ? new ReadNode(string()) : new ReadNode();
+	}
 
 	AbstractNode indexExpr() {
 		AbstractNode node = null;
@@ -178,7 +183,7 @@ public class Parser {
 		return node;
 	}
 
-	AbstractNode selector() {
+	SelectorNode selector() {
 		IdentNode subject = constIdent();
 		List<AbstractNode> selectors = new LinkedList<AbstractNode>();
 
@@ -197,8 +202,8 @@ public class Parser {
 	}
 
 	// Assignment = ident Selector ’:=’ Expression.
-	AbstractNode assignment() {
-		AbstractNode node = null;
+	AssignmentNode assignment() {
+		AssignmentNode node = null;
 		AbstractNode selector = null;
 		AbstractNode expr = null;
 
@@ -218,23 +223,21 @@ public class Parser {
 	}
 
 	// ActualParameters = Expression {’,’ Expression}
-	AbstractNode actualParameters() {
+	ActualParametersNode actualParameters() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
-		AbstractNode node = null;
 
 		list.add(expr());
 		while (test(COMMA)) {
 			read(COMMA, ",");
 			list.add(expr());
 		}
-		node = new ActualParametersNode(list);
-		return node;
+		
+		return new ActualParametersNode(list);
 	}
 
 	// ProcedureCall = ident ’(’ [ActualParameters] ’)’.
 
-	AbstractNode procedureCall() {
-		AbstractNode node = null;
+	ProcedureCallNode procedureCall() {
 		IdentNode ident = null;
 		AbstractNode actualParameters = null;
 
@@ -243,8 +246,7 @@ public class Parser {
 		if(!test(RPAR))
 			actualParameters = actualParameters();
 		read(RPAR, ")");
-		node = new ProcedureCallNode(ident, actualParameters);
-		return node;
+		return new ProcedureCallNode(ident, actualParameters);
 	}
 
 	// IfStatement = ’IF’ Expression
@@ -253,8 +255,8 @@ public class Parser {
 	// StatementSequence}
 	// [’ELSE’ StatementSequence] ’END’.
 
-	AbstractNode ifStatement() {
-		AbstractNode node = null;
+	IfStatementNode ifStatement() {
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 		AbstractNode stateSeq2 = null;
@@ -282,8 +284,8 @@ public class Parser {
 		return node;
 
 	}
-	AbstractNode ifStatement_() {
-		AbstractNode node = null;
+	IfStatementNode ifStatement_() {
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -302,8 +304,7 @@ public class Parser {
 
 	// WhileStatement = ’WHILE’ Expression ’DO’ StatementSequence ’END’.
 
-	AbstractNode whileStatement() {
-		AbstractNode node = null;
+	WhileStatementNode whileStatement() {
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -312,14 +313,12 @@ public class Parser {
 		read(DO, "DO");
 		stateSeq1 = statementSequence();
 		read(END, "END");
-		node = new WhileStatementNode(exp1, stateSeq1);
-		return node;
+		return new WhileStatementNode(exp1, stateSeq1);
 	}
 
 	// RepeatStatement = ’REPEAT’ StatementSequence ’UNTIL’ Expression.
 
-	AbstractNode repeatStatement() {
-		AbstractNode node = null;
+	RepeatStatementNode repeatStatement() {
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -327,8 +326,7 @@ public class Parser {
 		stateSeq1 = statementSequence();
 		read(UNTIL, "UNTIL");
 		exp1 = expr();
-		node = new RepeatStatementNode(stateSeq1, exp1);
-		return node;
+		return new RepeatStatementNode(stateSeq1, exp1);
 	}
 
 	// Statement = [Assignment | ProcedureCall | IfStatement | ’PRINT’
@@ -373,8 +371,7 @@ public class Parser {
 
 	// StatementSequence = Statement {’;’ Statement}.
 
-	AbstractNode statementSequence() {
-		AbstractNode node = null;
+	StatementSequenceNode statementSequence() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
 		list.add(statement());
 		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {
@@ -382,8 +379,7 @@ public class Parser {
 			list.add(statement());
 		}
 		read(SEMICOLON, ";");
-		node = new StatementSequenceNode(list);
-		return node;
+		return new StatementSequenceNode(list);
 	}
 
 	AbstractNode factor() {
@@ -498,7 +494,6 @@ public class Parser {
 		// [’VAR’ IdentList ’:’ Type ’;’ {IdentList ’:’ Type ’;’}]
 		// {ProcedureDeclaration ’;’}
 		
-		DeclarationsNode node = null;
 		ArrayList<ConstDeclarationNode> consts = new ArrayList<ConstDeclarationNode>();
 	    List<TypeDeclarationNode> types = new ArrayList<TypeDeclarationNode>();
 	    List<VarDeclarationNode> vars = new ArrayList<VarDeclarationNode>();
@@ -559,9 +554,7 @@ public class Parser {
 			read(SEMICOLON, ";");
 		}
 //			failExpectation("const, type, var or procedure declaration");
-		node = new DeclarationsNode(consts,types,vars,procDeclarations);
-
-		return node;
+		return new DeclarationsNode(consts,types,vars,procDeclarations);
 	}
 
 	ModuleNode module() {
@@ -589,7 +582,7 @@ public class Parser {
 		return node;
 	}
 
-	AbstractNode identList() {
+	IdentListNode identList() {
 		List<IdentNode> idents = new ArrayList<IdentNode>();
 		if (test(IDENT)) {
 			idents.add(constIdent());
@@ -603,7 +596,7 @@ public class Parser {
 		return new IdentListNode(idents);
 	}
 
-	AbstractNode arrayType() {
+	ArrayTypeNode arrayType() {
 		read(ARRAY, "ARRAY");
 		read(LBRAC, "[");
 		AbstractNode node = indexExpr();
@@ -618,7 +611,7 @@ public class Parser {
 	 * 
 	 * @return
 	 */
-	AbstractNode fieldList() {
+	FieldListNode fieldList() {
 		if (test(IDENT)) {
 			AbstractNode il = identList();
 			read(COLON, ":");
@@ -628,7 +621,7 @@ public class Parser {
 			return null;
 	}
 
-	AbstractNode recordType() {
+	RecordTypeNode recordType() {
 		read(RECORD, "RECORD");
 		List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
 		fieldLists.add((FieldListNode) fieldList());
@@ -653,7 +646,7 @@ public class Parser {
 		return node;
 	}
 
-	AbstractNode fpSection() {
+	FPSectionNode fpSection() {
 		if (test(VAR))
 			read(VAR, "VAR");
 		AbstractNode node = identList();
@@ -662,7 +655,7 @@ public class Parser {
 		return new FPSectionNode(node, type);
 	}
 
-	AbstractNode formalParameters() {
+	FormalParametersNode formalParameters() {
 		List<FPSectionNode> fpsections = new ArrayList<FPSectionNode>();
 		FPSectionNode fpsection = (FPSectionNode) fpSection();
 		fpsections.add(fpsection);
@@ -674,7 +667,7 @@ public class Parser {
 		return new FormalParametersNode(fpsections);
 	}
 
-	AbstractNode procedureHeading() {
+	ProcedureHeadingNode procedureHeading() {
 		read(PROCEDURE, "PROCEDURE");
 		AbstractNode node = constIdent();
 		AbstractNode fparams = null;
@@ -686,22 +679,18 @@ public class Parser {
 		return new ProcedureHeadingNode(((IdentNode) node), (FormalParametersNode) fparams);
 	}
 
-	AbstractNode procedureBody() {
+	ProcedureBodyNode procedureBody() {
 		AbstractNode declarations = declaration();
 		read(BEGIN,"BEGIN");
 		AbstractNode stateSeq = statementSequence();
 		read(END,"END");
-		AbstractNode node = new ProcedureBodyNode(declarations,stateSeq);
+		return new ProcedureBodyNode(declarations,stateSeq);
 		
 		/*
 		 * AbstractNode node = declarations(); read(BEGIN,"BEGIN"); AbstractNode
 		 * statseq=statementSequence(); return new ProcedureBodyNode(node,
 		 * statseq);
 		 */
-
-		
-		
-		return node;
 	}
 
 	AbstractNode program() {

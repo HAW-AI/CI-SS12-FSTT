@@ -30,7 +30,7 @@ END;
 PRINT x;
 PRINT y;
 PRINT q;
-PRINT r;
+PRINT r;;
 END Divide;
 
 BEGIN 

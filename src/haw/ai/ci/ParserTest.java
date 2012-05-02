@@ -45,6 +45,19 @@ public class ParserTest {
     }
     
     @Test
+    public void testRead() {
+        AbstractNode actual, expected;
+        
+        actual = createParser("READ").readParser();
+        expected = new ReadNode();
+        assertEquals(expected, actual);
+        
+        actual = createParser("read \"format C:? (y/n)\"").readParser();
+        expected = new ReadNode(new StringNode("format C:? (y/n)"));
+        assertEquals(expected, actual);
+    }
+    
+    @Test
     public void testIndexExpr() {
         AbstractNode actual, expected;
 
@@ -272,6 +285,10 @@ public class ParserTest {
         AbstractNode actual, expected;
         actual = createParser("callMe(10,10,10+10)").statement();
         expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));
+        assertEquals(expected, actual);
+        
+        actual = createParser("").statement();
+        expected = null;
         assertEquals(expected, actual);
         
     }

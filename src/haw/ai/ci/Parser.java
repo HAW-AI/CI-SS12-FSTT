@@ -202,8 +202,8 @@ public class Parser {
 	}
 
 	// Assignment = ident Selector ’:=’ Expression.
-	AbstractNode assignment() {
-		AbstractNode node = null;
+	AssignmentNode assignment() {
+		AssignmentNode node = null;
 		AbstractNode selector = null;
 		AbstractNode expr = null;
 
@@ -223,9 +223,9 @@ public class Parser {
 	}
 
 	// ActualParameters = Expression {’,’ Expression}
-	AbstractNode actualParameters() {
+	ActualParametersNode actualParameters() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
-		AbstractNode node = null;
+		ActualParametersNode node = null;
 
 		list.add(expr());
 		while (test(COMMA)) {
@@ -238,8 +238,8 @@ public class Parser {
 
 	// ProcedureCall = ident ’(’ [ActualParameters] ’)’.
 
-	AbstractNode procedureCall() {
-		AbstractNode node = null;
+	ProcedureCallNode procedureCall() {
+		ProcedureCallNode node = null;
 		IdentNode ident = null;
 		AbstractNode actualParameters = null;
 
@@ -258,8 +258,8 @@ public class Parser {
 	// StatementSequence}
 	// [’ELSE’ StatementSequence] ’END’.
 
-	AbstractNode ifStatement() {
-		AbstractNode node = null;
+	IfStatementNode ifStatement() {
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 		AbstractNode stateSeq2 = null;
@@ -287,8 +287,8 @@ public class Parser {
 		return node;
 
 	}
-	AbstractNode ifStatement_() {
-		AbstractNode node = null;
+	IfStatementNode ifStatement_() {
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -307,8 +307,8 @@ public class Parser {
 
 	// WhileStatement = ’WHILE’ Expression ’DO’ StatementSequence ’END’.
 
-	AbstractNode whileStatement() {
-		AbstractNode node = null;
+	WhileStatementNode whileStatement() {
+		WhileStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -323,8 +323,8 @@ public class Parser {
 
 	// RepeatStatement = ’REPEAT’ StatementSequence ’UNTIL’ Expression.
 
-	AbstractNode repeatStatement() {
-		AbstractNode node = null;
+	RepeatStatementNode repeatStatement() {
+		RepeatStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 
@@ -378,8 +378,8 @@ public class Parser {
 
 	// StatementSequence = Statement {’;’ Statement}.
 
-	AbstractNode statementSequence() {
-		AbstractNode node = null;
+	StatementSequenceNode statementSequence() {
+		StatementSequenceNode node = null;
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
 		list.add(statement());
 		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {

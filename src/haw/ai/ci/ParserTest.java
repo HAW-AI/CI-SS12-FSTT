@@ -267,6 +267,7 @@ public class ParserTest {
 		.procedureDeclaration();
     }
 
+    //TODO
     // @Test
     // public void testDeclaration() {
     // DeclarationsNode actual, expected;
@@ -293,6 +294,7 @@ public class ParserTest {
 	createParser("var x y : integer;").declaration();
     }
 
+    //TODO
 //    @Test
 //    public void testModule() {
 //	ModuleNode actual, expected;

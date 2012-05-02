@@ -2,6 +2,8 @@ package haw.ai.ci;
 
 public class ProcedureDeclarationNode extends AbstractNode {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final AbstractNode procHeading;
 	private final AbstractNode procBody;
 	private final IdentNode ident;
@@ -18,7 +20,7 @@ public class ProcedureDeclarationNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
 		//TODO: kein einrücken da head und body auf gleicher "ebene", richtig?
-		return toString(indent, procHeading.toString() + procBody.toString());
+		return toString(indent, "ProcedureDeclaration(" + procHeading.toString(indent+1) + "\n" +  procBody.toString(indent+1) + "\n");
 	}
 
 	@Override

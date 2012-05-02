@@ -1,28 +1,28 @@
 package haw.ai.ci;
 
-import static haw.ai.ci.TokenID.*;
-import static haw.ai.ci.BinOpNode.BinOp.*;
-
+import static haw.ai.ci.BinOpNode.BinOp.DIV_OP;
+import static haw.ai.ci.BinOpNode.BinOp.HI_OP;
+import static haw.ai.ci.BinOpNode.BinOp.LO_OP;
+import static haw.ai.ci.BinOpNode.BinOp.MINUS_OP;
+import static haw.ai.ci.BinOpNode.BinOp.MUL_OP;
+import static haw.ai.ci.BinOpNode.BinOp.NEQ_OP;
+import static haw.ai.ci.BinOpNode.BinOp.PLUS_OP;
+import static haw.ai.ci.TokenID.ASSIGN;
+import static haw.ai.ci.TokenID.IDENT;
+import static haw.ai.ci.TokenID.INT;
 import static java.util.Arrays.asList;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 
-import org.junit.*;
+import org.junit.Test;
 
 public class ParserTest {
     private Parser createParser(String code) {
         Scanner scanner = new Scanner(new StringReader(code));
         return new Parser(scanner, "test");
-    }
-    
-    @Test
-    public void testProgram() {
-        AbstractNode actual = createParser("123\n32 1").program();
-        AbstractNode expected = new IntNode(1);
-        assertEquals(expected, actual);
     }
     
     @Test

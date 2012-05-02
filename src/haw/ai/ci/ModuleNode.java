@@ -2,6 +2,8 @@ package haw.ai.ci;
 
 public class ModuleNode extends AbstractNode {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final IdentNode ident;
 	private final AbstractNode declaration;
 	private final AbstractNode statementSequence;

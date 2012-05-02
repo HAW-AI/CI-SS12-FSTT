@@ -26,6 +26,11 @@ public class ParserTest {
         Scanner scanner = new Scanner(new StringReader(code));
         return new Parser(scanner, "test");
     }
+    
+    @Test(expected=ParserException.class)
+    public void testProgramNeg() {
+        createParser("MODULE m1; BEGIN a:=b; END m1. MODULE m2; BEGIN a:=b; END m2.").program();
+    }
 
     @Test
     public void testConstIdent() {

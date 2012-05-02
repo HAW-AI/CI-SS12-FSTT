@@ -699,14 +699,12 @@ public class Parser {
 	}
 
 	AbstractNode program() {
-		AbstractNode tree = null;
+		AbstractNode tree = module();
 
-		while (nextSymbol != null) {
-			tree = module();
-			insymbol();
+		if (nextSymbol != null) {
+			failExpectation("EOF or comment");
 		}
 
-		// last int
 		return tree;
 	}
 

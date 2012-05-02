@@ -281,7 +281,6 @@ public class ParserTest {
 
     @Test
     public void statement() {
-    	//TODO felix: testen: statement darf auch leer sein
         AbstractNode actual, expected;
         actual = createParser("callMe(10,10,10+10)").statement();
         expected = new ProcedureCallNode(new IdentNode("callMe"), new ActualParametersNode( asList(new IntNode(10),new IntNode(10),new BinOpNode(PLUS_OP, new IntNode(10),new IntNode(10)) )));

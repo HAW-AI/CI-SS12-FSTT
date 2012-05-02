@@ -203,7 +203,7 @@ public class Parser {
 
 	// Assignment = ident Selector ’:=’ Expression.
 	AssignmentNode assignment() {
-	    AssignmentNode node = null;
+		AssignmentNode node = null;
 		AbstractNode selector = null;
 		AbstractNode expr = null;
 
@@ -256,7 +256,7 @@ public class Parser {
 	// [’ELSE’ StatementSequence] ’END’.
 
 	IfStatementNode ifStatement() {
-	    IfStatementNode node = null;
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 		AbstractNode stateSeq2 = null;
@@ -285,7 +285,7 @@ public class Parser {
 
 	}
 	IfStatementNode ifStatement_() {
-	    IfStatementNode node = null;
+		IfStatementNode node = null;
 		AbstractNode exp1 = null;
 		AbstractNode stateSeq1 = null;
 

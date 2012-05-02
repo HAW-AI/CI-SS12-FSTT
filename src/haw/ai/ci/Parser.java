@@ -261,13 +261,12 @@ public class Parser {
 		// abwechselnd expr und statementSeq
 		AbstractNode elseifs = null;
 
-		if (test(IF)) {
 			read(IF, "IF");
 			exp1 = expr();
 			read(THEN, "THEN");
 			stateSeq1 = statementSequence();
-			while (test(ELSIF)) {
-				elseifs = ifStatement();
+			if (test(ELSIF)) {
+				elseifs = ifStatement_();
 			}
 			if (test(END)) {
 				read(END, "END");
@@ -278,16 +277,27 @@ public class Parser {
 				read(END, "END");
 				node = new IfStatementNode(exp1, stateSeq1, elseifs, stateSeq2);
 			}
-		} else {
-			read(ELSIF, "ELSIF");
-			exp1 = expr();
-			read(THEN, "THEN");
-			stateSeq1 = statementSequence();
-			node = new IfStatementNode(exp1, stateSeq1, null, null);
-		}
+		
 
 		return node;
 
+	}
+	AbstractNode ifStatement_() {
+		AbstractNode node = null;
+		AbstractNode exp1 = null;
+		AbstractNode stateSeq1 = null;
+
+		read(ELSIF, "ELSIF");
+		exp1 = expr();
+		read(THEN, "THEN");
+		stateSeq1 = statementSequence();
+		if(test(ELSIF)){
+		node = new IfStatementNode(exp1, stateSeq1,ifStatement_(), null);
+		}else{
+		node = new IfStatementNode(exp1, stateSeq1, null, null);
+		}
+		
+		return node;
 	}
 
 	// WhileStatement = ’WHILE’ Expression ’DO’ StatementSequence ’END’.

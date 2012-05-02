@@ -18,7 +18,9 @@ public class ProcedureCallNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "ProcedureCallNode\n");
+        if(ident != null)
         str += ident.toString(indent+1) + "\n";
+        if(actualParameters != null)
         str += actualParameters.toString(indent+1);
         return str;
 	}

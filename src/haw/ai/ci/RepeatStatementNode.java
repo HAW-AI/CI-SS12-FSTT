@@ -7,7 +7,7 @@ public class RepeatStatementNode extends AbstractNode {
 	private final AbstractNode exp1;
     private final AbstractNode stateSeq1;
     
-    RepeatStatementNode(AbstractNode exp1,AbstractNode stateSeq1){
+    RepeatStatementNode(AbstractNode stateSeq1,AbstractNode exp1){
     	this.exp1 = exp1;
     	this.stateSeq1 = stateSeq1;
     	
@@ -15,9 +15,10 @@ public class RepeatStatementNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "RepeatStatement\n");
+        if(stateSeq1 != null)
         str += stateSeq1.toString(indent+1) + "\n";
+        if(exp1 != null)
         str += exp1.toString(indent+1) + "\n";
-        
         return str;
 	}
 	@Override

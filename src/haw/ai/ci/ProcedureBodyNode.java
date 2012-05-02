@@ -13,7 +13,12 @@ public class ProcedureBodyNode extends AbstractNode {
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "ProcedureBodyNode(" + declarations + ", " + statseq + ")");
+        String str = toString(indent, "ProcedureBodyNode\n");
+        if(declarations != null)
+        str += declarations.toString(indent+1) + "\n";
+        if(statseq != null)
+        str += statseq.toString(indent+1) + "\n";
+        return str;
     }
 
     @Override

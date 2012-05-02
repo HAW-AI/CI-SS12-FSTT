@@ -6,16 +6,16 @@ public class StatementSequenceNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final List<AbstractNode> list;
+	private final List<? extends AbstractNode> list;
 	
-	StatementSequenceNode(List<AbstractNode> list){
+	StatementSequenceNode(List<? extends AbstractNode> list){
 		this.list = list;
 	}
 	
 	
 	@Override
 	protected String toString(int indent) {
-        String str = toString(indent, "StatementSequenz\n");
+        String str = toString(indent, "StatementSequence\n");
         for(int i = 0; i < list.size();i++){
         str += list.get(i).toString(indent+1) + "\n";
         }

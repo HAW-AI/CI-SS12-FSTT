@@ -14,7 +14,9 @@ public class AssignmentNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "AssignmentNode\n");
+		if(selector != null)
         str += selector.toString(indent+1) + "\n";
+		if(expression != null)
         str += expression.toString(indent+1);
         return str;
 	}

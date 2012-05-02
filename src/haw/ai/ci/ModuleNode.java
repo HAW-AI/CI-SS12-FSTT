@@ -15,7 +15,14 @@ public class ModuleNode extends AbstractNode {
 
 	@Override
 	protected String toString(int indent) {
-		return toString(indent, "Module(" + ident.toString() + ")") + "\n" + declaration.toString(indent+1) + "\n" + statementSequence.toString(indent+1);
+        String str = toString(indent, "ModuleNode\n");
+		if(ident != null)
+        	str += ident.toString(indent+1) + "\n";
+		if(declaration != null)
+	    	str += declaration.toString(indent+1) + "\n";
+		if(statementSequence != null)
+	    	str += statementSequence.toString(indent+1) + "\n";
+    	return str;
 	}
 
 	@Override

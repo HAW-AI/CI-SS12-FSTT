@@ -13,7 +13,12 @@ public class FPSectionNode extends AbstractNode {
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "FPSectionNode") + "\n" + node.toString(indent+1)+"\n"+type.toString(indent+1);
+        String str = toString(indent, "FPSectionNode\n");
+		if(node != null)
+        str += node.toString(indent+1) + "\n";
+		if(type != null)
+        str += type.toString(indent+1);
+		return str;
     }
 
     @Override

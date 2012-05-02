@@ -9,13 +9,12 @@ public class IfStatementNode extends AbstractNode {
 	private final AbstractNode exp1;
     private final AbstractNode stateSeq1;
     private final AbstractNode stateSeq2;
-//	abwechselnd expr und statementSeq
-    private final List<AbstractNode> list;
+    private final AbstractNode elseIfs;
     
-    IfStatementNode(AbstractNode exp1,AbstractNode stateSeq1,List<AbstractNode> list,AbstractNode stateSeq2){
+    IfStatementNode(AbstractNode exp1,AbstractNode stateSeq1,AbstractNode elseIfs,AbstractNode stateSeq2){
     	this.exp1 = exp1;
     	this.stateSeq1 = stateSeq1;
-    	this.list = list;
+    	this.elseIfs = elseIfs;
     	this.stateSeq2 = stateSeq2;
     }
     
@@ -23,14 +22,14 @@ public class IfStatementNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "IfStatementNode\n");
+        if(exp1 != null)
         str += exp1.toString(indent+1) + "\n";
+        if(stateSeq1 != null)
         str += stateSeq1.toString(indent+1) + "\n";
-
-        for(int i = 0; i < list.size();i++){
-        str += list.get(i).toString(indent+1) + "\n";
-        }
-        str += stateSeq2.toString(indent+1) + "\n";
-        
+        if(elseIfs != null)
+        	str += elseIfs.toString(indent+1) + "\n";
+        if(stateSeq2 != null)
+        	str += stateSeq2.toString(indent+1) + "\n";
         return str;
 	}
 
@@ -39,8 +38,8 @@ public class IfStatementNode extends AbstractNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((elseIfs == null) ? 0 : elseIfs.hashCode());
 		result = prime * result + ((exp1 == null) ? 0 : exp1.hashCode());
-		result = prime * result + ((list == null) ? 0 : list.hashCode());
 		result = prime * result + ((stateSeq1 == null) ? 0 : stateSeq1.hashCode());
 		result = prime * result + ((stateSeq2 == null) ? 0 : stateSeq2.hashCode());
 		return result;
@@ -56,15 +55,15 @@ public class IfStatementNode extends AbstractNode {
 		if (getClass() != obj.getClass())
 			return false;
 		IfStatementNode other = (IfStatementNode) obj;
+		if (elseIfs == null) {
+			if (other.elseIfs != null)
+				return false;
+		} else if (!elseIfs.equals(other.elseIfs))
+			return false;
 		if (exp1 == null) {
 			if (other.exp1 != null)
 				return false;
 		} else if (!exp1.equals(other.exp1))
-			return false;
-		if (list == null) {
-			if (other.list != null)
-				return false;
-		} else if (!list.equals(other.list))
 			return false;
 		if (stateSeq1 == null) {
 			if (other.stateSeq1 != null)
@@ -78,5 +77,6 @@ public class IfStatementNode extends AbstractNode {
 			return false;
 		return true;
 	}
+
 
 }

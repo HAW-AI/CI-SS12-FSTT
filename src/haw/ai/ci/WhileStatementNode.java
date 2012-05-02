@@ -15,9 +15,10 @@ public class WhileStatementNode extends AbstractNode {
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "WhileStatement\n");
+        if(exp1 != null)
         str += exp1.toString(indent+1) + "\n";
+        if(stateSeq1 != null)
         str += stateSeq1.toString(indent+1) + "\n";
-        
         return str;
 	}
 	@Override

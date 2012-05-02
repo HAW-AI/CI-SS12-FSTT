@@ -2,17 +2,11 @@ package haw.ai.ci;
 
 public class Util {
     public static String indentString(int indent, String str) {
-        String identStr = "";
+        String indentStr = "";
         for (int i = 0; i < indent; ++i) {
-            identStr += "  ";
+            indentStr += "  ";
         }
         
-        String[] arr = str.split("\n");
-        String res = "";
-        for (int i = 0; i < arr.length; ++i) {
-            res += identStr + arr[i];
-        }
-        
-        return res;
+        return str.replaceAll("^", indentStr);
     }
 }

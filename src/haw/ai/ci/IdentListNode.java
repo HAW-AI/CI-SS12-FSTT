@@ -12,7 +12,11 @@ public class IdentListNode extends AbstractNode {
     }
     @Override
     protected String toString(int indent) {
-        return toString(indent, "IdentListNode("+ idents + ")");
+        String str = toString(indent, "IdentListNode");
+        for (AbstractNode node : idents) {
+            str += "\n" + node.toString(indent+1);
+        }
+        return str;
     }
 
     @Override

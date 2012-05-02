@@ -19,7 +19,9 @@ public class ProcedureDeclarationNode extends AbstractNode {
 
 	@Override
 	protected String toString(int indent) {
-		return toString(indent, "ProcedureDeclaration(" + procHeading.toString(indent+1) + "\n" +  procBody.toString(indent+1) + "\n");
+		return toString(indent, "ProcedureDeclaration\n") +
+		        procHeading.toString(indent+1) + "\n" +
+		        procBody.toString(indent+1);
 	}
 
 	@Override

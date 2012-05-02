@@ -13,7 +13,11 @@ public class ProcedureHeadingNode extends AbstractNode {
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "ProcedureHeadingNode(" + subject + ", " + fparams + ")");
+        String str = toString(indent, "ProcedureHeadingNode(" + subject + ")");
+        if (fparams != null) {
+            str += "\n" + fparams.toString(indent + 1);
+        }
+        return str;
     }
 
     @Override

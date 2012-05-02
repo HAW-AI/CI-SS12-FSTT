@@ -377,7 +377,6 @@ public class Parser {
 
 	AbstractNode factor() {
 		AbstractNode node = null;
-		System.out.println(nextSymbol);
 
 		if (test(IDENT)) {
 			if (testLookAhead(DOT) || testLookAhead(LBRAC)) {

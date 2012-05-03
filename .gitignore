@@ -27,9 +27,7 @@ local.properties
 # PDT-specific
 .buildpath
 
-
-# Generated files
-src/haw/ai/ci/Scanner.java
+# tmp files
 src/haw/ai/ci/Scanner.java~
 
 .DS_Store

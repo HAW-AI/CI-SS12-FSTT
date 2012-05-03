@@ -267,7 +267,6 @@ public class ParserTest {
 		.procedureDeclaration();
     }
 
-    //TODO
      @Test
      public void testDeclaration() {
      DeclarationsNode actual, expected;
@@ -294,7 +293,6 @@ public class ParserTest {
 	createParser("var x y : integer;").declaration();
     }
 
-    //TODO
     @Test
     public void testModule() {
 	ModuleNode actual, expected;
@@ -324,7 +322,6 @@ public class ParserTest {
 
     @Test
     public void assignment() {
-	// TODO felix: ident ohne selektor testen
 	AbstractNode actual, expected;
 	actual = createParser("ident1.kp:=10").assignment();
 	expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"),

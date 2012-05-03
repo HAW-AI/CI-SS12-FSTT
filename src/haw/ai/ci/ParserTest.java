@@ -382,6 +382,7 @@ public class ParserTest {
     @Test
     public void statementSequence() {
 	AbstractNode actual, expected;
+	
 	actual = createParser("callMe(10,10,10+10);callMe(10,10,10+10) END")
 		.statementSequence();
 	expected = new StatementSequenceNode(asList(
@@ -396,9 +397,18 @@ public class ParserTest {
 	assertEquals(expected, actual);
 	
 	// leeres statement
+
 	actual = createParser("").statementSequence();
 	expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
 	assertEquals(expected, actual);
+
+        actual = createParser(";").statementSequence();
+        expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+    
+        actual = createParser("PRINT 1").statementSequence();
+        expected = new StatementSequenceNode(asList(createParser("PRINT 1").statement()));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -422,7 +432,6 @@ public class ParserTest {
 		new StatementSequenceNode(asList(new AssignmentNode(
 			new SelectorNode(new IdentNode("ident1"),
 				asList(new IdentNode("kp"))), new IntNode(10)))));
-	System.out.println(actual);
 	assertEquals(expected, actual);
 
 	actual = createParser(

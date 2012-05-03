@@ -433,7 +433,6 @@ public class ParserTest {
 		new StatementSequenceNode(asList(new AssignmentNode(
 			new SelectorNode(new IdentNode("ident1"),
 				asList(new IdentNode("kp"))), new IntNode(10)))));
-	System.out.println(actual);
 	assertEquals(expected, actual);
 
 	actual = createParser(

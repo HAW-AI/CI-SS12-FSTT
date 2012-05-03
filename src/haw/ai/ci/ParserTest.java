@@ -244,7 +244,7 @@ public class ParserTest {
 		new StatementSequenceNode(assignment)), new IdentNode("foo"));
 	assertEquals(expected, actual);
 
-	// nicht nur andere werte, sondern auch expected anders aufgebaut -
+	// procedure ohne inhalt und expected anders aufgebaut -
 	// nicht händisch sondern per createParser("").<parsesMethode>()
 	actual = createParser("procedure foo(); begin end foo")
 		.procedureDeclaration();
@@ -280,7 +280,7 @@ public class ParserTest {
      new ArrayList<ProcedureDeclarationNode>());
      assertEquals(expected, actual);
     
-     // declaration darf auch leer sein
+     // leere declaration
      actual = createParser("").declaration();
      expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
      new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
@@ -307,7 +307,7 @@ public class ParserTest {
 		assignment));
 	assertEquals(expected, actual);
 
-	// leeres module
+	// module ohne inhalt
 	actual = createParser("module foo; begin end foo.").module();
 	expected = new ModuleNode(new IdentNode("foo"), createParser("")
 		.declaration(), new StatementSequenceNode(
@@ -396,8 +396,6 @@ public class ParserTest {
 					new IntNode(10), new IntNode(10)))))));
 	assertEquals(expected, actual);
 	
-	// leeres statement
-
 	actual = createParser("").statementSequence();
 	expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
 	assertEquals(expected, actual);

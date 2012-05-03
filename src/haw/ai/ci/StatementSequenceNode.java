@@ -1,5 +1,6 @@
 package haw.ai.ci;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StatementSequenceNode extends AbstractNode {
@@ -9,7 +10,7 @@ public class StatementSequenceNode extends AbstractNode {
 	private final List<? extends AbstractNode> list;
 	
 	StatementSequenceNode(List<? extends AbstractNode> list){
-		this.list = list;
+		this.list = new ArrayList<AbstractNode>(list);
 	}
 	
 	

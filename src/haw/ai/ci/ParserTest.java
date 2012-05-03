@@ -268,26 +268,26 @@ public class ParserTest {
     }
 
     //TODO
-    // @Test
-    // public void testDeclaration() {
-    // DeclarationsNode actual, expected;
-    //
-    // actual = createParser("var x, y : integer;").declaration();
-    // expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
-    // new ArrayList<AbstractNode>(),
-    // asList(new VarDeclarationNode(new IdentListNode(asList(
-    // new IdentNode("x"), new IdentNode("y"))),
-    // new IdentNode("integer"))),
-    // new ArrayList<AbstractNode>());
-    // assertEquals(expected, actual);
-    //
-    // // declaration darf auch leer sein
-    // actual = createParser("").declaration();
-    // expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
-    // new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
-    // new ArrayList<AbstractNode>());
-    // assertEquals(expected, actual);
-    // }
+     @Test
+     public void testDeclaration() {
+     DeclarationsNode actual, expected;
+    
+     actual = createParser("var x, y : integer;").declaration();
+     expected = new DeclarationsNode(new ArrayList<ConstDeclarationNode>(),
+     new ArrayList<TypeDeclarationNode>(),
+     asList(new VarDeclarationNode(new IdentListNode(asList(
+     new IdentNode("x"), new IdentNode("y"))),
+     new IdentNode("integer"))),
+     new ArrayList<ProcedureDeclarationNode>());
+     assertEquals(expected, actual);
+    
+     // declaration darf auch leer sein
+     actual = createParser("").declaration();
+     expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
+     new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
+     new ArrayList<AbstractNode>());
+     assertEquals(expected, actual);
+     }
 
     @Test(expected = ParserException.class)
     public void testDeclarationNeg1() {
@@ -295,27 +295,27 @@ public class ParserTest {
     }
 
     //TODO
-//    @Test
-//    public void testModule() {
-//	ModuleNode actual, expected;
-//	actual = createParser(
-//		"module foo; var x : integer; begin x := 101 end foo.")
-//		.module();
-//	List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
-//	assignment
-//		.add(new AssignmentNode(new IdentNode("x"), new IntNode(101)));
-//	expected = new ModuleNode(new IdentNode("foo"), createParser(
-//		"var x : integer;").declaration(), new StatementSequenceNode(
-//		assignment));
-//	assertEquals(expected, actual);
-//
-//	// leeres module
-//	actual = createParser("module foo; begin end foo.").module();
-//	expected = new ModuleNode(new IdentNode("foo"), createParser("")
-//		.declaration(), new StatementSequenceNode(
-//		new ArrayList<AbstractNode>()));
-//	assertEquals(expected, actual);
-//    }
+    @Test
+    public void testModule() {
+	ModuleNode actual, expected;
+	actual = createParser(
+		"module foo; var x : integer; begin x := 101 end foo.")
+		.module();
+	List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
+	assignment
+		.add(new AssignmentNode(new IdentNode("x"), new IntNode(101)));
+	expected = new ModuleNode(new IdentNode("foo"), createParser(
+		"var x : integer;").declaration(), new StatementSequenceNode(
+		assignment));
+	assertEquals(expected, actual);
+
+	// leeres module
+	actual = createParser("module foo; begin end foo.").module();
+	expected = new ModuleNode(new IdentNode("foo"), createParser("")
+		.declaration(), new StatementSequenceNode(
+		new ArrayList<AbstractNode>()));
+	assertEquals(expected, actual);
+    }
     
     @Test(expected = ParserException.class)
     public void testModuleNeg1() {
@@ -421,6 +421,7 @@ public class ParserTest {
 		new StatementSequenceNode(asList(new AssignmentNode(
 			new SelectorNode(new IdentNode("ident1"),
 				asList(new IdentNode("kp"))), new IntNode(10)))));
+	System.out.println(actual);
 	assertEquals(expected, actual);
 
 	actual = createParser(

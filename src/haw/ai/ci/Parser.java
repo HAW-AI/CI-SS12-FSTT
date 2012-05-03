@@ -373,11 +373,17 @@ public class Parser {
 
 	StatementSequenceNode statementSequence() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
-		list.add(statement());
+		AbstractNode stmt = statement();
+		if (stmt != null) {
+		    list.add(stmt);
+		}
 //		while (!testLookAhead(END) && !testLookAhead(ELSE) && !testLookAhead(ELSIF) && !testLookAhead(UNTIL)) {
 		while (test(SEMICOLON)) {
 			read(SEMICOLON, ";");
-			list.add(statement());
+			stmt = statement();
+			if (stmt != null) {
+			    list.add(stmt);
+			}
 		}
 		return new StatementSequenceNode(list);
 	}

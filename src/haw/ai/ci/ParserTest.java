@@ -244,7 +244,7 @@ public class ParserTest {
 		new StatementSequenceNode(assignment)), new IdentNode("foo"));
 	assertEquals(expected, actual);
 
-	// nicht nur andere werte, sondern auch expected anders aufgebaut -
+	// procedure ohne inhalt und expected anders aufgebaut -
 	// nicht händisch sondern per createParser("").<parsesMethode>()
 	actual = createParser("procedure foo(); begin end foo")
 		.procedureDeclaration();
@@ -267,7 +267,6 @@ public class ParserTest {
 		.procedureDeclaration();
     }
 
-    //TODO
      @Test
      public void testDeclaration() {
      DeclarationsNode actual, expected;
@@ -281,7 +280,7 @@ public class ParserTest {
      new ArrayList<ProcedureDeclarationNode>());
      assertEquals(expected, actual);
     
-     // declaration darf auch leer sein
+     // leere declaration
      actual = createParser("").declaration();
      expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
      new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
@@ -294,7 +293,6 @@ public class ParserTest {
 	createParser("var x y : integer;").declaration();
     }
 
-    //TODO
     @Test
     public void testModule() {
 	ModuleNode actual, expected;
@@ -309,7 +307,7 @@ public class ParserTest {
 		assignment));
 	assertEquals(expected, actual);
 
-	// leeres module
+	// module ohne inhalt
 	actual = createParser("module foo; begin end foo.").module();
 	expected = new ModuleNode(new IdentNode("foo"), createParser("")
 		.declaration(), new StatementSequenceNode(
@@ -324,7 +322,6 @@ public class ParserTest {
 
     @Test
     public void assignment() {
-	// TODO felix: ident ohne selektor testen
 	AbstractNode actual, expected;
 	actual = createParser("ident1.kp:=10").assignment();
 	expected = new AssignmentNode(new SelectorNode(new IdentNode("ident1"),
@@ -398,18 +395,18 @@ public class ParserTest {
 				new IntNode(10), new BinOpNode(PLUS_OP,
 					new IntNode(10), new IntNode(10)))))));
 	assertEquals(expected, actual);
-
+	
 	actual = createParser("").statementSequence();
 	expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
 	assertEquals(expected, actual);
 
-    actual = createParser(";").statementSequence();
-    expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
-    assertEquals(expected, actual);
-
-    actual = createParser("PRINT 1").statementSequence();
-    expected = new StatementSequenceNode(asList(createParser("PRINT 1").statement()));
-    assertEquals(expected, actual);
+        actual = createParser(";").statementSequence();
+        expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+    
+        actual = createParser("PRINT 1").statementSequence();
+        expected = new StatementSequenceNode(asList(createParser("PRINT 1").statement()));
+        assertEquals(expected, actual);
     }
 
     @Test

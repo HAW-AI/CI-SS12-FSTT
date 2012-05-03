@@ -394,7 +394,11 @@ public class ParserTest {
 				new IntNode(10), new BinOpNode(PLUS_OP,
 					new IntNode(10), new IntNode(10)))))));
 	assertEquals(expected, actual);
-
+	
+	// leeres statement
+	actual = createParser("").statementSequence();
+	expected = new StatementSequenceNode(new ArrayList<AbstractNode>());
+	assertEquals(expected, actual);
     }
 
     @Test

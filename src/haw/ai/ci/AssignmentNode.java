@@ -4,28 +4,34 @@ public class AssignmentNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
     
-    private final AbstractNode selector;
-    private final AbstractNode expression;
-    
-    public AssignmentNode( AbstractNode selector,AbstractNode expression) {
-        this.selector = selector;
-        this.expression = expression;
+    private final AbstractNode key;
+    private final AbstractNode value;
+
+    public AssignmentNode( IdentNode selector,AbstractNode expression) {
+        this.key = selector;
+        this.value = expression;
     }
+    
+    public AssignmentNode( SelectorNode selector,AbstractNode expression) {
+        this.key = selector;
+        this.value = expression;
+    }
+    
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "AssignmentNode\n");
-		if(selector != null)
-        str += selector.toString(indent+1) + "\n";
-		if(expression != null)
-        str += expression.toString(indent+1);
+		if(key != null)
+        str += key.toString(indent+1) + "\n";
+		if(value != null)
+        str += value.toString(indent+1);
         return str;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((expression == null) ? 0 : expression.hashCode());
-		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		return result;
 	}
 	@Override
@@ -37,15 +43,15 @@ public class AssignmentNode extends AbstractNode {
 		if (getClass() != obj.getClass())
 			return false;
 		AssignmentNode other = (AssignmentNode) obj;
-		if (expression == null) {
-			if (other.expression != null)
+		if (value == null) {
+			if (other.value != null)
 				return false;
-		} else if (!expression.equals(other.expression))
+		} else if (!value.equals(other.value))
 			return false;
-		if (selector == null) {
-			if (other.selector != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!selector.equals(other.selector))
+		} else if (!key.equals(other.key))
 			return false;
 		return true;
 	}

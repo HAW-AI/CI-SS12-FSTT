@@ -185,40 +185,50 @@ public class Parser {
 
 	SelectorNode selector() {
 		IdentNode subject = constIdent();
-		List<AbstractNode> selectors = new LinkedList<AbstractNode>();
+		SelectorNode node = null;
+		
+		if (test(DOT)) {
+		    read(DOT, ".");
+		    node = new RecordSelectorNode(subject, constIdent());
+		} else if (test(LBRAC)) {
+		    read(LBRAC, "[");
+		    node = new ArraySelectorNode(subject, indexExpr());
+            read(RBRAC, "]");
+		} else {
+		    failExpectation(". or [");
+		}
 
 		while (test(DOT) || test(LBRAC)) {
 			if (test(DOT)) {
 				read(DOT, ".");
-				selectors.add(constIdent());
+				node = new RecordSelectorNode(node, constIdent());
 			} else {
 				read(LBRAC, "[");
-				selectors.add(indexExpr());
+				node = new ArraySelectorNode(node, indexExpr());
 				read(RBRAC, "]");
 			}
 		}
 
-		return new SelectorNode(subject, selectors);
+		return node;
 	}
 
 	// Assignment = ident Selector ’:=’ Expression.
 	AssignmentNode assignment() {
 		AssignmentNode node = null;
-		AbstractNode selector = null;
 		AbstractNode expr = null;
 
 		if (testLookAhead(DOT) || testLookAhead(LBRAC)) {
-			selector = selector();
-
+			SelectorNode selector = selector();
 			read(ASSIGN, ":=");
 			expr = expr();
 			node = new AssignmentNode(selector, expr);
 		} else {
-			selector = constIdent();
+			IdentNode ident = constIdent();
 			read(ASSIGN, ":=");
 			expr = expr();
-			node = new AssignmentNode(selector, expr);
+			node = new AssignmentNode(ident, expr);
 		}
+		
 		return node;
 	}
 

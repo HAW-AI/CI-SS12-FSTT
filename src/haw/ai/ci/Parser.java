@@ -1,10 +1,59 @@
 package haw.ai.ci;
 
-import static haw.ai.ci.TokenID.*;
-import static haw.ai.ci.BinOpNode.BinOp.*;
+import static haw.ai.ci.BinOpNode.BinOp.DIV_OP;
+import static haw.ai.ci.BinOpNode.BinOp.EQ_OP;
+import static haw.ai.ci.BinOpNode.BinOp.HIEQ_OP;
+import static haw.ai.ci.BinOpNode.BinOp.HI_OP;
+import static haw.ai.ci.BinOpNode.BinOp.LOEQ_OP;
+import static haw.ai.ci.BinOpNode.BinOp.LO_OP;
+import static haw.ai.ci.BinOpNode.BinOp.MINUS_OP;
+import static haw.ai.ci.BinOpNode.BinOp.MUL_OP;
+import static haw.ai.ci.BinOpNode.BinOp.NEQ_OP;
+import static haw.ai.ci.BinOpNode.BinOp.PLUS_OP;
+import static haw.ai.ci.TokenID.ARRAY;
+import static haw.ai.ci.TokenID.ASSIGN;
+import static haw.ai.ci.TokenID.BEGIN;
+import static haw.ai.ci.TokenID.COLON;
+import static haw.ai.ci.TokenID.COMMA;
+import static haw.ai.ci.TokenID.CONST;
+import static haw.ai.ci.TokenID.DIV;
+import static haw.ai.ci.TokenID.DO;
+import static haw.ai.ci.TokenID.DOT;
+import static haw.ai.ci.TokenID.ELSE;
+import static haw.ai.ci.TokenID.ELSIF;
+import static haw.ai.ci.TokenID.END;
+import static haw.ai.ci.TokenID.EQ;
+import static haw.ai.ci.TokenID.HI;
+import static haw.ai.ci.TokenID.HIEQ;
+import static haw.ai.ci.TokenID.IDENT;
+import static haw.ai.ci.TokenID.IF;
+import static haw.ai.ci.TokenID.INT;
+import static haw.ai.ci.TokenID.LBRAC;
+import static haw.ai.ci.TokenID.LO;
+import static haw.ai.ci.TokenID.LOEQ;
+import static haw.ai.ci.TokenID.LPAR;
+import static haw.ai.ci.TokenID.MINUS;
+import static haw.ai.ci.TokenID.MODULE;
+import static haw.ai.ci.TokenID.MUL;
+import static haw.ai.ci.TokenID.NEQ;
+import static haw.ai.ci.TokenID.OF;
+import static haw.ai.ci.TokenID.PLUS;
+import static haw.ai.ci.TokenID.PRINT;
+import static haw.ai.ci.TokenID.PROCEDURE;
+import static haw.ai.ci.TokenID.RBRAC;
+import static haw.ai.ci.TokenID.READ;
+import static haw.ai.ci.TokenID.RECORD;
+import static haw.ai.ci.TokenID.REPEAT;
+import static haw.ai.ci.TokenID.RPAR;
+import static haw.ai.ci.TokenID.SEMICOLON;
+import static haw.ai.ci.TokenID.STR;
+import static haw.ai.ci.TokenID.THEN;
+import static haw.ai.ci.TokenID.TYPE;
+import static haw.ai.ci.TokenID.UNTIL;
+import static haw.ai.ci.TokenID.VAR;
+import static haw.ai.ci.TokenID.WHILE;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -490,18 +539,18 @@ public class Parser {
 		return node;
 	}
 
-	ProcedureDeclarationNode procedureDeclaration() {
-		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
-		
-		AbstractNode procHeadingNode = procedureHeading();
-		read(SEMICOLON, ";");
-		AbstractNode procBodyNode = procedureBody();
-		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
-
-		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
-
-		return node;
-	}
+//	ProcedureDeclarationNode procedureDeclaration() {
+//		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
+//		
+//		AbstractNode procHeadingNode = procedureHeading();
+//		read(SEMICOLON, ";");
+//		AbstractNode procBodyNode = procedureBody();
+//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
+//
+//		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
+//
+//		return node;
+//	}
 
 	DeclarationsNode declaration() {
 		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
@@ -566,7 +615,8 @@ public class Parser {
 		}
 		
 		while (test(PROCEDURE)) {
-			procDeclarations.add(procedureDeclaration());
+//			procDeclarations.add(procedureDeclaration());
+			procDeclarations.add(procedure());
 			read(SEMICOLON, ";");
 		}
 //			failExpectation("const, type, var or procedure declaration");
@@ -688,30 +738,65 @@ public class Parser {
 		return new FormalParametersNode(fpsections);
 	}
 
-	ProcedureHeadingNode procedureHeading() {
+//	ProcedureHeadingNode procedureHeading() {
+//		read(PROCEDURE, "PROCEDURE");
+//		AbstractNode node = constIdent();
+//		FormalParametersNode fparams = null;
+//		read(LPAR, "(");
+//		if (test(VAR) || test(IDENT)) {
+//			fparams = formalParameters();
+//		}
+//		read(RPAR, ")");
+//		return new ProcedureHeadingNode(((IdentNode) node), fparams);
+//	}
+
+//	ProcedureBodyNode procedureBody() {
+//		AbstractNode declarations = declaration();
+//		read(BEGIN,"BEGIN");
+//		AbstractNode stateSeq = statementSequence();
+//		read(END,"END");
+//		return new ProcedureBodyNode(declarations,stateSeq);
+//		
+//		/*
+//		 * AbstractNode node = declarations(); read(BEGIN,"BEGIN"); AbstractNode
+//		 * statseq=statementSequence(); return new ProcedureBodyNode(node,
+//		 * statseq);
+//		 */
+//	}
+	
+	ProcedureNode procedure() {
+		// decl
+		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
+//		AbstractNode procHeadingNode = procedureHeading();
+//		read(SEMICOLON, ";");
+//		AbstractNode procBodyNode = procedureBody();
+//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
+//		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
+//		return node;
+		
+		// head
 		read(PROCEDURE, "PROCEDURE");
-		AbstractNode node = constIdent();
+		AbstractNode procNameIdentNode = constIdent();
 		FormalParametersNode fparams = null;
 		read(LPAR, "(");
 		if (test(VAR) || test(IDENT)) {
 			fparams = formalParameters();
 		}
 		read(RPAR, ")");
-		return new ProcedureHeadingNode(((IdentNode) node), fparams);
-	}
-
-	ProcedureBodyNode procedureBody() {
+//		return new ProcedureHeadingNode(((IdentNode) node1), fparams);
+		
+		read(SEMICOLON, ";");
+		
+		// body
 		AbstractNode declarations = declaration();
 		read(BEGIN,"BEGIN");
 		AbstractNode stateSeq = statementSequence();
 		read(END,"END");
-		return new ProcedureBodyNode(declarations,stateSeq);
+//		return new ProcedureBodyNode(declarations,stateSeq);
 		
-		/*
-		 * AbstractNode node = declarations(); read(BEGIN,"BEGIN"); AbstractNode
-		 * statseq=statementSequence(); return new ProcedureBodyNode(node,
-		 * statseq);
-		 */
+		IdentNode declEndIdentNode = constIdent();
+		
+		return new ProcedureNode(declEndIdentNode, (IdentNode) procNameIdentNode, fparams, declarations, stateSeq);
 	}
 
 	AbstractNode program() {

@@ -1,6 +1,5 @@
 package haw.ai.ci;
 
-import java.util.List;
 
 public class IfStatementNode extends AbstractNode {
 

@@ -718,6 +718,11 @@ public class ParserTest {
     actual = createParser("PROCEDURE mytest (VAR varname: boolean; VAR varname2: integer); begin end mytest").procedure();
     FormalParametersNode fp = createParser("VAR varname: boolean; VAR varname2: integer").formalParameters();
     expected = new ProcedureNode(new IdentNode("mytest"), new IdentNode("mytest"), fp, new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(new ArrayList<AbstractNode>()));
+
+    // null für formalparameters nicht erlaubt
+    actual = createParser("procedure foo(); begin end foo").procedure();
+   	expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, createParser("").declaration(), createParser("").statementSequence());
+   	assertFalse(actual.equals(true));
     }
 
     @Test(expected = ParserException.class)
@@ -751,12 +756,5 @@ public class ParserTest {
     public void testProcedureNeg5() {
     	ProcedureNode pn = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), createParser("").formalParameters(), createParser("").declaration(), createParser("").statementSequence());
     }
-    
-    // null für formalparameters nicht erlaubt
-    //TODO: fail test läuft durch: in procedurenode constructor fehler schmeißen wenn parameter null? wird bei anderen nicht gemacht. - phil
-//    @Test(expected = ParserException.class)
-//    public void testProcedureNeg6() {
-//    	ProcedureNode pn = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, createParser("").declaration(), createParser("").statementSequence());
-//    }
 
 }

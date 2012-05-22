@@ -777,7 +777,7 @@ public class Parser {
 		// head
 		read(PROCEDURE, "PROCEDURE");
 		AbstractNode procNameIdentNode = constIdent();
-		FormalParametersNode fparams = null;
+		FormalParametersNode fparams = new FormalParametersNode(new ArrayList<FPSectionNode>());
 		read(LPAR, "(");
 		if (test(VAR) || test(IDENT)) {
 			fparams = formalParameters();

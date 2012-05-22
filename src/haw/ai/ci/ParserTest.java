@@ -705,22 +705,15 @@ public class ParserTest {
     List<AssignmentNode> assignment = new ArrayList<AssignmentNode>();
     assignment.add(new AssignmentNode(new IdentNode("bar"),
         new IntNode(101)));
-    //TODO: "new FormalParametersNode(new ArrayList<FPSectionNode>())" statt "null" für formalparameters geht nicht, da in procedure() (und im Vorgänger procedureHead) fparams auf null gesetzt wird. - phil
-    expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(assignment));
+    expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), new FormalParametersNode(new ArrayList<FPSectionNode>()), new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(assignment));
     assertEquals(expected, actual);
 
     // procedure ohne inhalt und expected anders aufgebaut -
     // nicht hŠndisch sondern per createParser("").<parsesMethode>()
     actual = createParser("procedure foo(); begin end foo").procedure();
-    expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, createParser("").declaration(), createParser("").statementSequence());
+    expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), new FormalParametersNode(new ArrayList<FPSectionNode>()), createParser("").declaration(), createParser("").statementSequence());
     assertEquals(expected, actual);
     
-    // nochmal, aber mit leeren formal parameters im expected
-    //TODO test schlägt fehl: formalparameters() checken (alex), oder hab ich was falsch gemacht? - phil
-//    actual = createParser("procedure foo(); begin end foo").procedure();
-//	expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), createParser("").formalParameters(), createParser("").declaration(), createParser("").statementSequence());
-//	assertEquals(expected, actual);
-	
 	// und alter übernommener (an neue procedure methode angepasster) proc heading test
     actual = createParser("PROCEDURE mytest (VAR varname: boolean; VAR varname2: integer); begin end mytest").procedure();
     FormalParametersNode fp = createParser("VAR varname: boolean; VAR varname2: integer").formalParameters();
@@ -752,5 +745,18 @@ public class ParserTest {
     	createParser("PROCEDURE mytest ")
         .procedure();
     }
+    
+    // formalparameters parser darf nicht aufgerufen werden wenn keine vorhanden sind
+    @Test(expected = ParserException.class)
+    public void testProcedureNeg5() {
+    	ProcedureNode pn = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), createParser("").formalParameters(), createParser("").declaration(), createParser("").statementSequence());
+    }
+    
+    // null für formalparameters nicht erlaubt
+    //TODO: fail test läuft durch: in procedurenode constructor fehler schmeißen wenn parameter null? wird bei anderen nicht gemacht. - phil
+//    @Test(expected = ParserException.class)
+//    public void testProcedureNeg6() {
+//    	ProcedureNode pn = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, createParser("").declaration(), createParser("").statementSequence());
+//    }
 
 }

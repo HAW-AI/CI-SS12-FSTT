@@ -6,17 +6,17 @@ import java.util.List;
 
 public class ProcDescriptor implements Descriptor{
 
-	private SymbolTable params;
+	private SymbolTable symboltable;
 	
 	public ProcDescriptor(SymbolTable params){
-		this. params = params;
+		this. symboltable = params;
 	}
 	
-	public SymbolTable getParams(){
-		return this.params;
+	public SymbolTable getSymbolTable(){
+		return this.symboltable;
 	}
 	
 	public int size(){
-		return params.size()/*+ framesize ? */;
+		return symboltable.size()/*+ framesize ? */;
 	}
 }

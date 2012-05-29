@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.io.Serializable;
 
 public abstract class AbstractNode implements Serializable {
@@ -19,6 +22,10 @@ public abstract class AbstractNode implements Serializable {
         }
         
         return str.replaceAll("^", indentStr);
+    }
+    
+    public Descriptor compile(SymbolTable symbolTable){
+		return null;
     }
 
 }

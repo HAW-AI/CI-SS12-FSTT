@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.ProcDescriptor;
+
 public class ProcedureNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +26,20 @@ public class ProcedureNode extends AbstractNode {
 		this.fparams = fparams;
 		this.declarations = declarations;
 		this.statseq = statseq;
+	}
+	
+	@Override
+	public Descriptor compile(SymbolTable symbolTable){
+		SymbolTable sm = new SymbolTable(symbolTable);
+		
+		if(fparams != null)
+			fparams.compile(sm);
+		if(declarations != null)
+			declarations.compile(sm);
+		if(statseq != null)
+			statseq.compile(sm);
+		
+		return new ProcDescriptor(sm);
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.descriptor;
 
 public class ArrayDescriptor implements Descriptor {
 	private int numberOfElements;

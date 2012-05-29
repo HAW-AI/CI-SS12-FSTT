@@ -1,4 +1,6 @@
-package haw.ai.ci;
+package haw.ai.ci.descriptor;
+
+import haw.ai.ci.SymbolTable;
 
 public class RecordDescriptor implements Descriptor {
     private SymbolTable fields;

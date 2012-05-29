@@ -1,5 +1,7 @@
 package haw.ai.ci;
 
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class RepeatStatementNode extends AbstractNode {
 
@@ -7,7 +7,7 @@ public class RepeatStatementNode extends AbstractNode {
 	private final AbstractNode exp1;
     private final AbstractNode stateSeq1;
     
-    RepeatStatementNode(AbstractNode stateSeq1,AbstractNode exp1){
+    public RepeatStatementNode(AbstractNode stateSeq1,AbstractNode exp1){
     	this.exp1 = exp1;
     	this.stateSeq1 = stateSeq1;
     	

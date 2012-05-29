@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class DeclarationsNode extends AbstractNode {
 	private final List<? extends AbstractNode> vars;
 	private final List<? extends AbstractNode> procDeclarations;
 
-	DeclarationsNode(List<? extends AbstractNode> consts, List<? extends AbstractNode> types, List<? extends AbstractNode> vars, List<? extends AbstractNode> procDeclarations) {
+	public DeclarationsNode(List<? extends AbstractNode> consts, List<? extends AbstractNode> types, List<? extends AbstractNode> vars, List<? extends AbstractNode> procDeclarations) {
 		this.consts = consts;
 		this.types = types;
 		this.vars = vars;

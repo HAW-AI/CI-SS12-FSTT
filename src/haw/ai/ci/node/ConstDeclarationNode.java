@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class ConstDeclarationNode extends AbstractNode {
 
@@ -8,7 +8,7 @@ public class ConstDeclarationNode extends AbstractNode {
     private final AbstractNode ident;
     private final AbstractNode expression;
     
-    ConstDeclarationNode(AbstractNode ident,AbstractNode expression){
+    public ConstDeclarationNode(AbstractNode ident,AbstractNode expression){
     	this.ident = ident;
     	this.expression = expression;
     }

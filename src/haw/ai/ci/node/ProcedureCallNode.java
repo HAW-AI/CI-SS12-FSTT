@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class ProcedureCallNode extends AbstractNode {
 
@@ -9,7 +9,7 @@ public class ProcedureCallNode extends AbstractNode {
 	private final IdentNode ident;
     private final AbstractNode actualParameters;
 	
-	ProcedureCallNode(IdentNode ident,AbstractNode actualParameters){
+	public ProcedureCallNode(IdentNode ident,AbstractNode actualParameters){
 		this.ident = ident;
 		this.actualParameters = actualParameters;
 	}

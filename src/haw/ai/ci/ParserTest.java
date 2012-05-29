@@ -1,12 +1,8 @@
 package haw.ai.ci;
 
-import static haw.ai.ci.BinOpNode.BinOp.DIV_OP;
-import static haw.ai.ci.BinOpNode.BinOp.HI_OP;
-import static haw.ai.ci.BinOpNode.BinOp.LO_OP;
-import static haw.ai.ci.BinOpNode.BinOp.MINUS_OP;
-import static haw.ai.ci.BinOpNode.BinOp.MUL_OP;
-import static haw.ai.ci.BinOpNode.BinOp.NEQ_OP;
-import static haw.ai.ci.BinOpNode.BinOp.PLUS_OP;
+import haw.ai.ci.node.*;
+
+import static haw.ai.ci.node.BinOpNode.BinOp.*;
 import static haw.ai.ci.TokenID.ASSIGN;
 import static haw.ai.ci.TokenID.IDENT;
 import static haw.ai.ci.TokenID.INT;

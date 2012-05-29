@@ -1,24 +1,25 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
-public class NegationNode extends AbstractNode {
+public class IdentNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
+
+    private final String identName;
     
-    private final AbstractNode node;
-    
-    public NegationNode(AbstractNode node) {
-        this.node = node;
+    public IdentNode(String identName) {
+        this.identName = identName;
     }
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "NegationNode") + "\n" + node.toString(indent+1);
+        return toString(indent, "IdentNode(" + identName + ")");
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((node == null) ? 0 : node.hashCode());
+        result = prime * result
+                + ((identName == null) ? 0 : identName.hashCode());
         return result;
     }
 
@@ -30,11 +31,11 @@ public class NegationNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        NegationNode other = (NegationNode) obj;
-        if (node == null) {
-            if (other.node != null)
+        IdentNode other = (IdentNode) obj;
+        if (identName == null) {
+            if (other.identName != null)
                 return false;
-        } else if (!node.equals(other.node))
+        } else if (!identName.equals(other.identName))
             return false;
         return true;
     }

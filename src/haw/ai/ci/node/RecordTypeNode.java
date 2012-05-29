@@ -1,19 +1,19 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormalParametersNode extends AbstractNode {
+public class RecordTypeNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
-    private final List<FPSectionNode> fpsections;
-    public FormalParametersNode(List<FPSectionNode> fpsections) {
-    	this.fpsections=new ArrayList<FPSectionNode>(fpsections);
+    private final List<FieldListNode> fieldLists;
+    public RecordTypeNode(List<FieldListNode> fieldLists) {
+    	this.fieldLists=new ArrayList<FieldListNode>(fieldLists);
     }
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "FormalParametersNode");
-        for (FPSectionNode node : fpsections) {
+        String str = toString(indent, "RecordTypeNode");
+        for (AbstractNode node : fieldLists) {
             str += "\n" + node.toString(indent+1);
         }
         return str;
@@ -24,8 +24,8 @@ public class FormalParametersNode extends AbstractNode {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((fpsections == null) ? 0 : fpsections.hashCode());
-        result = prime * result + ((fpsections == null) ? 0 : fpsections.hashCode());
+                + ((fieldLists == null) ? 0 : fieldLists.hashCode());
+        result = prime * result + ((fieldLists == null) ? 0 : fieldLists.hashCode());
         return result;
     }
 
@@ -37,11 +37,11 @@ public class FormalParametersNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        FormalParametersNode other = (FormalParametersNode) obj;
-        if (fpsections == null) {
-            if (other.fpsections != null)
+        RecordTypeNode other = (RecordTypeNode) obj;
+        if (fieldLists == null) {
+            if (other.fieldLists != null)
                 return false;
-        } else if (!fpsections.equals(other.fpsections))
+        } else if (!fieldLists.equals(other.fieldLists))
             return false;
         return true;
     }

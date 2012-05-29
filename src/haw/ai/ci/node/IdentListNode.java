@@ -1,19 +1,19 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordTypeNode extends AbstractNode {
+public class IdentListNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
-    private final List<FieldListNode> fieldLists;
-    public RecordTypeNode(List<FieldListNode> fieldLists) {
-    	this.fieldLists=new ArrayList<FieldListNode>(fieldLists);
+    private final List<IdentNode> idents;
+    public IdentListNode(List<IdentNode> idents) {
+    	this.idents=new ArrayList<IdentNode>(idents);
     }
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "RecordTypeNode");
-        for (AbstractNode node : fieldLists) {
+        String str = toString(indent, "IdentListNode");
+        for (AbstractNode node : idents) {
             str += "\n" + node.toString(indent+1);
         }
         return str;
@@ -24,8 +24,8 @@ public class RecordTypeNode extends AbstractNode {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((fieldLists == null) ? 0 : fieldLists.hashCode());
-        result = prime * result + ((fieldLists == null) ? 0 : fieldLists.hashCode());
+                + ((idents == null) ? 0 : idents.hashCode());
+        result = prime * result + ((idents == null) ? 0 : idents.hashCode());
         return result;
     }
 
@@ -37,11 +37,11 @@ public class RecordTypeNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RecordTypeNode other = (RecordTypeNode) obj;
-        if (fieldLists == null) {
-            if (other.fieldLists != null)
+        IdentListNode other = (IdentListNode) obj;
+        if (idents == null) {
+            if (other.idents != null)
                 return false;
-        } else if (!fieldLists.equals(other.fieldLists))
+        } else if (!idents.equals(other.idents))
             return false;
         return true;
     }

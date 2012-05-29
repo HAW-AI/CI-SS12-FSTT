@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class VarDeclarationNode extends AbstractNode{
 
@@ -43,7 +43,7 @@ public class VarDeclarationNode extends AbstractNode{
     private final AbstractNode identList;
     private final AbstractNode type;
     
-    VarDeclarationNode(AbstractNode identList,AbstractNode type){
+    public VarDeclarationNode(AbstractNode identList,AbstractNode type){
     	this.identList = identList;
     	this.type = type;
     }

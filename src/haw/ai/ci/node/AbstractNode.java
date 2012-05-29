@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 import static haw.ai.ci.Util.indentString;
 

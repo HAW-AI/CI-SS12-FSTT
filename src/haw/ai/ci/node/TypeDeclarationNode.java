@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class TypeDeclarationNode extends AbstractNode {
 
@@ -43,7 +43,7 @@ public class TypeDeclarationNode extends AbstractNode {
     private final AbstractNode ident;
     private final AbstractNode type;
     
-    TypeDeclarationNode(AbstractNode ident,AbstractNode type){
+    public TypeDeclarationNode(AbstractNode ident,AbstractNode type){
     	this.ident = ident;
     	this.type = type;
     }

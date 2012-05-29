@@ -1,25 +1,24 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
-public class IdentNode extends AbstractNode {
+public class StringNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
-
-    private final String identName;
     
-    public IdentNode(String identName) {
-        this.identName = identName;
+    private final String strVal;
+    
+    public StringNode(String strVal) {
+        this.strVal = strVal;
     }
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "IdentNode(" + identName + ")");
+        return toString(indent, "StringNode(" + strVal + ")");
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((identName == null) ? 0 : identName.hashCode());
+        result = prime * result + ((strVal == null) ? 0 : strVal.hashCode());
         return result;
     }
 
@@ -31,11 +30,11 @@ public class IdentNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        IdentNode other = (IdentNode) obj;
-        if (identName == null) {
-            if (other.identName != null)
+        StringNode other = (StringNode) obj;
+        if (strVal == null) {
+            if (other.strVal != null)
                 return false;
-        } else if (!identName.equals(other.identName))
+        } else if (!strVal.equals(other.strVal))
             return false;
         return true;
     }

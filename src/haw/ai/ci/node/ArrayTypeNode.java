@@ -1,24 +1,24 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
-public class FPSectionNode extends AbstractNode {
+public class ArrayTypeNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
     
     private final AbstractNode node;
     private final AbstractNode type;
-    public FPSectionNode(AbstractNode identList, AbstractNode type) {
-        this.node = identList;
+    public ArrayTypeNode(AbstractNode expression, AbstractNode type) {
+        this.node = expression;
         this.type=type;
     }
 
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "FPSectionNode\n");
+        String str = toString(indent, "ArrayTypeNode\n");
 		if(node != null)
-        str += node.toString(indent+1) + "\n";
+        	str += node.toString(indent+1) + "\n";
 		if(type != null)
-        str += type.toString(indent+1);
-		return str;
+	    	str += type.toString(indent+1) + "\n";
+    	return str;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class FPSectionNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        FPSectionNode other = (FPSectionNode) obj;
+        ArrayTypeNode other = (ArrayTypeNode) obj;
         if (node == null) {
             if (other.node != null)
                 return false;

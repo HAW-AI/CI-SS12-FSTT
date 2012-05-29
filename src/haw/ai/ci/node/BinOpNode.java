@@ -1,4 +1,4 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 public class BinOpNode extends AbstractNode {
     private static final long serialVersionUID = 1L;

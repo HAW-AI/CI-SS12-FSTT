@@ -1,19 +1,19 @@
-package haw.ai.ci;
+package haw.ai.ci.node;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IdentListNode extends AbstractNode {
+public class FormalParametersNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
-    private final List<IdentNode> idents;
-    public IdentListNode(List<IdentNode> idents) {
-    	this.idents=new ArrayList<IdentNode>(idents);
+    private final List<FPSectionNode> fpsections;
+    public FormalParametersNode(List<FPSectionNode> fpsections) {
+    	this.fpsections=new ArrayList<FPSectionNode>(fpsections);
     }
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "IdentListNode");
-        for (AbstractNode node : idents) {
+        String str = toString(indent, "FormalParametersNode");
+        for (FPSectionNode node : fpsections) {
             str += "\n" + node.toString(indent+1);
         }
         return str;
@@ -24,8 +24,8 @@ public class IdentListNode extends AbstractNode {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((idents == null) ? 0 : idents.hashCode());
-        result = prime * result + ((idents == null) ? 0 : idents.hashCode());
+                + ((fpsections == null) ? 0 : fpsections.hashCode());
+        result = prime * result + ((fpsections == null) ? 0 : fpsections.hashCode());
         return result;
     }
 
@@ -37,11 +37,11 @@ public class IdentListNode extends AbstractNode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        IdentListNode other = (IdentListNode) obj;
-        if (idents == null) {
-            if (other.idents != null)
+        FormalParametersNode other = (FormalParametersNode) obj;
+        if (fpsections == null) {
+            if (other.fpsections != null)
                 return false;
-        } else if (!idents.equals(other.idents))
+        } else if (!fpsections.equals(other.fpsections))
             return false;
         return true;
     }

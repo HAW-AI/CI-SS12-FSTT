@@ -1,7 +1,5 @@
 package haw.ai.ci.node;
 
-import static haw.ai.ci.Util.indentString;
-
 import java.io.Serializable;
 
 public abstract class AbstractNode implements Serializable {
@@ -15,7 +13,12 @@ public abstract class AbstractNode implements Serializable {
     protected abstract String toString(int indent);
     
     protected String toString(int indent, String str) {
-        return indentString(indent, str);
+        String indentStr = "";
+        for (int i = 0; i < indent; ++i) {
+            indentStr += "  ";
+        }
+        
+        return str.replaceAll("^", indentStr);
     }
 
 }

@@ -35,5 +35,7 @@ public abstract class AbstractNode implements Serializable {
 	public Object getVal(){
 		return null;
 	}
-
+	public void write(String str){
+		System.out.println(str);
+	}
 }

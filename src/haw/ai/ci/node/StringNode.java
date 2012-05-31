@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class StringNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
     
@@ -43,4 +46,9 @@ public class StringNode extends AbstractNode {
         return true;
     }
 
+//	@Override
+//	public Descriptor compile(SymbolTable symbolTable) {
+//		write("PUSHI, " + strVal);
+//		return super.compile(symbolTable);
+//	}
 }

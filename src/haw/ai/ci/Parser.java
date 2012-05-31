@@ -772,7 +772,9 @@ public class Parser {
 
 					fileName = argv[i];
 					Parser parser = new Parser(new Scanner(new java.io.FileReader(fileName)), fileName);
-					System.out.println(parser.parse());
+					AbstractNode abstractTree = parser.parse();
+					System.out.println(abstractTree);
+					System.out.println(abstractTree.compile(null));
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

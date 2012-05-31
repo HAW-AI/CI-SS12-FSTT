@@ -70,6 +70,26 @@ public class CompileTest {
 		
 		
 	}
+	@Test
+	public void testDeclarationNode_OnlyVarPart(){
+		/*
+		 * var a,b,c : integer;
+		 *     x : boolean;
+		 */
+		
+		AbstractNode declarationsData = createParser("var a,b,c : integer; x : boolean;").declaration();
+		System.out.println(declarationsData);
+		SymbolTable expected = new SymbolTable();
+		expected.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("c", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("x", new SimpleTypeDescriptor(Type.BOOLEAN));
+		
+		SymbolTable actual = new SymbolTable();
+		declarationsData.compile(actual);
+		
+		assertEquals(expected,actual);
+	}
 	
 	
 }

@@ -27,5 +27,9 @@ public abstract class AbstractNode implements Serializable {
     public Descriptor compile(SymbolTable symbolTable){
 		return null;
     }
+    
+    public Descriptor compile(SymbolTable symbolTable, Descriptor desct){
+    	return null;
+    }
 
 }

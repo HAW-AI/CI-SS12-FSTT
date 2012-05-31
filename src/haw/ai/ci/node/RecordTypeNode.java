@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.RecordDescriptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +48,14 @@ public class RecordTypeNode extends AbstractNode {
         } else if (!fieldLists.equals(other.fieldLists))
             return false;
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	SymbolTable symbolTable = new SymbolTable(table); //neue Symboltabelle mit uebergebener als parent
+    	for(AbstractNode node : fieldLists){
+    		node.compile(symbolTable);		//schreibe Variablen in neue Symboltabelle
+    	}
+    	return new RecordDescriptor(symbolTable); 
     }
     
 }

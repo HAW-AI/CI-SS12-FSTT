@@ -8,6 +8,10 @@ public class IntNode extends AbstractNode {
     public IntNode(int val) {
         intVal = val;
     }
+    
+    public int getIntVal(){
+    	return this.intVal;
+    }
 
 
     @Override

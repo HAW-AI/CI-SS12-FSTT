@@ -1,4 +1,4 @@
-package haw.ai.ci
+package haw.ai.ci.descriptor;
 
 public class VarDescr implements Descriptor {
 
@@ -22,5 +22,10 @@ public class VarDescr implements Descriptor {
 
 	public Descriptor getTyp(){
 		return typ;
+	}
+
+	@Override
+	public int size() {
+		return -1;
 	}
 }

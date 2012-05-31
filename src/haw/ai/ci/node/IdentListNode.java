@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +47,13 @@ public class IdentListNode extends AbstractNode {
         } else if (!idents.equals(other.idents))
             return false;
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table, Descriptor descriptor){
+    	for(IdentNode node : idents){
+    		table.declare(node.getIdentName(), descriptor);
+    	}
+    	return null; //schreibt nur in die Symboltabelle --> kein geeigneter Ruechgabewert vorhanden
     }
     
 }

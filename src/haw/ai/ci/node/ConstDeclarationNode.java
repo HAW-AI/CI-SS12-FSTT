@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class ConstDeclarationNode extends AbstractNode {
 
 	
@@ -59,6 +62,13 @@ public class ConstDeclarationNode extends AbstractNode {
         if(expression != null)
         	str += expression.toString(indent+1) + "\n";
         return str;
+	}
+	
+	public Descriptor compile(SymbolTable table){
+		IdentNode id = (IdentNode)ident;
+		int value = ((BinOpNode)expression).getIntVal();
+		table.declareConst(id.getIdentName(), value);
+		return null; //da nur in Tabelle geschrieben wird --> kein geeigneter Rueckgabewert vorhanden
 	}
 
 }

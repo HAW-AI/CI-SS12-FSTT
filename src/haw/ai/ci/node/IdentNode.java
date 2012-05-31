@@ -8,6 +8,10 @@ public class IdentNode extends AbstractNode {
     public IdentNode(String identName) {
         this.identName = identName;
     }
+    
+    public String getIdentName(){
+    	return this.identName;
+    }
 
     @Override
     protected String toString(int indent) {

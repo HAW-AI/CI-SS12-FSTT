@@ -8,6 +8,7 @@ import java.util.Map;
 public class SymbolTable {
 	private Map<String, Integer> addressMap = new HashMap<String, Integer>();
 	private Map<String, Descriptor> descriptorMap = new HashMap<String,Descriptor>();
+	private Map<String, Integer> constMap = new HashMap<String,Integer>();
 	private int currentAddress = 0;
 	private SymbolTable parentTable;
 	
@@ -21,6 +22,14 @@ public class SymbolTable {
 	
 	public static SymbolTable createSymbolTable(){
 		return new SymbolTable();
+	}
+	
+	public void declareConst(String ident, int value){
+		constMap.put(ident, value);
+	}
+	
+	public int getConstVal(String ident){
+		return constMap.get(ident);
 	}
 	
 

@@ -15,4 +15,8 @@ public class SimpleTypeDescriptor implements Descriptor{
 	public int size() {
 		return 1;
 	}
+	
+	public String type(){
+		return this.type;
+	}
 }

@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class FieldListNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +53,12 @@ public class FieldListNode extends AbstractNode {
             return false;
         
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	Descriptor desc = type.compile(table);
+    	node.compile(table,desc);
+    	return null; //schreibt ja nur in die Tabelle--> kein Ruechgabewert
     }
 
 }

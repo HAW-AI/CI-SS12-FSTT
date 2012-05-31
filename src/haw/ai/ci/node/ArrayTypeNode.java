@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class ArrayTypeNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +54,17 @@ public class ArrayTypeNode extends AbstractNode {
             return false;
         
         return true;
+    }
+    
+
+    public Descriptor compile(SymbolTable table){
+    	int size;
+    	if(node instanceof IdentNode){
+    		size = table.getConstVal(((IdentNode)node).getIdentName());
+    	}else{
+    		size = ((IntNode)node).getIntVal();
+    	}
+    	return new ArrayDescriptor(size,type.compile(table));
     }
 
 }

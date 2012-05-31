@@ -16,7 +16,7 @@ public class SimpleTypeDescriptor implements Descriptor{
 		return 1;
 	}
 	
-	public String type(){
+	public Type type(){
 		return this.type;
 	}
 }

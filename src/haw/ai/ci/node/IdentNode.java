@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class IdentNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
 
@@ -43,5 +46,9 @@ public class IdentNode extends AbstractNode {
             return false;
         return true;
     }
-
+	@Override
+	public Descriptor compile(SymbolTable symbolTable) {
+		write("PUSHI, "+symbolTable.addressOf(identName));
+		return null;
+	}
 }

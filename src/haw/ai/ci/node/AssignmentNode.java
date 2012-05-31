@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class AssignmentNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +57,13 @@ public class AssignmentNode extends AbstractNode {
 		} else if (!key.equals(other.key))
 			return false;
 		return true;
+	}
+	
+	public Descriptor compile(SymbolTable symbolTable){
+		value.compile(symbolTable);
+		key.compile(symbolTable);
+		write("ASSIGN, 1");
+		return null;
 	}
 
 }

@@ -773,8 +773,10 @@ public class Parser {
 					fileName = argv[i];
 					Parser parser = new Parser(new Scanner(new java.io.FileReader(fileName)), fileName);
 					AbstractNode abstractTree = parser.parse();
+					SymbolTable syms = new SymbolTable();
+					
 					System.out.println(abstractTree);
-					System.out.println(abstractTree.compile(null));
+					System.out.println(abstractTree.compile(syms));
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

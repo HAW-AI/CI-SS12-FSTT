@@ -9,6 +9,7 @@ import haw.ai.ci.node.AssignmentNode;
 import haw.ai.ci.node.BinOpNode;
 import haw.ai.ci.node.IdentListNode;
 import haw.ai.ci.node.IdentNode;
+import haw.ai.ci.node.IfStatementNode;
 import haw.ai.ci.node.IntNode;
 import haw.ai.ci.node.VarDeclarationNode;
 
@@ -35,6 +36,36 @@ public class CompileTest {
 		log("// a:=b + 2");
 		AssignmentNode an3 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.PLUS_OP, new IdentNode("b"), new IntNode(2)));
 		an3.compile(st);
+	}
+	
+	@Test
+	public void testIfElse(){
+		log("--IfElse--");
+		log("// a:=1");
+		SymbolTable st= new SymbolTable();
+		AssignmentNode an = new AssignmentNode(new IdentNode("a"), new IntNode(1));
+		st.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
+		an.compile(st);
+		log("// b := 2");
+		AssignmentNode an2 = new AssignmentNode(new IdentNode("b"), new IntNode(2));
+		st.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
+		an2.compile(st);
+		
+		log("// if a < b");
+		AbstractNode exp = new BinOpNode(BinOpNode.BinOp.LO_OP, new IdentNode("a"), new IdentNode("b"));
+
+		log("// then a := a * b");
+		AssignmentNode seq1 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.MUL_OP, new IdentNode("a"), new IdentNode("b")));
+		
+		log("// else if a = b");
+		AbstractNode exp2 = new BinOpNode(BinOpNode.BinOp.EQ_OP, new IdentNode("a"), new IdentNode("b"));
+		log("// then a := a / b");
+		AssignmentNode seq3 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.DIV_OP, new IdentNode("a"), new IdentNode("b")));
+		
+		log("// else a := a * 10");
+		AssignmentNode seq2 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.MUL_OP, new IdentNode("a"), new IntNode(10)));
+		
+		new IfStatementNode(exp, seq1, new IfStatementNode(exp2, seq3, null, null), seq2).compile(st);
 	}
 	
 	@Test

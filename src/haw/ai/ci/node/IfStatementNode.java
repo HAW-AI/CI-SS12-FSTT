@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 
 public class IfStatementNode extends AbstractNode {
 
@@ -17,8 +20,11 @@ public class IfStatementNode extends AbstractNode {
     	this.stateSeq2 = stateSeq2;
     }
     
-    
-	@Override
+    public int getCountOfElse(){
+    	return (elseIfs!=null?(((IfStatementNode)elseIfs).getCountOfElse()+1):0) + (stateSeq2==null?0:1);
+    }
+	
+    @Override
 	protected String toString(int indent) {
         String str = toString(indent, "IfStatementNode\n");
         if(exp1 != null)
@@ -76,6 +82,32 @@ public class IfStatementNode extends AbstractNode {
 			return false;
 		return true;
 	}
-
+	public void compileElseIf(SymbolTable symbolTable,int end){
+		exp1.compile(symbolTable);
+		write("BF, " + labelCount);
+		stateSeq1.compile(symbolTable);
+		write("JMP, " + end);
+		if (elseIfs != null){
+			write("LABEL, " + AbstractNode.getNextLabelNumber());
+			((IfStatementNode)elseIfs).compileElseIf(symbolTable,end);
+		}
+	}
+	public Descriptor compile(SymbolTable symbolTable){
+		exp1.compile(symbolTable);
+		write("BF, " + labelCount);
+		stateSeq1.compile(symbolTable);
+		int end=(AbstractNode.labelCount+getCountOfElse());
+		write("JMP, " + end);
+		if (elseIfs != null){
+			write("LABEL, " + AbstractNode.getNextLabelNumber());
+			((IfStatementNode)elseIfs).compileElseIf(symbolTable,end);
+		}
+		if (stateSeq2 != null){
+			write("LABEL, " + AbstractNode.getNextLabelNumber());
+			stateSeq2.compile(symbolTable);
+		}
+		write("LABEL, " + AbstractNode.getNextLabelNumber());
+		return null;
+	}
 
 }

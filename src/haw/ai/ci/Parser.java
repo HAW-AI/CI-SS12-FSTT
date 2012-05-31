@@ -13,7 +13,7 @@ public class Parser {
 	private Token nextSymbol;
 	private Scanner scanner;
 	private String fileName;
-
+	
 	public Parser(Scanner scanner, String fileName) {
 		this.scanner = scanner;
 		this.fileName = fileName;

@@ -12,6 +12,7 @@ public class SymbolTable {
 	private int currentAddress = 0;
 	private SymbolTable parentTable;
 	
+	
 	public SymbolTable(){
 		this.parentTable = null;
 	}
@@ -35,6 +36,7 @@ public class SymbolTable {
 
 	
 	public void declare(String ident, Descriptor descr) {
+		//TODO evtl: maps vorm einfügen auf vorhandene prüfen -> duplikate verhindern
 		descriptorMap.put(ident, descr);
 		addressMap.put(ident, currentAddress);
 		currentAddress += descr.size();

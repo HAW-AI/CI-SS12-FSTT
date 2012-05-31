@@ -62,7 +62,7 @@ public class ArrayTypeNode extends AbstractNode {
     	if(node instanceof IdentNode){
     		size = table.getConstVal(((IdentNode)node).getIdentName());
     	}else{
-    		size = ((IntNode)node).getIntVal();
+    		size = ((IntNode)node).getVal();
     	}
     	return new ArrayDescriptor(size,type.compile(table));
     }

@@ -9,7 +9,7 @@ public class IntNode extends AbstractNode {
         intVal = val;
     }
     
-    public int getIntVal(){
+    public Integer getVal(){
     	return this.intVal;
     }
 

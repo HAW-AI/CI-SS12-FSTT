@@ -60,6 +60,33 @@ public class BinOpNode extends AbstractNode {
             return false;
         return true;
     }
+
+
+    /**
+     * für die erstellung der symboltabelle
+     */
+	public Object getVal() {
+		if (op.equals(BinOp.MUL_OP)){
+			return (Integer)left.getVal() * (Integer)right.getVal();
+		}
+		else if (op.equals(BinOp.DIV_OP)){
+			return (Integer)left.getVal() / (Integer)right.getVal();
+		}
+		else if (op.equals(BinOp.MINUS_OP)){
+			return (Integer)left.getVal() - (Integer)right.getVal();
+		}
+		else if (op.equals(BinOp.PLUS_OP)){
+			if (left.getVal() instanceof Integer){
+				return (Integer)left.getVal() + (Integer)right.getVal();
+			}
+			else {
+				return (String)left.getVal() + (String)right.getVal();
+			}
+		}
+		else {
+			return null;
+		}
+	}
     
     
    

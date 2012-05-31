@@ -8,6 +8,10 @@ public class StringNode extends AbstractNode {
     public StringNode(String strVal) {
         this.strVal = strVal;
     }
+    
+    public String getVal(){
+    	return strVal;
+    }
 
     @Override
     protected String toString(int indent) {

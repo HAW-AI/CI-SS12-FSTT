@@ -66,7 +66,7 @@ public class ConstDeclarationNode extends AbstractNode {
 	
 	public Descriptor compile(SymbolTable table){
 		IdentNode id = (IdentNode)ident;
-		int value = ((BinOpNode)expression).getIntVal();
+		int value = (Integer)((BinOpNode)expression).getVal();
 		table.declareConst(id.getIdentName(), value);
 		return null; //da nur in Tabelle geschrieben wird --> kein geeigneter Rueckgabewert vorhanden
 	}

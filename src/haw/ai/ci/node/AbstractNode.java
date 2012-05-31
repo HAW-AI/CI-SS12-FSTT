@@ -32,4 +32,8 @@ public abstract class AbstractNode implements Serializable {
     	return null;
     }
 
+	public Object getVal(){
+		return null;
+	}
+
 }

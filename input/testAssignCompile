@@ -1,0 +1,5 @@
+module foo;
+begin
+i  :=  1;
+j  :=  2;
+end foo.

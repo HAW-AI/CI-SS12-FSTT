@@ -213,7 +213,7 @@ public class Parser {
 		return node;
 	}
 
-	// Assignment = ident Selector ’:=’ Expression.
+	// Assignment = ident Selector ï¿½:=ï¿½ Expression.
 	AssignmentNode assignment() {
 		AssignmentNode node = null;
 		AbstractNode expr = null;
@@ -233,7 +233,7 @@ public class Parser {
 		return node;
 	}
 
-	// ActualParameters = Expression {’,’ Expression}
+	// ActualParameters = Expression {ï¿½,ï¿½ Expression}
 	ActualParametersNode actualParameters() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
 
@@ -246,7 +246,7 @@ public class Parser {
 		return new ActualParametersNode(list);
 	}
 
-	// ProcedureCall = ident ’(’ [ActualParameters] ’)’.
+	// ProcedureCall = ident ï¿½(ï¿½ [ActualParameters] ï¿½)ï¿½.
 
 	ProcedureCallNode procedureCall() {
 		IdentNode ident = null;
@@ -260,11 +260,11 @@ public class Parser {
 		return new ProcedureCallNode(ident, actualParameters);
 	}
 
-	// IfStatement = ’IF’ Expression
-	// ’THEN’ StatementSequence
-	// {’ELSIF’ Expression ’THEN’
+	// IfStatement = ï¿½IFï¿½ Expression
+	// ï¿½THENï¿½ StatementSequence
+	// {ï¿½ELSIFï¿½ Expression ï¿½THENï¿½
 	// StatementSequence}
-	// [’ELSE’ StatementSequence] ’END’.
+	// [ï¿½ELSEï¿½ StatementSequence] ï¿½ENDï¿½.
 
 	IfStatementNode ifStatement() {
 		IfStatementNode node = null;
@@ -313,7 +313,7 @@ public class Parser {
 		return node;
 	}
 
-	// WhileStatement = ’WHILE’ Expression ’DO’ StatementSequence ’END’.
+	// WhileStatement = ï¿½WHILEï¿½ Expression ï¿½DOï¿½ StatementSequence ï¿½ENDï¿½.
 
 	WhileStatementNode whileStatement() {
 		AbstractNode exp1 = null;
@@ -327,7 +327,7 @@ public class Parser {
 		return new WhileStatementNode(exp1, stateSeq1);
 	}
 
-	// RepeatStatement = ’REPEAT’ StatementSequence ’UNTIL’ Expression.
+	// RepeatStatement = ï¿½REPEATï¿½ StatementSequence ï¿½UNTILï¿½ Expression.
 
 	RepeatStatementNode repeatStatement() {
 		AbstractNode exp1 = null;
@@ -340,7 +340,7 @@ public class Parser {
 		return new RepeatStatementNode(stateSeq1, exp1);
 	}
 
-	// Statement = [Assignment | ProcedureCall | IfStatement | ’PRINT’
+	// Statement = [Assignment | ProcedureCall | IfStatement | ï¿½PRINTï¿½
 	// Expression | WhileStatement | RepeatStatement].
 
 	AbstractNode statement() {
@@ -376,11 +376,11 @@ public class Parser {
 			}
 		}
 		// auskommentiert weil statement "leer" sein darf
-//		failExpectation("Assignment | ProcedureCall | IfStatement | ’PRINT’ Expression | WhileStatement | RepeatStatement");
+//		failExpectation("Assignment | ProcedureCall | IfStatement | ï¿½PRINTï¿½ Expression | WhileStatement | RepeatStatement");
 		return node;
 	}
 
-	// StatementSequence = Statement {’;’ Statement}.
+	// StatementSequence = Statement {ï¿½;ï¿½ Statement}.
 
 	StatementSequenceNode statementSequence() {
 		ArrayList<AbstractNode> list = new ArrayList<AbstractNode>();
@@ -492,12 +492,12 @@ public class Parser {
 	}
 
 //	ProcedureDeclarationNode procedureDeclaration() {
-//		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
+//		// ProcedureDeclaration = ProcedureHeading ï¿½;ï¿½ ProcedureBody ident
 //		
 //		AbstractNode procHeadingNode = procedureHeading();
 //		read(SEMICOLON, ";");
 //		AbstractNode procBodyNode = procedureBody();
-//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
+//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprï¿½fung
 //
 //		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
 //
@@ -505,11 +505,11 @@ public class Parser {
 //	}
 
 	DeclarationsNode declaration() {
-		// Declarations = [’CONST’ ident ’=’ Expression ’;’ {ident ’=’
-		// Expression ’;’}]
-		// [’TYPE’ ident ’=’ Type ’;’ {ident ’=’ Type ’;’}]
-		// [’VAR’ IdentList ’:’ Type ’;’ {IdentList ’:’ Type ’;’}]
-		// {ProcedureDeclaration ’;’}
+		// Declarations = [ï¿½CONSTï¿½ ident ï¿½=ï¿½ Expression ï¿½;ï¿½ {ident ï¿½=ï¿½
+		// Expression ï¿½;ï¿½}]
+		// [ï¿½TYPEï¿½ ident ï¿½=ï¿½ Type ï¿½;ï¿½ {ident ï¿½=ï¿½ Type ï¿½;ï¿½}]
+		// [ï¿½VARï¿½ IdentList ï¿½:ï¿½ Type ï¿½;ï¿½ {IdentList ï¿½:ï¿½ Type ï¿½;ï¿½}]
+		// {ProcedureDeclaration ï¿½;ï¿½}
 		
 		ArrayList<ConstDeclarationNode> consts = new ArrayList<ConstDeclarationNode>();
 	    List<TypeDeclarationNode> types = new ArrayList<TypeDeclarationNode>();
@@ -526,7 +526,6 @@ public class Parser {
 			read(SEMICOLON, ";");
 			consts.add(new ConstDeclarationNode(arg1,arg2));
 			while (test(IDENT)) {
-				read(CONST, "const");
 				arg1 = constIdent();
 				read(ASSIGN, "=");
 				arg2 = expr();
@@ -541,8 +540,7 @@ public class Parser {
 			arg2 = type();
 			read(SEMICOLON, ";");
 			types.add(new TypeDeclarationNode(arg1,arg2));
-			while (test(TYPE)) {
-				read(TYPE, "type");
+			while (test(IDENT)) {
 				arg1 = constIdent();
 				read(ASSIGN, "=");
 				arg2 = type();
@@ -556,8 +554,7 @@ public class Parser {
 			arg2 = type();
 			read(SEMICOLON, ";");
 			vars.add(new VarDeclarationNode(arg1,arg2));
-			while (test(VAR)) {
-				read(VAR, "var");
+			while (test(IDENT)) {
 				arg1 = identList();
 				read(COLON, ":");
 				arg2 = type();
@@ -576,9 +573,9 @@ public class Parser {
 	}
 
 	ModuleNode module() {
-		// Module = ’MODULE’ ident ’;’ Declarations
-		// ’BEGIN’ StatementSequence
-		// ’END’ ident ’.’
+		// Module = ï¿½MODULEï¿½ ident ï¿½;ï¿½ Declarations
+		// ï¿½BEGINï¿½ StatementSequence
+		// ï¿½ENDï¿½ ident ï¿½.ï¿½
 
 		read(MODULE, "module");
 		IdentNode moduleName = constIdent();
@@ -589,7 +586,7 @@ public class Parser {
 		AbstractNode statementSequence = statementSequence();
 		read(END, "end");
 		IdentNode moduleEndName = constIdent();
-		// folgendes eigtl schon vorgegriffen, ist nicht mehr nur syntax prüfung. aber macht den node einfacher und schadet nicht
+		// folgendes eigtl schon vorgegriffen, ist nicht mehr nur syntax prï¿½fung. aber macht den node einfacher und schadet nicht
 		if (!moduleName.equals(moduleEndName)) {
 			failExpectation("identifiers of module and end are supposed to be the same");
 		}
@@ -718,11 +715,11 @@ public class Parser {
 	
 	ProcedureNode procedure() {
 		// decl
-		// ProcedureDeclaration = ProcedureHeading ’;’ ProcedureBody ident
+		// ProcedureDeclaration = ProcedureHeading ï¿½;ï¿½ ProcedureBody ident
 //		AbstractNode procHeadingNode = procedureHeading();
 //		read(SEMICOLON, ";");
 //		AbstractNode procBodyNode = procedureBody();
-//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprüfung
+//		IdentNode identNode = constIdent(); // ident kann hier unterschiedlich vom ident im procHeading sein. ist nur syntaxprï¿½fung
 //		ProcedureDeclarationNode node = new ProcedureDeclarationNode(procHeadingNode, procBodyNode, identNode);
 //		return node;
 		
@@ -775,7 +772,9 @@ public class Parser {
 
 					fileName = argv[i];
 					Parser parser = new Parser(new Scanner(new java.io.FileReader(fileName)), fileName);
-					System.out.println(parser.parse());
+					AbstractNode abstractTree = parser.parse();
+					System.out.println(abstractTree);
+					System.out.println(abstractTree.compile(null));
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

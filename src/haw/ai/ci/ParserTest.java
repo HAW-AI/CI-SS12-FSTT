@@ -247,7 +247,7 @@ public class ParserTest {
 //    assertEquals(expected, actual);
 //
 //    // procedure ohne inhalt und expected anders aufgebaut -
-//    // nicht hŠndisch sondern per createParser("").<parsesMethode>()
+//    // nicht hï¿½ndisch sondern per createParser("").<parsesMethode>()
 //    actual = createParser("procedure foo(); begin end foo")
 //        .procedureDeclaration();
 //    expected = new ProcedureDeclarationNode(new ProcedureHeadingNode(
@@ -288,6 +288,18 @@ public class ParserTest {
         expected = new DeclarationsNode(new ArrayList<AbstractNode>(),
                 new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
                 new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+        
+        actual = createParser("var x, y : integer; z : string;").declaration();
+        expected = new DeclarationsNode(new ArrayList<ConstDeclarationNode>(),
+                new ArrayList<TypeDeclarationNode>(),
+                asList(new VarDeclarationNode(new IdentListNode(asList(
+                        new IdentNode("x"), new IdentNode("y"))),
+                        new IdentNode("integer")),
+                        new VarDeclarationNode(new IdentListNode(asList(
+                        new IdentNode("z"))),
+                        new IdentNode("string"))),
+                new ArrayList<ProcedureNode>());
         assertEquals(expected, actual);
     }
 
@@ -712,17 +724,17 @@ public class ParserTest {
     assertEquals(expected, actual);
 
     // procedure ohne inhalt und expected anders aufgebaut -
-    // nicht hŠndisch sondern per createParser("").<parsesMethode>()
+    // nicht hï¿½ndisch sondern per createParser("").<parsesMethode>()
     actual = createParser("procedure foo(); begin end foo").procedure();
     expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), new FormalParametersNode(new ArrayList<FPSectionNode>()), createParser("").declaration(), createParser("").statementSequence());
     assertEquals(expected, actual);
     
-	// und alter übernommener (an neue procedure methode angepasster) proc heading test
+	// und alter ï¿½bernommener (an neue procedure methode angepasster) proc heading test
     actual = createParser("PROCEDURE mytest (VAR varname: boolean; VAR varname2: integer); begin end mytest").procedure();
     FormalParametersNode fp = createParser("VAR varname: boolean; VAR varname2: integer").formalParameters();
     expected = new ProcedureNode(new IdentNode("mytest"), new IdentNode("mytest"), fp, new DeclarationsNode(new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>()), new StatementSequenceNode(new ArrayList<AbstractNode>()));
 
-    // null für formalparameters nicht erlaubt
+    // null fï¿½r formalparameters nicht erlaubt
     actual = createParser("procedure foo(); begin end foo").procedure();
    	expected = new ProcedureNode(new IdentNode("foo"), new IdentNode("foo"), null, createParser("").declaration(), createParser("").statementSequence());
    	assertFalse(actual.equals(true));
@@ -740,14 +752,14 @@ public class ParserTest {
         .procedure();
     }
     
-    // alte proc heading neg tests übernommen
+    // alte proc heading neg tests ï¿½bernommen
     @Test(expected = ParserException.class)
     public void testProcedureNeg3() {
     	createParser("PROCEDURE  (VAR varname: boolean; VAR varname2: integer)")
         .procedure();
     }
     
-    // alte proc heading neg tests übernommen
+    // alte proc heading neg tests ï¿½bernommen
     @Test(expected = ParserException.class)
     public void testProcedureNeg4() {
     	createParser("PROCEDURE mytest ")

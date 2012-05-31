@@ -295,10 +295,10 @@ public class ParserTest {
                 new ArrayList<TypeDeclarationNode>(),
                 asList(new VarDeclarationNode(new IdentListNode(asList(
                         new IdentNode("x"), new IdentNode("y"))),
-                        new IdentNode("integer")),
+                        new ContentNode(new IdentNode("integer"))),
                         new VarDeclarationNode(new IdentListNode(asList(
                         new IdentNode("z"))),
-                        new IdentNode("string"))),
+                        new ContentNode(new IdentNode("string")))),
                 new ArrayList<ProcedureNode>());
         assertEquals(expected, actual);
     }

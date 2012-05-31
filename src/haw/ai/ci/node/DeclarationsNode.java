@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.util.List;
 
 public class DeclarationsNode extends AbstractNode {
@@ -80,5 +83,19 @@ public class DeclarationsNode extends AbstractNode {
 		} else if (!vars.equals(other.vars))
 			return false;
 		return true;
+	}
+	
+	public Descriptor compile(SymbolTable table){
+		for(AbstractNode constNode : consts){
+			constNode.compile(table);
+		}
+		for(AbstractNode typeNode : types){
+			typeNode.compile(table);
+		}
+		for(AbstractNode varNode : vars){
+			varNode.compile(table);
+		}
+		return null;
+		
 	}
 }

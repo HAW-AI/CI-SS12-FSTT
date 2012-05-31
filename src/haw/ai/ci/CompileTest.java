@@ -2,6 +2,9 @@ package haw.ai.ci;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
+
+import java.io.StringReader;
+
 import haw.ai.ci.descriptor.SimpleTypeDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 import haw.ai.ci.node.AbstractNode;
@@ -15,6 +18,10 @@ import org.junit.Test;
 
 
 public class CompileTest {
+	private Parser createParser(String code) {
+		Scanner scanner = new Scanner(new StringReader(code));
+	        return new Parser(scanner, "test");
+	    }
     
 	@Test
 	public void testAssign(){
@@ -40,12 +47,33 @@ public class CompileTest {
 		SymbolTable actual = new SymbolTable();
 		testData.compile(actual);
 		
-		System.out.println(expected);
-		System.out.println("\n-----------------------------------\n");
-		System.out.println(actual);
+//		System.out.println(expected);
+//		System.out.println("\n-----------------------------------\n");
+//		System.out.println(actual);
 		
 		assertEquals(expected, actual);
 		
 		
+	}
+	
+	@Test
+	public void testDeclarationNode_OnlyVarPart(){
+		/*
+		 * var a,b,c : integer;
+		 *     x : boolean;
+		 */
+		
+		AbstractNode declarationsData = createParser("var a,b,c : integer; x : boolean;").declaration();
+		System.out.println(declarationsData);
+		SymbolTable expected = new SymbolTable();
+		expected.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("c", new SimpleTypeDescriptor(Type.INTEGER));
+		expected.declare("x", new SimpleTypeDescriptor(Type.BOOLEAN));
+		
+		SymbolTable actual = new SymbolTable();
+		declarationsData.compile(actual);
+		
+		assertEquals(expected,actual);
 	}
 }

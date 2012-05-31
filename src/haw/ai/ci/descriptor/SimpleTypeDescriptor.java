@@ -2,12 +2,12 @@ package haw.ai.ci.descriptor;
 
 public class SimpleTypeDescriptor implements Descriptor{
 	
-	final public static String STRING="string";
-	final public static String BOOLEAN="boolean";
-	final public static String INTEGER="integer";
-	private String type;
+	public enum Type{
+		STRING, BOOLEAN, INTEGER;
+	}
+	private Type type;
 	
-	public SimpleTypeDescriptor(String type) {
+	public SimpleTypeDescriptor(Type type) {
 		this.type=type;
 	}
 	

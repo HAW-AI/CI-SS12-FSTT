@@ -352,8 +352,7 @@ public class Parser {
 		}
 		if (test(PRINT)) {
 			read(PRINT, "PRINT");
-			node = expr();
-			return node;
+			return new PrintNode(expr());
 		}
 		if (test(WHILE)) {
 			node = whileStatement();

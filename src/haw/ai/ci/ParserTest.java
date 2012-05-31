@@ -47,6 +47,15 @@ public class ParserTest {
     public void testConstIdentNeg2() {
         createParser("_varname").constIdent();
     }
+    
+    @Test
+    public void testPrint() {
+        AbstractNode actual, expected;
+
+        actual = createParser("PRINT 1+2").statement();
+        expected = new PrintNode(createParser("1+2").expr());
+        assertEquals(expected, actual);
+    }
 
     @Test
     public void testRead() {
@@ -434,11 +443,11 @@ public class ParserTest {
                 new BinOpNode(HI_OP, new IntNode(10), new IntNode(5)),
                 new StatementSequenceNode(asList(new AssignmentNode(
                         createParser("ident1.kp").selector(), new IntNode(10)),
-                        new ContentNode(new IdentNode("h1")))),
+                        new PrintNode(new ContentNode(new IdentNode("h1"))))),
                 new IfStatementNode(new BinOpNode(LO_OP, new IntNode(3),
                         new IntNode(4)), new StatementSequenceNode(asList(
                         new AssignmentNode(createParser("ident1.kp").selector(),
-                                new IntNode(10)), new ContentNode(new IdentNode("h1")))), null,
+                                new IntNode(10)), new PrintNode(new ContentNode(new IdentNode("h1"))))), null,
                         null),
                 new StatementSequenceNode(asList(new AssignmentNode(
                         createParser("ident1.kp").selector(), new IntNode(10)))));

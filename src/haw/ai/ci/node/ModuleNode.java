@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class ModuleNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +18,14 @@ public class ModuleNode extends AbstractNode {
 		this.statementSequence = statementSequence;
 	}
 
+	@Override
+	public Descriptor compile(SymbolTable syms) {
+	    declaration.compile(syms);
+	    statementSequence.compile(syms);
+	    
+	    return null;
+	}
+	
 	@Override
 	protected String toString(int indent) {
         String str = toString(indent, "ModuleNode\n");

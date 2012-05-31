@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,15 @@ public class StatementSequenceNode extends AbstractNode {
 	
 	public StatementSequenceNode(List<? extends AbstractNode> list){
 		this.list = new ArrayList<AbstractNode>(list);
+	}
+	
+	@Override
+	public Descriptor compile(SymbolTable syms) {
+	    for (AbstractNode n : list) {
+	        n.compile(syms);
+	    }
+	    
+	    return null;
 	}
 	
 	

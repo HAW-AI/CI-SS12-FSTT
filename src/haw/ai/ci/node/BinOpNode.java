@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class BinOpNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
 
@@ -79,6 +82,7 @@ public class BinOpNode extends AbstractNode {
 			if (left.getVal() instanceof Integer){
 				return (Integer)left.getVal() + (Integer)right.getVal();
 			}
+			// evtl nicht nötig bzw es ist nicht in oberon spezifiziert
 			else {
 				return (String)left.getVal() + (String)right.getVal();
 			}
@@ -87,8 +91,47 @@ public class BinOpNode extends AbstractNode {
 			return null;
 		}
 	}
-    
-    
-   
+	
+	@Override
+	public Descriptor compile(SymbolTable symbolTable) {
+		left.compile(symbolTable);
+		if(left instanceof IdentNode)
+			write("CONT, 1");
+		right.compile(symbolTable);
+		if(right instanceof IdentNode)
+			write("CONT, 1");
+		
+		if (op.equals(BinOp.MUL_OP)){
+			write("MUL");
+		}
+		else if (op.equals(BinOp.DIV_OP)){
+			write("DIV");
+		}
+		else if (op.equals(BinOp.MINUS_OP)){
+			write("SUB");
+		}
+		else if (op.equals(BinOp.PLUS_OP)){
+			write("ADD");
+		}
+		else if (op.equals(BinOp.EQ_OP)){
+			write("EQ");
+		}
+		else if (op.equals(BinOp.HI_OP)){
+			write("GT");
+		}
+		else if (op.equals(BinOp.HIEQ_OP)){
+			write("GE");
+		}
+		else if (op.equals(BinOp.LO_OP)){
+			write("LT");
+		}
+		else if (op.equals(BinOp.LOEQ_OP)){
+			write("LE");
+		}
+		else if (op.equals(BinOp.NEQ_OP)){
+			write("NEQ");
+		}
+		return null;
+	}
 
 }

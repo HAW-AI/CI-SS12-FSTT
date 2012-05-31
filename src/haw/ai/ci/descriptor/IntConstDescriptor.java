@@ -10,7 +10,7 @@ public class IntConstDescriptor implements Descriptor {
 
 	@Override
 	public int size() {
-		return 1;
+		return 0;
 	}
 	
 	

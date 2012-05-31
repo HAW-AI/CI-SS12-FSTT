@@ -655,7 +655,7 @@ public class Parser {
 	AbstractNode type() {
 		AbstractNode node = null;
 		if (test(IDENT)) {
-			node = new ContentNode(constIdent());
+			node = constIdent();
 		} else if (test(ARRAY)) {
 			node = arrayType();
 		} else if (test(RECORD)) {

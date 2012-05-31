@@ -36,10 +36,12 @@ public class SymbolTable {
 
 	
 	public void declare(String ident, Descriptor descr) {
-		//TODO evtl: maps vorm einfügen auf vorhandene prüfen -> duplikate verhindern
-		descriptorMap.put(ident, descr);
-		addressMap.put(ident, currentAddress);
-		currentAddress += descr.size();
+		if(!(addressMap.containsKey(ident))){
+			descriptorMap.put(ident, descr);
+			addressMap.put(ident, currentAddress);
+			currentAddress += descr.size();
+		}
+		System.out.println("Fehler, zweimal die gleiche Variable deklariert");
 	}
 	
 //	public void undeclare(String ident){

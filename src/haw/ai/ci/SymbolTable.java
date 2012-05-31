@@ -76,6 +76,89 @@ public class SymbolTable {
 		return currentAddress;
 	}
 	
+	public String toString(){
+		StringBuffer result = new StringBuffer();
+		for(Map.Entry<String, Integer> e : addressMap.entrySet()){
+			result.append(e.getKey());
+			result.append(" : ");
+			result.append(e.getValue());
+			result.append("\n");
+		}
+		result.append("\n");
+		
+		for(Map.Entry<String, Descriptor> e : descriptorMap.entrySet()){
+			result.append(e.getKey());
+			result.append(" : ");
+			result.append(e.getValue());
+			result.append("\n");
+		}
+		result.append("\n");
+		
+		for(Map.Entry<String, Integer> e : constMap.entrySet()){
+			result.append(e.getKey());
+			result.append(" : ");
+			result.append(e.getValue());
+			result.append("\n");
+		}
+		result.append("\n");
+		
+		result.append("currentAddress: " + currentAddress + "\n");
+		result.append("-----------------------------------------\n\n");
+		result.append("parentTable: \n" + parentTable + "\n");
+		
+		return result.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((addressMap == null) ? 0 : addressMap.hashCode());
+		result = prime * result
+				+ ((constMap == null) ? 0 : constMap.hashCode());
+		result = prime * result + currentAddress;
+		result = prime * result
+				+ ((descriptorMap == null) ? 0 : descriptorMap.hashCode());
+		result = prime * result
+				+ ((parentTable == null) ? 0 : parentTable.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SymbolTable other = (SymbolTable) obj;
+		if (addressMap == null) {
+			if (other.addressMap != null)
+				return false;
+		} else if (!addressMap.equals(other.addressMap))
+			return false;
+		if (constMap == null) {
+			if (other.constMap != null)
+				return false;
+		} else if (!constMap.equals(other.constMap))
+			return false;
+		if (currentAddress != other.currentAddress)
+			return false;
+		if (descriptorMap == null) {
+			if (other.descriptorMap != null)
+				return false;
+		} else if (!descriptorMap.equals(other.descriptorMap))
+			return false;
+		if (parentTable == null) {
+			if (other.parentTable != null)
+				return false;
+		} else if (!parentTable.equals(other.parentTable))
+			return false;
+		return true;
+	}
+
 	public static void main(String args[]){
 		System.out.println(SymbolTable.class.getClassLoader());
 		System.out.println(SymbolTable.class.getClassLoader());

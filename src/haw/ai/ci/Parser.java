@@ -176,7 +176,7 @@ public class Parser {
 		if (test(INT)) {
 			node = integer();
 		} else if (test(IDENT)) {
-			node = constIdent();
+			node = new ContentNode(constIdent());
 		} else {
 			failExpectation("integer or identifier");
 		}
@@ -406,7 +406,7 @@ public class Parser {
 			if (testLookAhead(DOT) || testLookAhead(LBRAC)) {
 				node = selector();
 			} else {
-				node = constIdent();
+				node = new ContentNode(constIdent());
 			}
 		} else if (test(INT)) {
 			node = integer();
@@ -655,7 +655,7 @@ public class Parser {
 	AbstractNode type() {
 		AbstractNode node = null;
 		if (test(IDENT)) {
-			node = constIdent();
+			node = new ContentNode(constIdent());
 		} else if (test(ARRAY)) {
 			node = arrayType();
 		} else if (test(RECORD)) {

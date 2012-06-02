@@ -25,7 +25,7 @@ public class ArraySelectorNode extends SelectorNode {
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "RecordSelectorNode\n")
+        return toString(indent, "ArraySelectorNode\n")
                 + subject.toString(indent + 1) + "\n"
                 + selector.toString(indent + 1);
     }

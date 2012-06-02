@@ -19,9 +19,9 @@ public class RecordDescriptor implements Descriptor {
     
     public String toString(){
     	StringBuffer b = new StringBuffer();
-    	b.append("[RecordDescriptor: ");
+    	b.append("RecordDescriptor[ ");
     	b.append(fields.toString());
-    	b.append("] ");
+    	b.append(" ] ");
     	return b.toString();
     }
     
@@ -44,4 +44,6 @@ public class RecordDescriptor implements Descriptor {
 		result = 31 * result + fields.hashCode();
 		return result;
 	}
+    
+
 }

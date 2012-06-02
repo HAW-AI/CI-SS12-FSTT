@@ -255,7 +255,7 @@ public class CompileTest {
 						"           x : integer " + //156
 						"           end;" +  //171
 						"    b : integer ; " +
-				" BEGIN a.r[4] := 3; b := 4 END m.").module();
+				" BEGIN a[4] := 3; b := 4 END m.").module();
 		
 	}
 	

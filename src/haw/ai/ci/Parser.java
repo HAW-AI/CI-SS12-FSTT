@@ -363,14 +363,11 @@ public class Parser {
 			return node;
 		}
 		if (test(IDENT)) {
-			if (testLookAhead(DOT) || testLookAhead(ASSIGN)) {
+            if (testLookAhead(LPAR)) {
+                node = procedureCall();
+                return node;
+            } else {
 				node = assignment();
-				return node;
-			}
-		}
-		if (test(IDENT)) {
-			if (testLookAhead(LPAR)) {
-				node = procedureCall();
 				return node;
 			}
 		}

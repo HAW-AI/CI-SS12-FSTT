@@ -400,6 +400,10 @@ public class ParserTest {
         expected = null;
         assertEquals(expected, actual);
 
+        
+        actual = createParser("a[b] := 1").statement();
+        expected = new AssignmentNode(createParser("a[b]").selector(), new IntNode(1));
+        assertEquals(expected, actual);
     }
 
     @Test

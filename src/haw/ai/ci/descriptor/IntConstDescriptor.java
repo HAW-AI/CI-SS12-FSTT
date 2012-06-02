@@ -13,5 +13,19 @@ public class IntConstDescriptor implements Descriptor {
 		return 0;
 	}
 	
+	public int value(){
+		return this.value;
+	}
 	
+	public boolean equals(Object o){
+		if(!(o instanceof IntConstDescriptor)) return false;
+		IntConstDescriptor d = (IntConstDescriptor)o;
+		return (this.value == d.value());
+	}
+	
+	public int hashCode(){
+		int result = 7;
+		result = 31 * result + value;
+		return result;
+	}
 }

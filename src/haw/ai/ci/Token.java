@@ -16,7 +16,7 @@ class Token {
 	}
 	
 	public String toString(){
-		return "Token(" + id + "(" + id.id() + ")" + "," + text + "," + line + "," + column + ")";
+		return "Token(" + id + "," + text + "," + line + "," + column + ")";
 	}
 	
 	public TokenID id() { return id; }

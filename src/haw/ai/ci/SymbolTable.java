@@ -12,6 +12,7 @@ public class SymbolTable {
 	private int currentAddress = 0;
 	private SymbolTable parentTable;
 	
+	
 	public SymbolTable(){
 		this.parentTable = null;
 	}
@@ -35,9 +36,16 @@ public class SymbolTable {
 
 	
 	public void declare(String ident, Descriptor descr) {
-		descriptorMap.put(ident, descr);
-		addressMap.put(ident, currentAddress);
-		currentAddress += descr.size();
+		if(!(addressMap.containsKey(ident))){
+			descriptorMap.put(ident, descr);
+			addressMap.put(ident, currentAddress);
+			if(descr == null){
+				System.out.println("---- compile Error-----\n Variable = " + ident);
+			}
+			currentAddress += descr.size();
+		}else{
+			System.out.println("Fehler, zweimal die gleiche Variable deklariert");
+		}
 	}
 	
 //	public void undeclare(String ident){

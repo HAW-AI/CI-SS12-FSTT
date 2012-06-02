@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class ArraySelectorNode extends SelectorNode {
     private static final long serialVersionUID = 1L;
     
@@ -56,6 +60,28 @@ public class ArraySelectorNode extends SelectorNode {
         } else if (!subject.equals(other.subject))
             return false;
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	ArrayDescriptor d;
+    	int typeSize;
+    	if(subject instanceof IdentNode){
+    		d = (ArrayDescriptor) table.descriptorFor(((IdentNode)subject).getIdentName());
+    		typeSize = d.basetype().size();
+    		subject.compile(table);
+    		selector.compile(table);
+    		write("PUSHI, " + typeSize);
+    		write("MUL");    		
+    		write("ADD");
+    	}else{
+    		d = (ArrayDescriptor)subject.compile(table);
+    		typeSize = d.basetype().size();
+    		selector.compile(table);
+    		write("PUSHI, "+ typeSize);
+    		write("MUL");
+    		write("ADD");
+    	}
+    	return d;
     }
     
 }

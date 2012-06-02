@@ -10,8 +10,26 @@ public class IntConstDescriptor implements Descriptor {
 
 	@Override
 	public int size() {
-		return 1;
+		return 0;
 	}
 	
+	public int value(){
+		return this.value;
+	}
 	
+	public boolean equals(Object o){
+		if(!(o instanceof IntConstDescriptor)) return false;
+		IntConstDescriptor d = (IntConstDescriptor)o;
+		return (this.value == d.value());
+	}
+	
+	public int hashCode(){
+		int result = 7;
+		result = 31 * result + value;
+		return result;
+	}
+	
+	public String toString(){
+		return "IntConstDescriptor[Value == " + value + " ] "; 
+	}
 }

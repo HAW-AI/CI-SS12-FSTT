@@ -2,6 +2,8 @@ package haw.ai.ci.node;
 
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 public class FieldListNode extends AbstractNode {
 
@@ -56,8 +58,28 @@ public class FieldListNode extends AbstractNode {
     }
     
     public Descriptor compile(SymbolTable table){
-    	Descriptor desc = type.compile(table);
-    	node.compile(table,desc);
+    	Descriptor d = null;
+		if(type instanceof IdentNode){
+			String s = ((IdentNode) type).getIdentName();
+			SimpleTypeDescriptor sd = null;
+			if(s.equals("integer")){
+				sd = new SimpleTypeDescriptor(Type.INTEGER);
+			}
+			else if(s.equals("boolean")){
+				sd = new SimpleTypeDescriptor(Type.BOOLEAN);
+			}
+			else if(s.equals("string")){
+				sd = new SimpleTypeDescriptor(Type.STRING);
+			}
+			else{
+				System.out.println("ToDo: Typedef in VarDeclarationNode");
+			}
+			d = sd;
+		}
+		else{
+			d = type.compile(table);
+		}
+    	node.compile(table,d);
     	return null; //schreibt ja nur in die Tabelle--> kein Ruechgabewert
     }
 

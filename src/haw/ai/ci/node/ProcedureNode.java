@@ -44,7 +44,6 @@ public class ProcedureNode extends AbstractNode {
 	
 	@Override
 	protected String toString(int indent) {
-		//TODO phil: da ist noch was faul. - phil
 
 		String result = toString(indent, "Procedure");
 //		// decl

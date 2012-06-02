@@ -13,7 +13,7 @@ public class Parser {
 	private Token nextSymbol;
 	private Scanner scanner;
 	private String fileName;
-
+	
 	public Parser(Scanner scanner, String fileName) {
 		this.scanner = scanner;
 		this.fileName = fileName;
@@ -193,7 +193,7 @@ public class Parser {
 		    node = new RecordSelectorNode(subject, constIdent());
 		} else if (test(LBRAC)) {
 		    read(LBRAC, "[");
-		    node = new ArraySelectorNode(subject, indexExpr());
+		    node = new ArraySelectorNode(subject, expr());
             read(RBRAC, "]");
 		} else {
 		    failExpectation(". or [");
@@ -205,7 +205,7 @@ public class Parser {
 				node = new RecordSelectorNode(node, constIdent());
 			} else {
 				read(LBRAC, "[");
-				node = new ArraySelectorNode(node, indexExpr());
+				node = new ArraySelectorNode(node, expr());
 				read(RBRAC, "]");
 			}
 		}
@@ -459,6 +459,7 @@ public class Parser {
 				read(MINUS, "-");
 				node = new BinOpNode(MINUS_OP, node, term());
 			}
+			
 		}
 
 		return node;

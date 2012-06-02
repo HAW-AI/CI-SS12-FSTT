@@ -12,9 +12,9 @@ public class FormalParametersNode extends AbstractNode {
     }
     @Override
     protected String toString(int indent) {
-        String str = toString(indent, "FormalParametersNode");
+        String str = toString(indent, "FormalParametersNode\n");
         for (FPSectionNode node : fpsections) {
-            str += "\n" + node.toString(indent+1);
+            str += node.toString(indent+1)+"\n";
         }
         return str;
     }

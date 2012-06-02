@@ -113,10 +113,10 @@ public class ParserTest {
         createParser("ident1.4").selector();
     }
 
-    @Test(expected = ParserException.class)
-    public void testSelectorNeg3() {
-        createParser("ident1[\"foo\" >= -0]").selector();
-    }
+//    @Test(expected = ParserException.class)
+//    public void testSelectorNeg3() {
+//        createParser("ident1[\"foo\" >= -0]").selector();
+//    }
 
     @Test
     public void testFactor() {

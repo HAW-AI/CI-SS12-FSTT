@@ -12,16 +12,10 @@ public class SimpleTypeDescriptor implements Descriptor{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SimpleTypeDescriptor other = (SimpleTypeDescriptor) obj;
-		if (type != other.type)
-			return false;
-		return true;
+		if(this == obj) return true;
+		if(!(obj instanceof SimpleTypeDescriptor)) return false;
+		SimpleTypeDescriptor d = (SimpleTypeDescriptor) obj;
+		return this.type.equals(d.type());
 	}
 
 	public enum Type{
@@ -43,9 +37,6 @@ public class SimpleTypeDescriptor implements Descriptor{
 	}
 	
 	public String toString(){
-		StringBuffer result = new StringBuffer();
-		result.append("Type: ");
-		result.append(type);
-		return result.toString();
+		return "SimpleTypeDescriptor[" + type + " ]";
 	}
 }

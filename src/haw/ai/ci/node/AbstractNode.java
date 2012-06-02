@@ -6,11 +6,17 @@ import haw.ai.ci.descriptor.Descriptor;
 import java.io.Serializable;
 
 public abstract class AbstractNode implements Serializable {
+	static int labelCount = 1;
+	
     private static final long serialVersionUID = 1L;
     
     @Override
     public String toString() {
         return toString(0);
+    }
+    
+    public static int getNextLabelNumber(){
+    	return labelCount++;
     }
     
     protected abstract String toString(int indent);

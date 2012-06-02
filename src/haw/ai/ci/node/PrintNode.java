@@ -11,6 +11,14 @@ public class PrintNode extends AbstractNode {
     public PrintNode(AbstractNode expr) {
         this.expr = expr;
     }
+    
+    @Override
+    public Descriptor compile(SymbolTable syms) {
+        expr.compile(syms);
+        write("PRINT");
+        
+        return null;
+    }
 
     @Override
     protected String toString(int indent) {

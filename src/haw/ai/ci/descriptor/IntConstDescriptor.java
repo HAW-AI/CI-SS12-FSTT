@@ -28,4 +28,8 @@ public class IntConstDescriptor implements Descriptor {
 		result = 31 * result + value;
 		return result;
 	}
+	
+	public String toString(){
+		return "IntConstDescriptor[Value == " + value + " ] "; 
+	}
 }

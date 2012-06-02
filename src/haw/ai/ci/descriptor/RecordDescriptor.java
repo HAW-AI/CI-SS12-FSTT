@@ -38,4 +38,10 @@ public class RecordDescriptor implements Descriptor {
     	RecordDescriptor d = (RecordDescriptor)o;
     	return this.fields.equals(d.fields());
     }
+    
+    public int hashCode(){
+		int result = 7;
+		result = 31 * result + fields.hashCode();
+		return result;
+	}
 }

@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.RecordDescriptor;
+
 public class RecordSelectorNode extends SelectorNode {
     private static final long serialVersionUID = 1L;
     
@@ -56,6 +60,23 @@ public class RecordSelectorNode extends SelectorNode {
         } else if (!subject.equals(other.subject))
             return false;
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	if(subject instanceof IdentNode){
+    		RecordDescriptor d = (RecordDescriptor) table.descriptorFor(((IdentNode)subject).getIdentName());
+    		subject.compile(table);
+    		int i = d.addressOf(((IdentNode)selector).getIdentName());
+    		write("PUSHI, "+i);
+    		write("ADD");
+    		return d.descriptorFor(((IdentNode)selector).getIdentName());
+    	}else{
+    		RecordDescriptor d = (RecordDescriptor) subject.compile(table);
+    		int address = d.addressOf(((IdentNode)selector).getIdentName());
+    		write("PUSHI, "+ address);
+    		write("ADD");
+    		return d.descriptorFor(((IdentNode)selector).getIdentName());
+    	}
     }
     
     

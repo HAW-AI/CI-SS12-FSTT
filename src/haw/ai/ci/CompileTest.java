@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.io.StringReader;
 
+import haw.ai.ci.descriptor.RecordDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 import haw.ai.ci.node.AbstractNode;
@@ -109,6 +110,7 @@ public class CompileTest {
 		 */
 		
 		AbstractNode declarationsData = createParser("var a,b,c : integer; x : boolean;").declaration();
+		System.out.println("--------------------declarationsData----------------------");
 		System.out.println(declarationsData);
 		SymbolTable expected = new SymbolTable();
 		expected.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
@@ -120,7 +122,66 @@ public class CompileTest {
 		declarationsData.compile(actual);
 		
 		assertEquals(expected,actual);
+		
+		AbstractNode testData = createParser("var a : record " +
+				"           s : record"  +
+				"                d : integer;" +
+				"                z : integer" +
+				"                end;" +
+				"           z : integer" +
+				"           end;" +
+				"    b : integer;").declaration();
+//		System.out.println("-----------der ParseAst------------------");
+//		System.out.println(testData);
+		SymbolTable innerInnerTable = new SymbolTable();
+		innerInnerTable.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
+		innerInnerTable.declare("z", new SimpleTypeDescriptor(Type.INTEGER));
+		RecordDescriptor sDescriptor = new RecordDescriptor(innerInnerTable);
+		SymbolTable innerTable = new SymbolTable();
+		innerTable.declare("s", sDescriptor);
+		innerTable.declare("z", new SimpleTypeDescriptor(Type.INTEGER));
+		RecordDescriptor aDescriptor = new RecordDescriptor(innerTable);
+		expected = new SymbolTable();
+		expected.declare("a", aDescriptor);
+		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
+		SymbolTable actual2 = new SymbolTable();
+		testData.compile(actual2);
+		assertEquals(expected,actual2);
+			
+		
+		
 	}
+	
+	@Test
+	public void testRepeatUntilNode(){
+		log("---------------------------------------RepeatUntil--------------------------------------");
+		AbstractNode testData = createParser("MODULE m;" +
+				"var repeatVar : integer;" +
+				"BEGIN " +
+				"repeatVar := 0;"+
+				"REPEAT repeatVar := 1 UNTIL 5=5 " +
+				"END m.").module();
+		testData.compile(new SymbolTable());
+	}
+	
+//	@Test
+//	public void testRecordSelectorNode(){
+//		log("-----------------RecordSelectorNode----------------------");
+//		AbstractNode testData = createParser("MODULE m;" +
+//				"var a : record " +
+//				"           s : record"  +
+//				"                a : integer;" +
+//				"                z : integer" +
+//				"                end;" +
+//				"           z : integer" +
+//				"           end;" +
+//				"    b : integer;"+
+//				"BEGIN" + 
+//				"b := 5;" +
+//				"a.s.z := 3"+
+//				"END m.").module();
+//		testData.compile(new SymbolTable());
+//	}
 	
 	
 }

@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class RepeatStatementNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
@@ -28,6 +31,16 @@ public class RepeatStatementNode extends AbstractNode {
 		result = prime * result + ((exp1 == null) ? 0 : exp1.hashCode());
 		result = prime * result + ((stateSeq1 == null) ? 0 : stateSeq1.hashCode());
 		return result;
+	}
+	
+	public Descriptor compile(SymbolTable table){
+		int label = getNextLabelNumber();
+		write("LABEL, "+ label);
+		stateSeq1.compile(table);
+		exp1.compile(table);
+		write("BF, "+label);
+		return null;
+		
 	}
 	@Override
 	public boolean equals(Object obj) {

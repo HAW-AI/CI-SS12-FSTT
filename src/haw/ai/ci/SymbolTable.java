@@ -39,9 +39,13 @@ public class SymbolTable {
 		if(!(addressMap.containsKey(ident))){
 			descriptorMap.put(ident, descr);
 			addressMap.put(ident, currentAddress);
+			if(descr == null){
+				System.out.println("---- compile Error-----\n Variable = " + ident);
+			}
 			currentAddress += descr.size();
+		}else{
+			System.out.println("Fehler, zweimal die gleiche Variable deklariert");
 		}
-		System.out.println("Fehler, zweimal die gleiche Variable deklariert");
 	}
 	
 //	public void undeclare(String ident){

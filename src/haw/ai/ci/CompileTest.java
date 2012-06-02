@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.io.StringReader;
 
+import haw.ai.ci.descriptor.ArrayDescriptor;
+import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.RecordDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
@@ -149,9 +151,44 @@ public class CompileTest {
 //		System.out.println(expected);
 		testData.compile(actual2);
 		assertEquals(expected,actual2);
+		
+		
+		
 			
 		
 		
+	}
+	
+	@Test
+	public void testGeschachtelteTypenDeclaration(){
+		AbstractNode testData = createParser(
+				"var a : ARRAY [10] of RECORD " + //37
+				"           s : record"  +  //58
+				"                d : integer;" +//86+
+				"                z : integer" + //113
+				"                end;" + //133
+				"           x : integer " + //156
+				"           end;" +  //171
+				"    b : integer; ").declaration();
+		
+		SymbolTable tableOfS = new SymbolTable();
+		tableOfS.declare("d", new SimpleTypeDescriptor(Type.INTEGER));
+		tableOfS.declare("z", new SimpleTypeDescriptor(Type.INTEGER));
+		Descriptor sDescriptor = new RecordDescriptor(tableOfS);
+		
+		SymbolTable tableOfRecord = new SymbolTable();
+		tableOfRecord.declare("s", sDescriptor);
+		tableOfRecord.declare("x", new SimpleTypeDescriptor(Type.INTEGER));
+		Descriptor recordDescr = new RecordDescriptor(tableOfRecord);
+		
+		SymbolTable expected = new SymbolTable();
+		Descriptor outerDescriptor = new ArrayDescriptor(10,recordDescr);
+		expected.declare("a", outerDescriptor);
+		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
+		
+		SymbolTable actual = new SymbolTable();
+		testData.compile(actual);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -179,13 +216,47 @@ public class CompileTest {
 				"           z : integer" +
 				"           end;" +
 				"    b : integer;" +
-				"BEGIN" + 
+				"BEGIN " + 
 				"b := 5;" + 
 				"a.s.z := 3" + 
 				"END m.").module();
 		
 		testData.compile(new SymbolTable());
 		log("----------------------EndOfRecordSelectorNode-compile()---------------");
+	}
+	
+	@Test
+	public void testArraySelectorNode(){
+//		log("-------------------ArraySelectorNode -compile()-------------------");
+//		AbstractNode testData = createParser(
+//				"MODULE m;" + 
+//						"var a : ARRAY [10] of RECORD " + //37
+//						"           s : record"  +  //58
+//						"                d : integer;" +//86+
+//						"                z : integer" + //113
+//						"                end;" + //133
+//						"           x : integer " + //156
+//						"           end;" +  //171
+//						"    b : integer; " +
+//				"BEGIN " +  //194 
+//				"b := 4; " + //202 
+//				"a[b+3].s.z := 3 " + 
+//				"END m.").module();
+//		
+//		testData.compile(new SymbolTable());
+		
+		AbstractNode abstractData = createParser("b := 4; a[b+3].s.z := 3 " ).statementSequence();
+		abstractData = createParser("MODULE m;" + 
+						"var a : ARRAY [10] of RECORD " + //37
+						"           s : record"  +  //58
+						"                d : integer;" +//86+
+						"                z : integer" + //113
+						"                end;" + //133
+						"           x : integer " + //156
+						"           end;" +  //171
+						"    b : integer ; " +
+				" BEGIN a.r[4] := 3; b := 4 END m.").module();
+		
 	}
 	
 	

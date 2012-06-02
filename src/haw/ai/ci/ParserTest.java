@@ -104,10 +104,10 @@ public class ParserTest {
         createParser("ident1.4").selector();
     }
 
-    @Test(expected = ParserException.class)
-    public void testSelectorNeg3() {
-        createParser("ident1[\"foo\" >= -0]").selector();
-    }
+//    @Test(expected = ParserException.class)
+//    public void testSelectorNeg3() {
+//        createParser("ident1[\"foo\" >= -0]").selector();
+//    }
 
     @Test
     public void testFactor() {
@@ -279,7 +279,7 @@ public class ParserTest {
                 new ArrayList<TypeDeclarationNode>(),
                 asList(new VarDeclarationNode(new IdentListNode(asList(
                         new IdentNode("x"), new IdentNode("y"))),
-                        new ContentNode(new IdentNode("integer")))),
+                        new IdentNode("integer"))),
                 new ArrayList<ProcedureNode>());
         assertEquals(expected, actual);
 
@@ -295,10 +295,10 @@ public class ParserTest {
                 new ArrayList<TypeDeclarationNode>(),
                 asList(new VarDeclarationNode(new IdentListNode(asList(
                         new IdentNode("x"), new IdentNode("y"))),
-                        new ContentNode(new IdentNode("integer"))),
+                        new IdentNode("integer")),
                         new VarDeclarationNode(new IdentListNode(asList(
                         new IdentNode("z"))),
-                        new ContentNode(new IdentNode("string")))),
+                        new IdentNode("string"))),
                 new ArrayList<ProcedureNode>());
         assertEquals(expected, actual);
     }
@@ -543,7 +543,7 @@ public class ParserTest {
     public void testArrayType() {
         AbstractNode actual = createParser("ARRAY[2] OF typename").arrayType();
         AbstractNode expected = new ArrayTypeNode(new IntNode(2),
-                new ContentNode(new IdentNode("typename")));
+                new IdentNode("typename"));
         assertEquals(expected, actual);
     }
 
@@ -556,7 +556,7 @@ public class ParserTest {
         idents.add(new IdentNode("varname2"));
         idents.add(new IdentNode("varname3"));
         AbstractNode expected = new FieldListNode(new IdentListNode(idents),
-                new ContentNode(new IdentNode("typename")));
+                new IdentNode("typename"));
         assertEquals(expected, actual);
     }
 
@@ -585,12 +585,12 @@ public class ParserTest {
         idents.add(new IdentNode("varname1"));
         idents.add(new IdentNode("varname2"));
         FieldListNode fl1 = new FieldListNode(new IdentListNode(idents),
-                new ContentNode(new IdentNode("integer")));
+                new IdentNode("integer"));
         List<IdentNode> idents2 = new ArrayList<IdentNode>();
         idents2.add(new IdentNode("varname3"));
         idents2.add(new IdentNode("varname4"));
         FieldListNode fl2 = new FieldListNode(new IdentListNode(idents2),
-                new ContentNode(new IdentNode("boolean")));
+               new IdentNode("boolean"));
         List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
         fieldLists.add(fl1);
         fieldLists.add(fl2);
@@ -606,7 +606,7 @@ public class ParserTest {
         idents2.add(new IdentNode("varname3"));
         idents2.add(new IdentNode("varname4"));
         FieldListNode fl2 = new FieldListNode(new IdentListNode(idents2),
-                new ContentNode(new IdentNode("boolean")));
+                new IdentNode("boolean"));
         List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
         fieldLists.add(fl2);
         AbstractNode expected = new RecordTypeNode(fieldLists);
@@ -631,7 +631,7 @@ public class ParserTest {
     @Test
     public void testType() {
         AbstractNode actual = createParser("typename").type();
-        assertEquals(new ContentNode(new IdentNode("typename")), actual);
+        assertEquals(new IdentNode("typename"), actual);
     }
 
     @Test
@@ -641,7 +641,7 @@ public class ParserTest {
         List<IdentNode> idents2 = new ArrayList<IdentNode>();
         idents2.add(new IdentNode("varname"));
         FieldListNode fl2 = new FieldListNode(new IdentListNode(idents2),
-                new ContentNode(new IdentNode("boolean")));
+               new IdentNode("boolean"));
         List<FieldListNode> fieldLists = new ArrayList<FieldListNode>();
         fieldLists.add(fl2);
         AbstractNode expected = new RecordTypeNode(fieldLists);
@@ -652,7 +652,7 @@ public class ParserTest {
     public void testType3() {
         AbstractNode actual = createParser("ARRAY[2] OF boolean").type();
         AbstractNode expected = new ArrayTypeNode(new IntNode(2),
-                new ContentNode(new IdentNode("boolean")));
+                new IdentNode("boolean"));
         assertEquals(expected, actual);
     }
 
@@ -667,7 +667,7 @@ public class ParserTest {
                 .fpSection();
         IdentListNode identList = (IdentListNode) createParser(
                 "varname1, varname2").identList();
-        assertEquals(new FPSectionNode(identList, new ContentNode(new IdentNode("boolean"))),
+        assertEquals(new FPSectionNode(identList, new IdentNode("boolean")),
                 actual);
     }
 
@@ -677,7 +677,7 @@ public class ParserTest {
                 .fpSection();
         IdentListNode identList = (IdentListNode) createParser(
                 "varname1, varname2").identList();
-        assertEquals(new FPSectionNode(identList, new ContentNode(new IdentNode("boolean"))),
+        assertEquals(new FPSectionNode(identList, new IdentNode("boolean")),
                 actual);
     }
 

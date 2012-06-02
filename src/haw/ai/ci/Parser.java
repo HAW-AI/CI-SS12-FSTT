@@ -348,31 +348,21 @@ public class Parser {
 
 		if (test(IF)) {
 			node = ifStatement();
-			return node;
-		}
-		if (test(PRINT)) {
+		} else if (test(PRINT)) {
 			read(PRINT, "PRINT");
-			return new PrintNode(expr());
-		}
-		if (test(WHILE)) {
+			node = new PrintNode(expr());
+		} else if (test(WHILE)) {
 			node = whileStatement();
-			return node;
-		}
-		if (test(REPEAT)) {
+		} else if (test(REPEAT)) {
 			node = repeatStatement();
-			return node;
-		}
-		if (test(IDENT)) {
+		} else if (test(IDENT)) {
             if (testLookAhead(LPAR)) {
                 node = procedureCall();
-                return node;
             } else {
 				node = assignment();
-				return node;
 			}
 		}
-		// auskommentiert weil statement "leer" sein darf
-//		failExpectation("Assignment | ProcedureCall | IfStatement | �PRINT� Expression | WhileStatement | RepeatStatement");
+
 		return node;
 	}
 

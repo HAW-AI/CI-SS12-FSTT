@@ -110,8 +110,8 @@ public class CompileTest {
 		 */
 		
 		AbstractNode declarationsData = createParser("var a,b,c : integer; x : boolean;").declaration();
-		System.out.println("--------------------declarationsData----------------------");
-		System.out.println(declarationsData);
+//		System.out.println("--------------------declarationsData----------------------");
+//		System.out.println(declarationsData);
 		SymbolTable expected = new SymbolTable();
 		expected.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
 		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
@@ -134,7 +134,7 @@ public class CompileTest {
 //		System.out.println("-----------der ParseAst------------------");
 //		System.out.println(testData);
 		SymbolTable innerInnerTable = new SymbolTable();
-		innerInnerTable.declare("a", new SimpleTypeDescriptor(Type.INTEGER));
+		innerInnerTable.declare("d", new SimpleTypeDescriptor(Type.INTEGER));
 		innerInnerTable.declare("z", new SimpleTypeDescriptor(Type.INTEGER));
 		RecordDescriptor sDescriptor = new RecordDescriptor(innerInnerTable);
 		SymbolTable innerTable = new SymbolTable();
@@ -145,6 +145,8 @@ public class CompileTest {
 		expected.declare("a", aDescriptor);
 		expected.declare("b", new SimpleTypeDescriptor(Type.INTEGER));
 		SymbolTable actual2 = new SymbolTable();
+//		System.out.println("------------------------die aufgebaute SymbolTabelle--------------------------");
+//		System.out.println(expected);
 		testData.compile(actual2);
 		assertEquals(expected,actual2);
 			
@@ -164,24 +166,27 @@ public class CompileTest {
 		testData.compile(new SymbolTable());
 	}
 	
-//	@Test
-//	public void testRecordSelectorNode(){
-//		log("-----------------RecordSelectorNode----------------------");
-//		AbstractNode testData = createParser("MODULE m;" +
-//				"var a : record " +
-//				"           s : record"  +
-//				"                a : integer;" +
-//				"                z : integer" +
-//				"                end;" +
-//				"           z : integer" +
-//				"           end;" +
-//				"    b : integer;"+
-//				"BEGIN" + 
-//				"b := 5;" +
-//				"a.s.z := 3"+
-//				"END m.").module();
-//		testData.compile(new SymbolTable());
-//	}
+	@Test
+	public void testRecordSelectorNode(){
+		log("-----------------RecordSelectorNode-compile()----------------------");
+		AbstractNode testData = createParser(
+				"MODULE m;" + 
+				"var a : record " +
+				"           s : record"  +
+				"                d : integer;" +
+				"                z : integer" +
+				"                end;" +
+				"           z : integer" +
+				"           end;" +
+				"    b : integer;" +
+				"BEGIN" + 
+				"b := 5;" + 
+				"a.s.z := 3" + 
+				"END m.").module();
+		
+		testData.compile(new SymbolTable());
+		log("----------------------EndOfRecordSelectorNode-compile()---------------");
+	}
 	
 	
 }

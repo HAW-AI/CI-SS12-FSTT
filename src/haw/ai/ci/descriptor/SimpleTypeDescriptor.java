@@ -37,9 +37,6 @@ public class SimpleTypeDescriptor implements Descriptor{
 	}
 	
 	public String toString(){
-		StringBuffer result = new StringBuffer();
-		result.append("Type: ");
-		result.append(type);
-		return result.toString();
+		return "SimpleTypeDescriptor[" + type + " ]";
 	}
 }

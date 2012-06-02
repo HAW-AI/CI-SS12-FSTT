@@ -39,6 +39,13 @@ public class ArrayDescriptor implements Descriptor {
 		return (this.numberOfElements == d.numberOfElements()) && (this.basetype.equals(d.basetype()));
 	}
 	
+	public String toString(){
+		StringBuffer result = new StringBuffer();
+		result.append("ArrayDescriptor[ numberOfElements: " + numberOfElements + 
+										"\n\t" +
+										"baseType :" + basetype + "]\n");
+		return result.toString();
+	}
 	
 	
 }

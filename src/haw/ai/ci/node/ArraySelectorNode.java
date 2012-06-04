@@ -81,7 +81,7 @@ public class ArraySelectorNode extends SelectorNode {
     		write("MUL");
     		write("ADD");
     	}
-    	return d;
+    	return d.basetype();
     }
     
 }

@@ -227,26 +227,9 @@ public class CompileTest {
 	
 	@Test
 	public void testArraySelectorNode(){
-//		log("-------------------ArraySelectorNode -compile()-------------------");
-//		AbstractNode testData = createParser(
-//				"MODULE m;" + 
-//						"var a : ARRAY [10] of RECORD " + //37
-//						"           s : record"  +  //58
-//						"                d : integer;" +//86+
-//						"                z : integer" + //113
-//						"                end;" + //133
-//						"           x : integer " + //156
-//						"           end;" +  //171
-//						"    b : integer; " +
-//				"BEGIN " +  //194 
-//				"b := 4; " + //202 
-//				"a[b+3].s.z := 3 " + 
-//				"END m.").module();
-//		
-//		testData.compile(new SymbolTable());
-		
-		AbstractNode abstractData = createParser("b := 4; a[b+3].s.z := 3 " ).statementSequence();
-		abstractData = createParser("MODULE m;" + 
+		log("-------------------ArraySelectorNode -compile()-------------------");
+		AbstractNode testData = createParser(
+				"MODULE m;" + 
 						"var a : ARRAY [10] of RECORD " + //37
 						"           s : record"  +  //58
 						"                d : integer;" +//86+
@@ -254,8 +237,25 @@ public class CompileTest {
 						"                end;" + //133
 						"           x : integer " + //156
 						"           end;" +  //171
-						"    b : integer ; " +
-				" BEGIN a[4] := 3; b := 4 END m.").module();
+						"    b : integer; " +
+				"BEGIN " +  //194 
+				"b := 4; " + //202 
+				"a[2+3].s.z := 3 " + 
+				"END m.").module();
+		
+		testData.compile(new SymbolTable());
+		
+//		AbstractNode abstractData = createParser("b := 4; a[b+3].s.z := 3 " ).statementSequence();
+//		abstractData = createParser("MODULE m;" + 
+//						"var a : ARRAY [10] of RECORD " + //37
+//						"           s : record"  +  //58
+//						"                d : integer;" +//86+
+//						"                z : integer" + //113
+//						"                end;" + //133
+//						"           x : integer " + //156
+//						"           end;" +  //171
+//						"    b : integer ; " +
+//				" BEGIN a[4].r := 3; b := 4 END m.").module();
 		
 	}
 	

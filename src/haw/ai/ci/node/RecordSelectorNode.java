@@ -69,6 +69,7 @@ public class RecordSelectorNode extends SelectorNode {
     		int i = d.addressOf(((IdentNode)selector).getIdentName());
     		write("PUSHI, "+i);
     		write("ADD");
+    		System.out.println("In RecordSelector hochgegeben: " + d.descriptorFor(((IdentNode)selector).getIdentName()));
     		return d.descriptorFor(((IdentNode)selector).getIdentName());
     	}else{
     		RecordDescriptor d = (RecordDescriptor) subject.compile(table);

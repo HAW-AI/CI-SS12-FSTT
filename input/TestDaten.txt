@@ -1,6 +1,5 @@
 MODULE Sample;
-var z : integer;
+CONST till = 1 ;
 
 BEGIN 
-z := 1 + "hello"
 END Sample.

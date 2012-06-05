@@ -92,8 +92,10 @@ public class SymbolTable {
 		result.append("\n");
 		
 		result.append("currentAddress: " + currentAddress + "\n");
-		result.append("-----------------------------------------\n\n");
-		result.append("parentTable: \n" + parentTable + "\n");
+		if(parentTable != null){
+			result.append("-----------------------------------------\n\n");
+			result.append("parentTable: \n" + parentTable + "\n");
+		}
 		
 		return result.toString();
 	}

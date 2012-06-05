@@ -1,5 +1,15 @@
-MODULE Sample;
-type till = ARRAY[4] of INTEGER ;
-
-BEGIN 
-END Sample.
+MODULE m;
+    var a : ARRAY [10] of RECORD
+            s : record
+                d : integer;
+                z : integer
+            end;
+            x : integer
+        end;
+        b : integer;
+BEGIN
+    b := 4;
+    a[2+3].s.z := 3 ;
+    PRINT a[2+3].s.z ;
+    PRINT "the previous line should have printed '3'" ;
+END m.

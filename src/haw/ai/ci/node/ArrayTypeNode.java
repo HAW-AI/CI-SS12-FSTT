@@ -1,5 +1,6 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
@@ -65,7 +66,22 @@ public class ArrayTypeNode extends AbstractNode {
     	}else{
     		size = ((IntNode)node).getVal();
     	}
-    	return new ArrayDescriptor(size,type.compile(table));
+    	
+    	Descriptor descr = null;
+    	if (type instanceof ArrayTypeNode || type instanceof RecordTypeNode) {
+    	    descr = type.compile(table);
+    	} else if (type instanceof IdentNode) {
+    	    String identName = ((IdentNode)type).getIdentName();
+    	    descr = table.descriptorFor(identName);
+    	    
+    	    if (descr == null) {
+    	        throw new CompilerException("unknown type: " + identName);
+    	    }
+    	} else {
+            throw new CompilerException("unsupported type: " + type);
+    	}
+    	
+    	return new ArrayDescriptor(size, descr);
     }
 
 }

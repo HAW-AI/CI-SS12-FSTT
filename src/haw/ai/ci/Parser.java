@@ -399,8 +399,7 @@ public class Parser {
 		} else if (test(STR)) {
 			node = string();
 		} else if (test(READ)) {
-			read(READ,"READ");
-			node = string();
+			node = readParser();
 		} else if (test(LPAR)) {
 			read(LPAR, "(");
 			node = expr();

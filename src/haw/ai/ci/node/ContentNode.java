@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class ContentNode extends AbstractNode {
     
     private static final long serialVersionUID = 1L;
@@ -38,6 +41,13 @@ public class ContentNode extends AbstractNode {
         } else if (!ident.equals(other.ident))
             return false;
         return true;
+    }
+    
+    @Override
+    public Descriptor compile(SymbolTable symbolTable) {
+    	ident.compile(symbolTable);
+		write("CONT, 1");
+		return null;
     }
 
 }

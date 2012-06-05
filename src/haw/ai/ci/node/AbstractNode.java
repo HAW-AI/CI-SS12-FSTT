@@ -10,6 +10,8 @@ public abstract class AbstractNode implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     
+    private String code = "";
+    
     @Override
     public String toString() {
         return toString(0);
@@ -41,10 +43,16 @@ public abstract class AbstractNode implements Serializable {
 	public Object getVal(){
 		return null;
 	}
+	
 	public void write(String str){
+	    code += str + "\n";
 		System.out.println(str);
 	}
 	public int size(){
 		return 0;
+	}
+	
+	public String code() {
+	    return code;
 	}
 }

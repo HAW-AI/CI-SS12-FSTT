@@ -23,6 +23,11 @@ public class ModuleNode extends AbstractNode {
 	    declaration.compile(syms);
 	    statementSequence.compile(syms);
 		write("REDUCE, " + declaration.size());
+	    
+	    // module node is the outermost node in a program
+	    // it has to tell the interpreter it reached the end of the code
+	    write("STOP");
+	    
 	    return null;
 	}
 	

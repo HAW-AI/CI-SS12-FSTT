@@ -46,9 +46,9 @@ public class StringNode extends AbstractNode {
         return true;
     }
 
-//	@Override
-//	public Descriptor compile(SymbolTable symbolTable) {
-//		write("PUSHI, " + strVal);
-//		return super.compile(symbolTable);
-//	}
+	@Override
+	public Descriptor compile(SymbolTable symbolTable) {
+		write("PUSHS, " + strVal);
+		return null;
+	}
 }

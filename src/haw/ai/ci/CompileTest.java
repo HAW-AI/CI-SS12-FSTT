@@ -286,4 +286,17 @@ public class CompileTest {
 	}
 	
 	
+	@Test
+	public void testRead() {
+        log("-------------------ReadNode-compile()-------------------");
+        createParser(
+            "MODULE m;\n" +
+            "    var age : INTEGER;\n" +
+            "BEGIN\n" +
+            "    age := READ \"How old are you?\";\n" +
+            "    PRINT \"Your age is \";\n" +
+            "    PRINT age;\n" +
+            "END m."
+            ).program().compile(new SymbolTable());
+	}
 }

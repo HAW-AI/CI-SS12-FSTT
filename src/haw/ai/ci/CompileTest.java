@@ -224,7 +224,7 @@ public class CompileTest {
 	@Test
 	public void testNegationNode(){
 		log("---------------------------------------NegationNode--------------------------------------");
-		AbstractNode testData = createParser("Module m; var testVar : integer; begin testVar := 3; if testVar > -5 then end; end m.").module();
+		AbstractNode testData = createParser("Module m; var testVar : integer; begin testVar := -(1+2); end m.").module();
 		testData.compile(new SymbolTable());
 		
 	}

@@ -45,6 +45,7 @@ public class NegationNode extends AbstractNode {
     @Override
     public Descriptor compile(SymbolTable symbolTable) {
     	node.compile(symbolTable);
+    	write("PUSHI, 0");
     	write("SUB");
     	return null;
     }

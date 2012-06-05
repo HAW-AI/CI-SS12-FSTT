@@ -523,7 +523,7 @@ public class Parser {
 		}  if (test(TYPE)) {
 			read(TYPE, "type");
 			arg1 = constIdent();
-			read(ASSIGN, "=");
+			read(EQ, "=");
 			arg2 = type();
 			read(SEMICOLON, ";");
 			types.add(new TypeDeclarationNode(arg1,arg2));

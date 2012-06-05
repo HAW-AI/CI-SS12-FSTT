@@ -1,5 +1,5 @@
 MODULE Sample;
-CONST till = 1 ;
+type till = ARRAY[4] of INTEGER ;
 
 BEGIN 
 END Sample.

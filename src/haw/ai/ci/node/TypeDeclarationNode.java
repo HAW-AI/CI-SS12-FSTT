@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.CompilerException;
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class TypeDeclarationNode extends AbstractNode {
 
 	
@@ -58,6 +62,27 @@ public class TypeDeclarationNode extends AbstractNode {
             if(type != null)
         	str += type.toString(indent+1) + "\n";
         return str;
+	}
+	
+	@Override
+	public Descriptor compile(SymbolTable syms) {
+	    
+	    Descriptor descr = null;
+	    String identName = ((IdentNode)ident).getIdentName();
+	    
+	    if (type instanceof IdentNode) {
+	        descr = syms.descriptorFor(identName);
+	    } else if (type instanceof ArrayTypeNode) {
+	        descr = ((ArrayTypeNode)type).compile(syms);
+	    } else if (type instanceof RecordTypeNode){
+            descr = ((RecordTypeNode)type).compile(syms);
+	    } else {
+	        throw new CompilerException("unsupported type: " + type);
+	    }
+	    
+	    syms.declare(identName, descr);
+	    
+	    return null;
 	}
 
 }

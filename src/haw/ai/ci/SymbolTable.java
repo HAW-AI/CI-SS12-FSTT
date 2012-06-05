@@ -1,6 +1,8 @@
 package haw.ai.ci;
 
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,11 @@ public class SymbolTable {
 
 
 	public Descriptor descriptorFor(String ident) {
+	    // built-in types
+	    if (ident.equalsIgnoreCase("integer")) {
+	        return new SimpleTypeDescriptor(Type.INTEGER);
+	    }
+	    
 		Descriptor d = descriptorMap.get(ident);
 		if(d == null && parentTable != null){
 			return parentTable.descriptorFor(ident);

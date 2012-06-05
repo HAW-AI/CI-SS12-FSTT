@@ -1,6 +1,5 @@
 MODULE Sample;
-var z : integer;
+type till = ARRAY[4] of INTEGER ;
 
 BEGIN 
-z := 1 + "hello"
 END Sample.

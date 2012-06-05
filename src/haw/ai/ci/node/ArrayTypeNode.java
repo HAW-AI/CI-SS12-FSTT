@@ -3,6 +3,7 @@ package haw.ai.ci.node;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.IntConstDescriptor;
 
 public class ArrayTypeNode extends AbstractNode {
 
@@ -60,7 +61,7 @@ public class ArrayTypeNode extends AbstractNode {
     public Descriptor compile(SymbolTable table){
     	int size;
     	if(node instanceof IdentNode){
-    		size = table.getConstVal(((IdentNode)node).getIdentName());
+    		size = ((IntConstDescriptor)table.descriptorFor(((IdentNode)node).getIdentName())).value();
     	}else{
     		size = ((IntNode)node).getVal();
     	}

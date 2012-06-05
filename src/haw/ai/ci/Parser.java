@@ -508,7 +508,7 @@ public class Parser {
 		if (test(CONST)) {
 			read(CONST, "const");
 			arg1 = constIdent();
-			read(ASSIGN, "=");
+			read(EQ, "=");
 			arg2 = expr();
 			read(SEMICOLON, ";");
 			consts.add(new ConstDeclarationNode(arg1,arg2));
@@ -523,7 +523,7 @@ public class Parser {
 		}  if (test(TYPE)) {
 			read(TYPE, "type");
 			arg1 = constIdent();
-			read(ASSIGN, "=");
+			read(EQ, "=");
 			arg2 = type();
 			read(SEMICOLON, ";");
 			types.add(new TypeDeclarationNode(arg1,arg2));
@@ -764,6 +764,7 @@ public class Parser {
 					
 					System.out.println(abstractTree);
 					System.out.println(abstractTree.compile(syms));
+					System.out.println(syms);
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

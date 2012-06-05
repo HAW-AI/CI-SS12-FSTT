@@ -1,7 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.IntConstDescriptor;
 
 public class ConstDeclarationNode extends AbstractNode {
 
@@ -66,8 +68,17 @@ public class ConstDeclarationNode extends AbstractNode {
 	
 	public Descriptor compile(SymbolTable table){
 		IdentNode id = (IdentNode)ident;
-		int value = (Integer)((BinOpNode)expression).getVal();
-		table.declareConst(id.getIdentName(), value);
+		IntConstDescriptor value = null;
+		if(expression instanceof BinOpNode){
+			value = new IntConstDescriptor((Integer)((BinOpNode)expression).getVal());
+		}
+		else if(expression instanceof IntNode){
+			value = new IntConstDescriptor(((IntNode)expression).getVal());
+		}
+		else{
+			throw new CompilerException("unsupported value: " + expression);
+		}
+		table.declare(id.getIdentName(), value);
 		return null; //da nur in Tabelle geschrieben wird --> kein geeigneter Rueckgabewert vorhanden
 	}
 

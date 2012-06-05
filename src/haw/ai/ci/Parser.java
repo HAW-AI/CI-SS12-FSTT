@@ -5,6 +5,7 @@ import static haw.ai.ci.TokenID.*;
 
 import haw.ai.ci.node.*;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -764,6 +765,8 @@ public class Parser {
 					System.out.println(abstractTree);
 					System.out.println(abstractTree.compile(syms));
 					System.out.println(syms);
+
+					new PrintWriter("codetxt").print(abstractTree.code());
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

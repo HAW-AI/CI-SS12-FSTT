@@ -566,7 +566,7 @@ public class Parser {
 		read(MODULE, "module");
 		IdentNode moduleName = constIdent();
 		read(SEMICOLON, "semicolon");
-		AbstractNode declaration = declaration();
+		DeclarationsNode declaration = declaration();
 		read(BEGIN, "begin");
 		
 		AbstractNode statementSequence = statementSequence();
@@ -723,7 +723,7 @@ public class Parser {
 		read(SEMICOLON, ";");
 		
 		// body
-		AbstractNode declarations = declaration();
+		DeclarationsNode declarations = declaration();
 		read(BEGIN,"BEGIN");
 		AbstractNode stateSeq = statementSequence();
 		read(END,"END");

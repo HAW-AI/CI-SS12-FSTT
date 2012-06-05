@@ -46,11 +46,11 @@ public class VarDeclarationNode extends AbstractNode{
 
     private static final long serialVersionUID = 1L;
     
-    private final AbstractNode identList;
+    private final IdentListNode identList;
     private final AbstractNode type;
     
     public VarDeclarationNode(AbstractNode identList, AbstractNode type){
-    	this.identList = identList;
+    	this.identList = (IdentListNode)identList;
     	this.type = type;
     }
 	
@@ -64,6 +64,11 @@ public class VarDeclarationNode extends AbstractNode{
         if(type != null)
         	str += type.toString(indent+1) + "\n";
         return str;
+	}
+
+	@Override
+	public int size() {
+		return identList.size();
 	}
 	
 	public Descriptor compile(SymbolTable table){

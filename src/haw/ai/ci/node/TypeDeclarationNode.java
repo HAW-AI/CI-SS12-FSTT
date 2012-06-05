@@ -63,6 +63,11 @@ public class TypeDeclarationNode extends AbstractNode {
         	str += type.toString(indent+1) + "\n";
         return str;
 	}
+
+	@Override
+	public int size() {
+		return 1;
+	}
 	
 	@Override
 	public Descriptor compile(SymbolTable syms) {

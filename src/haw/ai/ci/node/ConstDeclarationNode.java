@@ -65,6 +65,11 @@ public class ConstDeclarationNode extends AbstractNode {
         	str += expression.toString(indent+1) + "\n";
         return str;
 	}
+
+	@Override
+	public int size() {
+		return 1;
+	}
 	
 	public Descriptor compile(SymbolTable table){
 		IdentNode id = (IdentNode)ident;

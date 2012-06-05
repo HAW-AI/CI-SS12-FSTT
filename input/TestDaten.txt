@@ -1,5 +1,14 @@
 MODULE Sample;
-type till = ARRAY[4] of INTEGER ;
+var t,e,r,l :Integer;
 
 BEGIN 
+t := 1;
+e := 2;
+r := 3;
+l := 4;
+
+PRINT t;
+PRINT e;
+PRINT r;
+PRINT l;
 END Sample.

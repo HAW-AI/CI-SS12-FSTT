@@ -13,6 +13,7 @@ public class DeclarationsNode extends AbstractNode {
 	private final List<? extends AbstractNode> types;
 	private final List<? extends AbstractNode> vars;
 	private final List<? extends AbstractNode> procDeclarations;
+	int memSize = 0;
 
 	public DeclarationsNode(List<? extends AbstractNode> consts, List<? extends AbstractNode> types, List<? extends AbstractNode> vars, List<? extends AbstractNode> procDeclarations) {
 		this.consts = consts;
@@ -84,8 +85,28 @@ public class DeclarationsNode extends AbstractNode {
 			return false;
 		return true;
 	}
+
+	@Override
+	public int size() {
+		return memSize;
+	}
 	
 	public Descriptor compile(SymbolTable table){
+
+		for(AbstractNode constNode : consts){
+			memSize += constNode.size();
+		}
+		for(AbstractNode typeNode : types){
+			memSize += typeNode.size();
+		}
+		for(AbstractNode varNode : vars){
+			memSize += varNode.size();
+		}
+		
+		
+		
+		write("INIT, " + memSize);
+		
 		for(AbstractNode constNode : consts){
 			constNode.compile(table);
 		}

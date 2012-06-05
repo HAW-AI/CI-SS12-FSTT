@@ -44,4 +44,7 @@ public abstract class AbstractNode implements Serializable {
 	public void write(String str){
 		System.out.println(str);
 	}
+	public int size(){
+		return 0;
+	}
 }

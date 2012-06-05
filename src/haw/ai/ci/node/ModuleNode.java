@@ -8,10 +8,10 @@ public class ModuleNode extends AbstractNode {
 	private static final long serialVersionUID = 1L;
 	
 	private final IdentNode ident;
-	private final AbstractNode declaration;
+	private final DeclarationsNode declaration;
 	private final AbstractNode statementSequence;
 
-	public ModuleNode(IdentNode ident, AbstractNode declaration,
+	public ModuleNode(IdentNode ident, DeclarationsNode declaration,
 			AbstractNode statementSequence) {
 		this.ident = ident;
 		this.declaration = declaration;
@@ -22,7 +22,7 @@ public class ModuleNode extends AbstractNode {
 	public Descriptor compile(SymbolTable syms) {
 	    declaration.compile(syms);
 	    statementSequence.compile(syms);
-	    
+		write("REDUCE, " + declaration.size());
 	    return null;
 	}
 	

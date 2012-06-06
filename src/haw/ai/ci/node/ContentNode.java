@@ -7,22 +7,30 @@ public class ContentNode extends AbstractNode {
     
     private static final long serialVersionUID = 1L;
     
-    private IdentNode ident;
+    private AbstractNode subject;
     
     public ContentNode(IdentNode ident) {
-        this.ident = ident;
+        this((AbstractNode)ident);
+    }
+    
+    public ContentNode(SelectorNode selector) {
+        this((AbstractNode)selector);
+    }
+    
+    private ContentNode(AbstractNode subject) {
+        this.subject = subject;
     }
 
     @Override
     protected String toString(int indent) {
-        return toString(indent, "ContentNode(" + ident + ")");
+        return toString(indent, "ContentNode(" + subject + ")");
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((ident == null) ? 0 : ident.hashCode());
+        result = prime * result + ((subject == null) ? 0 : subject.hashCode());
         return result;
     }
 
@@ -35,17 +43,17 @@ public class ContentNode extends AbstractNode {
         if (getClass() != obj.getClass())
             return false;
         ContentNode other = (ContentNode) obj;
-        if (ident == null) {
-            if (other.ident != null)
+        if (subject == null) {
+            if (other.subject != null)
                 return false;
-        } else if (!ident.equals(other.ident))
+        } else if (!subject.equals(other.subject))
             return false;
         return true;
     }
     
     @Override
     public Descriptor compile(SymbolTable symbolTable) {
-    	ident.compile(symbolTable);
+        subject.compile(symbolTable);
 		write("CONT, 1");
 		return null;
     }

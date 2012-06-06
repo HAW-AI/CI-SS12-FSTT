@@ -391,7 +391,7 @@ public class Parser {
 
 		if (test(IDENT)) {
 			if (testLookAhead(DOT) || testLookAhead(LBRAC)) {
-				node = selector();
+				node = new ContentNode(selector());
 			} else {
 				node = new ContentNode(constIdent());
 			}

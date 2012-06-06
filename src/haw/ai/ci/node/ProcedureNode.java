@@ -14,12 +14,12 @@ public class ProcedureNode extends AbstractNode {
 	private final IdentNode subject;
     private final FormalParametersNode fparams;
     // body
-	private final AbstractNode declarations;
+	private final DeclarationsNode declarations;
     private final AbstractNode statseq;
     
 
 	public ProcedureNode(IdentNode declEndIdent, IdentNode subject, FormalParametersNode fparams,
-			AbstractNode declarations, AbstractNode statseq) {
+			DeclarationsNode declarations, AbstractNode statseq) {
 		super();
 		this.ident = declEndIdent;
 		this.subject = subject;
@@ -38,6 +38,7 @@ public class ProcedureNode extends AbstractNode {
 			declarations.compile(sm);
 		if(statseq != null)
 			statseq.compile(sm);
+		write("REDUCE, " + declarations.size());
 		
 		return new ProcDescriptor(sm);
 	}

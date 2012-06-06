@@ -1,6 +1,8 @@
 package haw.ai.ci;
 
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +10,6 @@ import java.util.Map;
 public class SymbolTable {
 	private Map<String, Integer> addressMap = new HashMap<String, Integer>();
 	private Map<String, Descriptor> descriptorMap = new HashMap<String,Descriptor>();
-	private Map<String, Integer> constMap = new HashMap<String,Integer>();
 	private int currentAddress = 0;
 	private SymbolTable parentTable;
 	
@@ -25,13 +26,6 @@ public class SymbolTable {
 		return new SymbolTable();
 	}
 	
-	public void declareConst(String ident, int value){
-		constMap.put(ident, value);
-	}
-	
-	public int getConstVal(String ident){
-		return constMap.get(ident);
-	}
 	
 
 	
@@ -48,14 +42,14 @@ public class SymbolTable {
 		}
 	}
 	
-//	public void undeclare(String ident){
-//		descriptorMap.remove(ident);
-//		addressMap.remove(ident);
-//		
-//	}
 
 
 	public Descriptor descriptorFor(String ident) {
+	    // built-in types
+	    if (ident.equalsIgnoreCase("integer")) {
+	        return new SimpleTypeDescriptor(Type.INTEGER);
+	    }
+	    
 		Descriptor d = descriptorMap.get(ident);
 		if(d == null && parentTable != null){
 			return parentTable.descriptorFor(ident);
@@ -102,17 +96,13 @@ public class SymbolTable {
 		}
 		result.append("\n");
 		
-		for(Map.Entry<String, Integer> e : constMap.entrySet()){
-			result.append(e.getKey());
-			result.append(" : ");
-			result.append(e.getValue());
-			result.append("\n");
-		}
 		result.append("\n");
 		
 		result.append("currentAddress: " + currentAddress + "\n");
-		result.append("-----------------------------------------\n\n");
-		result.append("parentTable: \n" + parentTable + "\n");
+		if(parentTable != null){
+			result.append("-----------------------------------------\n\n");
+			result.append("parentTable: \n" + parentTable + "\n");
+		}
 		
 		return result.toString();
 	}
@@ -121,15 +111,10 @@ public class SymbolTable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((addressMap == null) ? 0 : addressMap.hashCode());
-		result = prime * result
-				+ ((constMap == null) ? 0 : constMap.hashCode());
+		result = prime * result + ((addressMap == null) ? 0 : addressMap.hashCode());
 		result = prime * result + currentAddress;
-		result = prime * result
-				+ ((descriptorMap == null) ? 0 : descriptorMap.hashCode());
-		result = prime * result
-				+ ((parentTable == null) ? 0 : parentTable.hashCode());
+		result = prime * result + ((descriptorMap == null) ? 0 : descriptorMap.hashCode());
+		result = prime * result + ((parentTable == null) ? 0 : parentTable.hashCode());
 		return result;
 	}
 
@@ -146,11 +131,6 @@ public class SymbolTable {
 			if (other.addressMap != null)
 				return false;
 		} else if (!addressMap.equals(other.addressMap))
-			return false;
-		if (constMap == null) {
-			if (other.constMap != null)
-				return false;
-		} else if (!constMap.equals(other.constMap))
 			return false;
 		if (currentAddress != other.currentAddress)
 			return false;

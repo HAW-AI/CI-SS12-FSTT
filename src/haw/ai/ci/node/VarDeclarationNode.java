@@ -1,5 +1,6 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor;
@@ -45,11 +46,11 @@ public class VarDeclarationNode extends AbstractNode{
 
     private static final long serialVersionUID = 1L;
     
-    private final AbstractNode identList;
+    private final IdentListNode identList;
     private final AbstractNode type;
     
     public VarDeclarationNode(AbstractNode identList, AbstractNode type){
-    	this.identList = identList;
+    	this.identList = (IdentListNode)identList;
     	this.type = type;
     }
 	
@@ -64,23 +65,28 @@ public class VarDeclarationNode extends AbstractNode{
         	str += type.toString(indent+1) + "\n";
         return str;
 	}
+
+	@Override
+	public int size() {
+		return identList.size();
+	}
 	
 	public Descriptor compile(SymbolTable table){
 		Descriptor d = null;
 		if(type instanceof IdentNode){
 			String s = ((IdentNode) type).getIdentName();
 			SimpleTypeDescriptor sd = null;
-			if(s.equals("integer")){
+			if(s.equalsIgnoreCase("integer")){
 				sd = new SimpleTypeDescriptor(Type.INTEGER);
 			}
-			else if(s.equals("boolean")){
+			else if(s.equalsIgnoreCase("boolean")){
 				sd = new SimpleTypeDescriptor(Type.BOOLEAN);
 			}
-			else if(s.equals("string")){
+			else if(s.equalsIgnoreCase("string")){
 				sd = new SimpleTypeDescriptor(Type.STRING);
 			}
 			else{
-				System.out.println("ToDo: Typedef in VarDeclarationNode");
+				throw new CompilerException("ToDo: Typedef in VarDeclarationNode");
 			}
 			d = sd;
 		}

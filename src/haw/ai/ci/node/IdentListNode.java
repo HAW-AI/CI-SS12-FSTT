@@ -56,4 +56,8 @@ public class IdentListNode extends AbstractNode {
     	return null; //schreibt nur in die Symboltabelle --> kein geeigneter Ruechgabewert vorhanden
     }
     
+	public int size() {
+		return idents.size();
+	}
+    
 }

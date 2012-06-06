@@ -122,6 +122,10 @@ public class ParserTest {
     public void testFactor() {
         AbstractNode actual, expected;
 
+        actual = createParser("read \"wazup?\"").factor();
+        expected = new ReadNode(new StringNode("wazup?"));
+        assertEquals(expected, actual);
+
         actual = createParser("1337").factor();
         expected = new IntNode(1337);
         assertEquals(expected, actual);

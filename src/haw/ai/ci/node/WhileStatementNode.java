@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 public class WhileStatementNode extends AbstractNode {
 
 	private static final long serialVersionUID = 1L;
@@ -49,6 +52,19 @@ public class WhileStatementNode extends AbstractNode {
 		} else if (!stateSeq1.equals(other.stateSeq1))
 			return false;
 		return true;
+	}
+	
+	public Descriptor compile(SymbolTable table){
+		int labelWhile = getNextLabelNumber();
+		int labelEnd = getNextLabelNumber();
+		write("LABEL, "+ labelWhile);
+		exp1.compile(table);
+		write("BF, "+labelEnd);
+		stateSeq1.compile(table);
+		write("BF, "+labelWhile);
+		write("LABEL, "+labelEnd);
+		return null;
+		
 	}
 
 }

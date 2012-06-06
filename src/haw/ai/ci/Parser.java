@@ -5,6 +5,7 @@ import static haw.ai.ci.TokenID.*;
 
 import haw.ai.ci.node.*;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -399,8 +400,7 @@ public class Parser {
 		} else if (test(STR)) {
 			node = string();
 		} else if (test(READ)) {
-			read(READ,"READ");
-			node = string();
+			node = readParser();
 		} else if (test(LPAR)) {
 			read(LPAR, "(");
 			node = expr();
@@ -508,7 +508,7 @@ public class Parser {
 		if (test(CONST)) {
 			read(CONST, "const");
 			arg1 = constIdent();
-			read(ASSIGN, "=");
+			read(EQ, "=");
 			arg2 = expr();
 			read(SEMICOLON, ";");
 			consts.add(new ConstDeclarationNode(arg1,arg2));
@@ -523,7 +523,7 @@ public class Parser {
 		}  if (test(TYPE)) {
 			read(TYPE, "type");
 			arg1 = constIdent();
-			read(ASSIGN, "=");
+			read(EQ, "=");
 			arg2 = type();
 			read(SEMICOLON, ";");
 			types.add(new TypeDeclarationNode(arg1,arg2));
@@ -567,7 +567,7 @@ public class Parser {
 		read(MODULE, "module");
 		IdentNode moduleName = constIdent();
 		read(SEMICOLON, "semicolon");
-		AbstractNode declaration = declaration();
+		DeclarationsNode declaration = declaration();
 		read(BEGIN, "begin");
 		
 		AbstractNode statementSequence = statementSequence();
@@ -724,7 +724,7 @@ public class Parser {
 		read(SEMICOLON, ";");
 		
 		// body
-		AbstractNode declarations = declaration();
+		DeclarationsNode declarations = declaration();
 		read(BEGIN,"BEGIN");
 		AbstractNode stateSeq = statementSequence();
 		read(END,"END");
@@ -764,6 +764,9 @@ public class Parser {
 					
 					System.out.println(abstractTree);
 					System.out.println(abstractTree.compile(syms));
+					System.out.println(syms);
+
+					new PrintWriter("codetxt").print(abstractTree.code());
 
 				} catch (java.io.FileNotFoundException e) {
 					System.err.println("File not found : \"" + fileName + "\"");

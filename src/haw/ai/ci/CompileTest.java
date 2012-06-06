@@ -13,6 +13,7 @@ import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 import haw.ai.ci.node.AbstractNode;
 import haw.ai.ci.node.AssignmentNode;
 import haw.ai.ci.node.BinOpNode;
+import haw.ai.ci.node.ContentNode;
 import haw.ai.ci.node.IdentListNode;
 import haw.ai.ci.node.IdentNode;
 import haw.ai.ci.node.IfStatementNode;
@@ -204,6 +205,31 @@ public class CompileTest {
 	}
 	
 	@Test
+	public void testWhileStatementNode(){
+		log("---------------------------------------WhileStatement--------------------------------------");
+		AbstractNode testData = createParser("MODULE m;" +
+				"var whileVar : integer;" +
+				"BEGIN " +
+				"whileVar := 3;"+
+				"WHILE whileVar < 6 DO whileVar := whileVar + 2 END" +
+		" END m.").module();
+		testData.compile(new SymbolTable());
+	}
+	
+	@Test
+	public void testContentNode(){
+		log("---------------------------------------ContentNode--------------------------------------");
+	}
+	
+	@Test
+	public void testNegationNode(){
+		log("---------------------------------------NegationNode--------------------------------------");
+		AbstractNode testData = createParser("Module m; var testVar : integer; begin testVar := -(1+2); end m.").module();
+		testData.compile(new SymbolTable());
+		
+	}
+	
+	@Test
 	public void testRecordSelectorNode(){
 		log("-----------------RecordSelectorNode-compile()----------------------");
 		AbstractNode testData = createParser(
@@ -256,4 +282,17 @@ public class CompileTest {
 	}
 	
 	
+	@Test
+	public void testRead() {
+        log("-------------------ReadNode-compile()-------------------");
+        createParser(
+            "MODULE m;\n" +
+            "    var age : INTEGER;\n" +
+            "BEGIN\n" +
+            "    age := READ \"How old are you?\";\n" +
+            "    PRINT \"Your age is \";\n" +
+            "    PRINT age;\n" +
+            "END m."
+            ).program().compile(new SymbolTable());
+	}
 }

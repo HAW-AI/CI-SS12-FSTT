@@ -245,17 +245,13 @@ public class CompileTest {
 		
 		testData.compile(new SymbolTable());
 		
-//		AbstractNode abstractData = createParser("b := 4; a[b+3].s.z := 3 " ).statementSequence();
-//		abstractData = createParser("MODULE m;" + 
-//						"var a : ARRAY [10] of RECORD " + //37
-//						"           s : record"  +  //58
-//						"                d : integer;" +//86+
-//						"                z : integer" + //113
-//						"                end;" + //133
-//						"           x : integer " + //156
-//						"           end;" +  //171
-//						"    b : integer ; " +
-//				" BEGIN a[4].r := 3; b := 4 END m.").module();
+		log("--------------------erwartet war----------------------------------");
+		log("PUSHI, 4\nPUSHI, 30\nASSIGN, 1\nPUSHI, 3\nPUSHI, 0\nPUSHI, 2\nPUSHI, 3\nADD\nPUSHI, 3\nMUL\nADD\n"+
+		    "PUSHI, 0\nADD\nPUSHI, 1\nADD\nASSIGN, 1");
+		
+		
+		
+
 		
 	}
 	

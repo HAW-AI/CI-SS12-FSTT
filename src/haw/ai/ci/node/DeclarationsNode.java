@@ -92,30 +92,17 @@ public class DeclarationsNode extends AbstractNode {
 	}
 	
 	public Descriptor compile(SymbolTable table){
-
 		for(AbstractNode constNode : consts){
-			memSize += constNode.size();
+			memSize += constNode.compile(table).size();
 		}
 		for(AbstractNode typeNode : types){
-			memSize += typeNode.size();
+			memSize += typeNode.compile(table).size();
 		}
 		for(AbstractNode varNode : vars){
-			memSize += varNode.size();
+			memSize += varNode.compile(table).size();
 		}
-		
-		
-		
 		write("INIT, " + memSize);
 		
-		for(AbstractNode constNode : consts){
-			constNode.compile(table);
-		}
-		for(AbstractNode typeNode : types){
-			typeNode.compile(table);
-		}
-		for(AbstractNode varNode : vars){
-			varNode.compile(table);
-		}
 		return null;
 		
 	}

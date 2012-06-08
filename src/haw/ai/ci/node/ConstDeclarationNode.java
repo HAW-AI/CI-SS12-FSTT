@@ -84,7 +84,7 @@ public class ConstDeclarationNode extends AbstractNode {
 			throw new CompilerException("unsupported value: " + expression);
 		}
 		table.declare(id.getIdentName(), value);
-		return null; //da nur in Tabelle geschrieben wird --> kein geeigneter Rueckgabewert vorhanden
+		return value; //da nur in Tabelle geschrieben wird --> kein geeigneter Rueckgabewert vorhanden
 	}
 
 }

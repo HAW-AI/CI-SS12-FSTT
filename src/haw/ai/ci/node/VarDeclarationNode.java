@@ -94,7 +94,7 @@ public class VarDeclarationNode extends AbstractNode{
 			d = type.compile(table);
 		}
 		identList.compile(table, d);
-		return null;
+		return d;
 	}
 
 }

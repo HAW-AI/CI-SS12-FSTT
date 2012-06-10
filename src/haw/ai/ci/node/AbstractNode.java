@@ -10,7 +10,7 @@ public abstract class AbstractNode implements Serializable {
 	
     private static final long serialVersionUID = 1L;
     
-    private String code = "";
+    private static String code = "";
     
     @Override
     public String toString() {

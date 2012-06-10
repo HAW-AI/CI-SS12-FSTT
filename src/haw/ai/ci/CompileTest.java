@@ -50,6 +50,14 @@ public class CompileTest {
 		AssignmentNode an3 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.PLUS_OP, new IdentNode("b"), new IntNode(2)));
 		an3.compile(st);
 	}
+    
+    @Test(expected=CompilerException.class)
+    public void testAssignNeg1() {
+        // prevent overriding of constants
+        String code = "MODULE m; const x = 5; BEGIN x := 99; END m.";
+        AbstractNode node = createParser(code).program();
+        node.compile(new SymbolTable());
+    }
 	
 	@Test
 	public void testIfElse(){

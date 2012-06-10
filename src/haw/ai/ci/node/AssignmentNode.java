@@ -1,7 +1,11 @@
 package haw.ai.ci.node;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
+import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.IntConstDescriptor;
 
 public class AssignmentNode extends AbstractNode {
 
@@ -60,6 +64,13 @@ public class AssignmentNode extends AbstractNode {
 	}
 	
 	public Descriptor compile(SymbolTable symbolTable){
+	    // prevent overriding of constants
+	    if (key instanceof IdentNode &&
+	        symbolTable.descriptorFor(((IdentNode)key).getIdentName()) instanceof IntConstDescriptor)
+	    {
+	        throw new CompilerException("Constant " + ((IdentNode)key).getIdentName() + " cannot be overriden");
+	    }
+	    
 		value.compile(symbolTable);
 		key.compile(symbolTable);
 		write("ASSIGN, 1");

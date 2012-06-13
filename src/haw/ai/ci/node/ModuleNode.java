@@ -24,9 +24,9 @@ public class ModuleNode extends AbstractNode {
 		write("JMP, " + label);
 	    declaration.compile(syms);
 	    write("LABEL, " + label);
-	    write("INIT, "+declaration.size() );
+	    write("PUSHI, " + declaration.size());
+	    write("SETSP");
 	    statementSequence.compile(syms);
-		write("REDUCE, " + declaration.size());
 	    
 	    // module node is the outermost node in a program
 	    // it has to tell the interpreter it reached the end of the code

@@ -325,7 +325,7 @@ public class CompileTest {
 				"Module m;\n " +
 				"VAR a : integer;\n" +
 				"PROCEDURE p1();\n" +
-				"VAR b : integer;\n" +
+				"VAR b, c : integer;\n" +
 				"BEGIN \n" +
 				"b := 5; \n" +
 				"c := a;\n"+

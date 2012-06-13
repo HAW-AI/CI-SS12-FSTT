@@ -49,6 +49,10 @@ public class CompileTest {
 		log("// a:=b + 2");
 		AssignmentNode an3 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.PLUS_OP, new IdentNode("b"), new IntNode(2)));
 		an3.compile(st);
+		// arrays
+//		// siehe arrayselectornode test
+		// records
+		// siehe recordselectornode test
 	}
     
     @Test(expected=CompilerException.class)
@@ -160,12 +164,6 @@ public class CompileTest {
 //		System.out.println(expected);
 		testData.compile(actual2);
 		assertEquals(expected,actual2);
-		
-		
-		
-			
-		
-		
 	}
 	
 	@Test
@@ -242,7 +240,7 @@ public class CompileTest {
 		log("-----------------RecordSelectorNode-compile()----------------------");
 		AbstractNode testData = createParser(
 				"MODULE m;" + 
-				"var a : record " +
+				"var a, c : record " +
 				"           s : record"  +
 				"                d : integer;" +
 				"                z : integer" +

@@ -52,7 +52,7 @@ string = \"([^\\\"]|\\.)*\"
 [eE][lL][sS][iI][fF]		{ return new Token(ELSIF, yytext(), yyline, yycolumn); }
 [iI][fF]					{ return new Token(IF, yytext(), yyline, yycolumn); }
 [wW][hH][iI][lL][eE]		{ return new Token(WHILE, yytext(), yyline, yycolumn); }
-[rR][eE][pP][eE][eA][tT]	{ return new Token(REPEAT, yytext(), yyline, yycolumn); }
+[rR][eE][pP][eE][aA][tT]	{ return new Token(REPEAT, yytext(), yyline, yycolumn); }
 [uU][nN][tT][iI][lL]		{ return new Token(UNTIL, yytext(), yyline, yycolumn); }
 
 [aA][rR][rR][aA][yY]		{ return new Token(ARRAY, yytext(), yyline, yycolumn); }

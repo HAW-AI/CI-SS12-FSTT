@@ -1,7 +1,5 @@
 package haw.ai.ci.node;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;

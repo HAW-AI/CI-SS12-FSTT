@@ -514,7 +514,7 @@ public class Parser {
 			consts.add(new ConstDeclarationNode(arg1,arg2));
 			while (test(IDENT)) {
 				arg1 = constIdent();
-				read(ASSIGN, "=");
+				read(EQ, "=");
 				arg2 = expr();
 				read(SEMICOLON, ";");
 				consts.add(new ConstDeclarationNode(arg1,arg2));

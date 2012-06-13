@@ -1,0 +1,22 @@
+module m1;
+
+var
+i, j, k : integer;
+
+begin
+i := 10;
+j := 2;
+k := i+j;
+Print i;
+Print j;
+Print k;
+Print 12;
+k := k + i * (j + i);
+Print k;
+Print 132;
+Print k / 2;
+Print 66;
+k := k - 10 * i;
+Print k;
+Print 32;
+end m1.

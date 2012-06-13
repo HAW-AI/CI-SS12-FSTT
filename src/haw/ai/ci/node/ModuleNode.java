@@ -20,7 +20,11 @@ public class ModuleNode extends AbstractNode {
 
 	@Override
 	public Descriptor compile(SymbolTable syms) {
+		int label = getNextLabelNumber();
+		write("JMP, " + label);
 	    declaration.compile(syms);
+	    write("LABEL, " + label);
+	    write("INIT, "+declaration.size() );
 	    statementSequence.compile(syms);
 		write("REDUCE, " + declaration.size());
 	    

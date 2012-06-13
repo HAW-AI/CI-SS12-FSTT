@@ -101,7 +101,9 @@ public class DeclarationsNode extends AbstractNode {
 		for(AbstractNode varNode : vars){
 			memSize += varNode.compile(table).size()*varNode.size(); //TODO: unschön. besser: identlistdescriptor
 		}
-		write("INIT, " + memSize);
+		for(AbstractNode procNode : procDeclarations){
+			procNode.compile(table);
+		}
 		
 		return null;
 		

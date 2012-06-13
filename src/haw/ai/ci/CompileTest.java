@@ -301,4 +301,22 @@ public class CompileTest {
             "END m."
             ).program().compile(new SymbolTable());
 	}
+	
+	@Test
+	public void testProcedureWithoutParamsAndLokals(){
+		log("--------------------Procedure1-----------------------------"); 
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+				"PROCEDURE p1();\n" +
+				"BEGIN \n" +
+				"a := 1 \n" +
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"p1() \n" +
+				"END m.").program();
+		prog.compile(new SymbolTable());
+		
+		
+	}
 }

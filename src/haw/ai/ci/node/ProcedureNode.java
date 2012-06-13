@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.ProcDescriptor;
@@ -16,6 +19,7 @@ public class ProcedureNode extends AbstractNode {
     // body
 	private final DeclarationsNode declarations;
     private final AbstractNode statseq;
+    private final int linkage = 2;
     
 
 	public ProcedureNode(IdentNode declEndIdent, IdentNode subject, FormalParametersNode fparams,
@@ -30,17 +34,47 @@ public class ProcedureNode extends AbstractNode {
 	
 	@Override
 	public Descriptor compile(SymbolTable symbolTable){
-		SymbolTable sm = new SymbolTable(symbolTable);
 		
-		if(fparams != null)
-			fparams.compile(sm);
-		if(declarations != null)
-			declarations.compile(sm);
-		if(statseq != null)
-			statseq.compile(sm);
-		write("REDUCE, " + declarations.size());
+		List<Descriptor> parameters = new ArrayList<Descriptor>();
+		SymbolTable lokal = new SymbolTable(symbolTable);
+		int label = getNextLabelNumber();
+		int allocatedMemory = linkage; // + lokal.size()
+		write("Label, " + label);
 		
-		return new ProcDescriptor(sm);
+		//entry Code starts here
+		write("INIT, " + allocatedMemory);
+		write("PUSHREG, RK");
+		write("PUSHREG, FP");
+		//to do: SL Register
+		write("GETSP");
+		write("SETFP");
+		//to do: bei lokalen Variablen: Stackpointer = Stackpointer + groesse der lokVar
+		//end of entryCode
+		
+		
+//		if(fparams != null)
+//			fparams.compile(lokal);
+//		if(declarations != null)
+//			declarations.compile(lokal);
+		if(statseq != null){
+			statseq.compile(lokal);
+		}else{
+			error("Kein StatementSequenzNode");
+		}
+		
+		//exitCode starts here
+		//to do bei lokVar: SP = FP
+		//to do: restore SL
+		write("POPREG, FP");
+		write("POPREG, RK");
+		write("REDUCE, " + allocatedMemory);
+		write("RET");
+
+		ProcDescriptor descr = new ProcDescriptor(label,lokal,parameters);
+		symbolTable.declare(ident.getIdentName(),descr);
+		return descr; 
+		
+		
 	}
 	
 	@Override

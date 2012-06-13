@@ -43,7 +43,7 @@ public class ProcedureNode extends AbstractNode {
 			declarations.compile(lokal);
 		
 		int allocatedMemory = linkage + lokal.size();
-		write("Label, " + label);
+		write("LABEL, " + label);
 		
 		//entry Code starts here
 		write("INIT, " + allocatedMemory);

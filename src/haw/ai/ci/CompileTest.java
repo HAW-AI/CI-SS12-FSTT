@@ -272,7 +272,8 @@ public class CompileTest {
 						"    b : integer; " +
 				"BEGIN " +  //194 
 				"b := 4; " + //202 
-				"a[2+3].s.z := 3 " + 
+				"a[2+3].s.z := 3;" +
+				"PRINT a[5].s.z " + 
 				"END m.").module();
 		
 		testData.compile(new SymbolTable());

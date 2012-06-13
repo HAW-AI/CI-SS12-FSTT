@@ -2,6 +2,8 @@ package haw.ai.ci.node;
 
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.IntConstDescriptor;
+import haw.ai.ci.descriptor.RecordDescriptor;
 
 public class ContentNode extends AbstractNode {
     
@@ -25,7 +27,9 @@ public class ContentNode extends AbstractNode {
     protected String toString(int indent) {
         return toString(indent, "ContentNode(" + subject + ")");
     }
-
+	public AbstractNode getSubject(){
+		return subject;
+	}
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -53,9 +57,16 @@ public class ContentNode extends AbstractNode {
     
     @Override
     public Descriptor compile(SymbolTable symbolTable) {
-        subject.compile(symbolTable);
-		write("CONT, 1");
-		return null;
+        if(subject instanceof IdentNode && symbolTable.descriptorFor(((IdentNode)subject).getIdentName()) instanceof IntConstDescriptor)
+        {
+        	write("PUSHI, "+((IntConstDescriptor)symbolTable.descriptorFor(((IdentNode)subject).getIdentName())).value());
+        }else if(subject instanceof IdentNode && symbolTable.descriptorFor(((IdentNode)subject).getIdentName()) instanceof RecordDescriptor){
+        	return symbolTable.descriptorFor(((IdentNode)subject).getIdentName());
+        }else{
+        	subject.compile(symbolTable);
+        	write("CONT, 1");
+        }
+        return null;
     }
 
 }

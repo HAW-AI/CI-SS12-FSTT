@@ -1,0 +1,29 @@
+module m9;
+
+var
+ i, j, k : integer;
+ 
+procedure p1(var j : integer);
+ var i : integer;
+ 
+ procedure p11(j : integer);
+ begin
+  i := j*10;
+ end p11;
+
+begin
+ i := 99;
+ p11(i);
+ j := i * 10;
+ k := 2 * k;
+end p1;
+
+begin
+ i := 10;
+ j := 20;
+ k := 30;
+ p1(k); 
+ Print i; Print 10;
+ Print j; Print 20;
+ Print k; Print 19800;
+end m9.   

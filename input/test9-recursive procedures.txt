@@ -1,0 +1,19 @@
+module m10;
+
+var
+ i  : integer;
+ 
+procedure factorial(var i : integer; j : integer);
+
+ begin
+  if j = 1
+  then
+  else i := i * j; factorial(i, j - 1)
+  end
+ end factorial;
+
+begin
+ i := 1;
+ factorial(i, 7);
+ Print i;
+end m10.   

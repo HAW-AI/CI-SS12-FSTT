@@ -324,6 +324,22 @@ public class ParserTest {
 				new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
 				new ArrayList<AbstractNode>());
         assertEquals(expected, actual);
+        //type declaration
+        
+        actual = createParser("type t1 = array[10] of integer;"+
+						       " t2 = record a : t1; end;").declaration();
+		expected = new DeclarationsNode(
+				new ArrayList<AbstractNode>(),
+				asList(new TypeDeclarationNode(new IdentNode("t1"),
+						createParser("array[10] of integer").arrayType()),
+					   new TypeDeclarationNode(new IdentNode("t2"),
+						createParser("record a : t1; end;").recordType())
+				),
+				new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+        
+        
+             
     }
 
     @Test(expected = ParserException.class)

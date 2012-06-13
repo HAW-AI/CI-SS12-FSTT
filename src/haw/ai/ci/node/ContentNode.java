@@ -1,6 +1,7 @@
 package haw.ai.ci.node;
 
 import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.IntConstDescriptor;
 import haw.ai.ci.descriptor.RecordDescriptor;
@@ -57,11 +58,13 @@ public class ContentNode extends AbstractNode {
     
     @Override
     public Descriptor compile(SymbolTable symbolTable) {
-        if(subject instanceof IdentNode && symbolTable.descriptorFor(((IdentNode)subject).getIdentName()) instanceof IntConstDescriptor)
-        {
-        	write("PUSHI, "+((IntConstDescriptor)symbolTable.descriptorFor(((IdentNode)subject).getIdentName())).value());
-        }else if(subject instanceof IdentNode && symbolTable.descriptorFor(((IdentNode)subject).getIdentName()) instanceof RecordDescriptor){
-        	return symbolTable.descriptorFor(((IdentNode)subject).getIdentName());
+    	Descriptor d = null;
+    	if(subject instanceof IdentNode)
+    		d = symbolTable.descriptorFor(((IdentNode)subject).getIdentName());
+        if(d instanceof IntConstDescriptor){
+        	write("PUSHI, "+((IntConstDescriptor)d).value());
+        }else if(d instanceof RecordDescriptor || d instanceof ArrayDescriptor){
+        	return d;
         }else{
         	subject.compile(symbolTable);
         	write("CONT, 1");

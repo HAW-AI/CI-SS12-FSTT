@@ -77,17 +77,15 @@ public class TypeDeclarationNode extends AbstractNode {
 	    
 	    if (type instanceof IdentNode) {
 	        descr = syms.descriptorFor(identName);
-	    } else if (type instanceof ArrayTypeNode) {
-	        descr = ((ArrayTypeNode)type).compile(syms);
-	    } else if (type instanceof RecordTypeNode){
-            descr = ((RecordTypeNode)type).compile(syms);
+	    } else if (type instanceof ArrayTypeNode || type instanceof RecordTypeNode) {
+	        descr = type.compile(syms);
 	    } else {
 	        throw new CompilerException("unsupported type: " + type);
 	    }
 	    
-	    syms.declare(identName, descr);
+	    syms.declareType(identName, descr);
 	    
-	    return null;
+	    return descr;
 	}
 
 }

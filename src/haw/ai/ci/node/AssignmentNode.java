@@ -2,6 +2,7 @@ package haw.ai.ci.node;
 
 import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.IntConstDescriptor;
 import haw.ai.ci.descriptor.RecordDescriptor;
@@ -69,7 +70,8 @@ public class AssignmentNode extends AbstractNode {
 	    {
 	        throw new CompilerException("Constant " + ((IdentNode)key).getIdentName() + " cannot be overriden");
 	    }
-	    if(value.compile(symbolTable) instanceof RecordDescriptor){
+	    Descriptor d = value.compile(symbolTable);
+	    if(d instanceof RecordDescriptor || d instanceof ArrayDescriptor){
 	    	symbolTable.link(((IdentNode)key).getIdentName(), ((IdentNode)((ContentNode) value).getSubject()).getIdentName());
 	    }else{
 	    	key.compile(symbolTable);

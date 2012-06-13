@@ -74,17 +74,37 @@ public class SymbolTable {
 		}
 	}
 	
-
-
+	/**
+	 * Der Type wird deklariert. Dabei wird die Adresse nicht inkrementiert. Und der addressMap eintrag wird auf -1 gesetzt. 
+	 * @param ident
+	 * @param descr
+	 */
+	public void declareType(String ident, Descriptor descr) {
+		if(!(descriptorMap.containsKey(ident))){
+			descriptorMap.put(ident, descr);
+			addressMap.put(ident, -1);
+			if(descr == null){
+				System.out.println("---- compile Error-----\n Variable = " + ident);
+			}
+		}else{
+			System.out.println("Fehler, zweimal die gleiche Variable deklariert");
+		}
+	}
+	
 	public Descriptor descriptorFor(String ident) {
 	    // built-in types
-	    if (ident.equalsIgnoreCase("integer")) {
+	    if (("integer").equalsIgnoreCase(ident)) {
 	        return new SimpleTypeDescriptor(Type.INTEGER);
+	    }else if(("string").equalsIgnoreCase(ident)){
+	        return new SimpleTypeDescriptor(Type.STRING);
+	    }else if(("boolean").equalsIgnoreCase(ident)){
+	        return new SimpleTypeDescriptor(Type.BOOLEAN);
 	    }
-	    
-		Descriptor d = descriptorMap.get(ident);
+	    Descriptor d = descriptorMap.get(ident);
 		if(d == null && parentTable != null){
 			return parentTable.descriptorFor(ident);
+		}else if(d == null){
+			error("Deskriptor fuer " + ident + " nicht gefunden.");
 		}
 		return d;
 	}
@@ -133,7 +153,8 @@ public class SymbolTable {
 		result.append("currentAddress: " + currentAddress + "\n");
 		if(parentTable != null){
 			result.append("-----------------------------------------\n\n");
-			result.append("parentTable: \n" + parentTable + "\n");
+			//Parent Table Rekursion wenn Verweise auf untertabellen.
+			//result.append("parentTable: \n" + parentTable + "\n");
 		}
 		
 		return result.toString();

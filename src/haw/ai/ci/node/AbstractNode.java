@@ -1,5 +1,6 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.ParserException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 
@@ -20,6 +21,10 @@ public abstract class AbstractNode implements Serializable {
     public static int getNextLabelNumber(){
     	return labelCount++;
     }
+    
+    static void error(String str) {
+		throw new ParserException("==> Error: " + str);
+	}
     
     protected abstract String toString(int indent);
     

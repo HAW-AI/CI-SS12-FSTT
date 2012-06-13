@@ -38,7 +38,11 @@ public class ProcedureNode extends AbstractNode {
 		List<Descriptor> parameters = new ArrayList<Descriptor>();
 		SymbolTable lokal = new SymbolTable(symbolTable);
 		int label = getNextLabelNumber();
-		int allocatedMemory = linkage; // + lokal.size()
+		
+		if(declarations != null)
+			declarations.compile(lokal);
+		
+		int allocatedMemory = linkage + lokal.size();
 		write("Label, " + label);
 		
 		//entry Code starts here
@@ -46,16 +50,18 @@ public class ProcedureNode extends AbstractNode {
 		write("PUSHREG, RK");
 		write("PUSHREG, FP");
 		//to do: SL Register
+		//SP := SP + lokale Variablen laenge
 		write("GETSP");
 		write("SETFP");
-		//to do: bei lokalen Variablen: Stackpointer = Stackpointer + groesse der lokVar
+		write("GETSP");
+		write("PUSHI, " + lokal.size());
+		write("ADD");
+		write("SETSP");
 		//end of entryCode
 		
 		
 //		if(fparams != null)
 //			fparams.compile(lokal);
-//		if(declarations != null)
-//			declarations.compile(lokal);
 		if(statseq != null){
 			statseq.compile(lokal);
 		}else{
@@ -63,7 +69,9 @@ public class ProcedureNode extends AbstractNode {
 		}
 		
 		//exitCode starts here
-		//to do bei lokVar: SP = FP
+		//FP := SP
+		write("GETFP");
+		write("SETSP");
 		//to do: restore SL
 		write("POPREG, FP");
 		write("POPREG, RK");

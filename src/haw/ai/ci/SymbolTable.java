@@ -26,7 +26,26 @@ public class SymbolTable {
 		return new SymbolTable();
 	}
 	
+	public boolean hasParentTable(){
+		return (this.parentTable != null);
+	}
 	
+	public int currentLvl(){
+		if(this.parentTable == null) return 0;
+		else return 1+parentTable.currentLvl();
+	}
+	
+	public int levelOf(String ident){
+		int i;
+		if(descriptorMap.containsKey(ident)){
+			i = 0;
+		}
+		else{
+			if(this.parentTable == null) error("variable nicht gefunden:" + ident);
+			i = 1 + parentTable.levelOf(ident);
+		}
+		return this.currentLvl() - i;
+	}
 
 	
 	public void declare(String ident, Descriptor descr) {
@@ -145,6 +164,10 @@ public class SymbolTable {
 		} else if (!parentTable.equals(other.parentTable))
 			return false;
 		return true;
+	}
+	
+	static void error(String str) {
+		throw new ParserException("==> Error: " + str);
 	}
 
 	public static void main(String args[]){

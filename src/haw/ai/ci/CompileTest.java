@@ -316,7 +316,25 @@ public class CompileTest {
 				"p1() \n" +
 				"END m.").program();
 		prog.compile(new SymbolTable());
-		
-		
+	}
+	
+	@Test
+	public void testProcedureWithLokals(){
+		log("--------------------Procedure2-----------------------------"); 
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+				"PROCEDURE p1();\n" +
+				"VAR b : integer;\n" +
+				"BEGIN \n" +
+				"b := 5; \n" +
+				"c := a;\n"+
+				"a := a+c\n"+
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"a := 3;\n" +
+				"p1() \n" +
+				"END m.").program();
+		prog.compile(new SymbolTable());
 	}
 }

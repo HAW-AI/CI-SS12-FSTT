@@ -48,7 +48,14 @@ public class IdentNode extends AbstractNode {
     }
 	@Override
 	public Descriptor compile(SymbolTable symbolTable) {
-		write("PUSHI, "+symbolTable.addressOf(identName));
+		if(symbolTable.levelOf(identName) == 0){
+			write("PUSHI, " + symbolTable.addressOf(identName)); //variable im Hauptprogramm
+		}
+		else{
+			write("GETFP");
+			write("PUSHI, " + symbolTable.addressOf(identName));
+			write("ADD");
+		}
 		return null;
 	}
 }

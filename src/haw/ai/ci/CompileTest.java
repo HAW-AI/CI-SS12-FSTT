@@ -309,6 +309,7 @@ public class CompileTest {
 		AbstractNode prog = createParser(
 				"Module m;\n " +
 				"VAR a : integer;\n" +
+	
 				"PROCEDURE p1();\n" +
 				"BEGIN \n" +
 				"a := 1 \n" +
@@ -328,14 +329,40 @@ public class CompileTest {
 				"PROCEDURE p1();\n" +
 				"VAR b, c : integer;\n" +
 				"BEGIN \n" +
-				"b := 5; \n" +
+				"b := 5;\n " +
+				"PRINT b;\n" +
 				"c := a;\n"+
 				"a := a+c\n"+
 				"END p1 \n;" +
 				"BEGIN \n" +
 				"a := 3;\n" +
-				"p1() \n" +
+				"p1() \n;" +
+				"PRINT a\n" +
 				"END m.").program();
+		prog.compile(new SymbolTable());
+	}
+	
+	@Test
+	public void testprocedureWithParameters(){
+		
+		log("-------------------------procedure3-----------------------------------");
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+				"PROCEDURE p1(b : integer);\n" +
+				"VAR c : integer;\n" +
+				"BEGIN \n" +
+				"c := 5 + b;\n " +
+				"PRINT b;\n" +
+				"PRINT c\n" + 
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"a := 3;\n" +
+				"p1(a + 1) \n;" +
+				"PRINT a\n" +
+				"END m.").program();
+		log("------------------Der Tree---------------------------------------------");
+		System.out.println(prog);
 		prog.compile(new SymbolTable());
 	}
 }

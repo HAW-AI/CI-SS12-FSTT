@@ -8,12 +8,10 @@ public class ProcDescriptor implements Descriptor{
 
 	private int labelInAssembler;
 	private SymbolTable lokal;
-	private List<Descriptor> parameters;
 	
-	public ProcDescriptor(int labelInAssembler, SymbolTable lokal, List<Descriptor> parameters){
+	public ProcDescriptor(int labelInAssembler, SymbolTable lokal){
 		this.labelInAssembler = labelInAssembler;
 		this.lokal = lokal;
-		this.parameters = parameters;
 	}
 
 	@Override
@@ -22,8 +20,6 @@ public class ProcDescriptor implements Descriptor{
 		int result = 1;
 		result = prime * result + labelInAssembler;
 		result = prime * result + ((lokal == null) ? 0 : lokal.hashCode());
-		result = prime * result
-				+ ((parameters == null) ? 0 : parameters.hashCode());
 		return result;
 	}
 	
@@ -36,10 +32,7 @@ public class ProcDescriptor implements Descriptor{
 		return lokal;
 	}
 
-	public List<Descriptor> getParameters() {
-		return parameters;
-	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -55,11 +48,6 @@ public class ProcDescriptor implements Descriptor{
 			if (other.lokal != null)
 				return false;
 		} else if (!lokal.equals(other.lokal))
-			return false;
-		if (parameters == null) {
-			if (other.parameters != null)
-				return false;
-		} else if (!parameters.equals(other.parameters))
 			return false;
 		return true;
 	}

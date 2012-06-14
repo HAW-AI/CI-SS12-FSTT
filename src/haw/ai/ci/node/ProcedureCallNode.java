@@ -64,7 +64,12 @@ public class ProcedureCallNode extends AbstractNode {
 	
 	public Descriptor compile(SymbolTable symbolTable){
 		ProcDescriptor procedure = (ProcDescriptor) symbolTable.descriptorFor(ident.getIdentName());
-		if(procedure == null) System.out.println("NULL in proc");
+		
+		// Paramter auf den Stack
+		if(actualParameters != null){
+			actualParameters.compile(symbolTable);
+		}
+		
 		write("CALL, "+ procedure.getLabelInAssembler() );
 		return null;
 		

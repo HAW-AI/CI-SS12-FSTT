@@ -1,14 +1,21 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
+
 public class FPSectionNode extends AbstractNode {
 
     private static final long serialVersionUID = 1L;
     
     private final AbstractNode node;
     private final AbstractNode type;
+    private Descriptor typeOfSection;
     public FPSectionNode(AbstractNode identList, AbstractNode type) {
         this.node = identList;
         this.type=type;
+        this.typeOfSection =null;
     }
 
     @Override
@@ -50,6 +57,40 @@ public class FPSectionNode extends AbstractNode {
             return false;
         
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	Descriptor d = null;
+		if(type instanceof IdentNode){
+			String s = ((IdentNode) type).getIdentName();
+			if(s.equals("integer")){
+				d = new SimpleTypeDescriptor(Type.INTEGER);
+			}
+			else if(s.equals("boolean")){
+				d = new SimpleTypeDescriptor(Type.BOOLEAN);
+			}
+			else if(s.equals("string")){
+				d = new SimpleTypeDescriptor(Type.STRING);
+			}
+			else{
+				d = table.descriptorFor(s);
+			}
+		}
+		else{
+			d = type.compile(table);
+		}
+    	
+    	IdentListNode n = (IdentListNode) node;
+    	n.compileParams(table, d);  
+    	typeOfSection = d;
+    	
+    	return null;
+    }
+    
+    public int size(){
+    	if(typeOfSection == null) return -1;
+    	IdentListNode n = (IdentListNode) node;
+    	return n.size() * typeOfSection.size();
     }
 
 }

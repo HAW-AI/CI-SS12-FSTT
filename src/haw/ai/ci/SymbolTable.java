@@ -11,6 +11,7 @@ public class SymbolTable {
 	private Map<String, Integer> addressMap = new HashMap<String, Integer>();
 	private Map<String, Descriptor> descriptorMap = new HashMap<String,Descriptor>();
 	private int currentAddress = 0;
+	private int currentParameterAddress = -2; //muss spaeter geaendert werden -> wenn SL-Register eingebaut
 	private SymbolTable parentTable;
 	
 	
@@ -59,6 +60,17 @@ public class SymbolTable {
 		}
 		return this.currentLvl() - i;
 	}
+	
+	public void declareParams(String ident, Descriptor descr){
+		if(!(addressMap.containsKey(ident))){
+			currentParameterAddress = currentParameterAddress - descr.size();
+			addressMap.put(ident, currentParameterAddress);
+			descriptorMap.put(ident, descr);
+		}else{
+			error("Variable zweimal deklariert");
+		}
+		
+	}
 
 	
 	public void declare(String ident, Descriptor descr) {
@@ -66,11 +78,11 @@ public class SymbolTable {
 			descriptorMap.put(ident, descr);
 			addressMap.put(ident, currentAddress);
 			if(descr == null){
-				System.out.println("---- compile Error-----\n Variable = " + ident);
+				error("Fehlender Descriptor fuer " + ident);
 			}
 			currentAddress += descr.size();
 		}else{
-			System.out.println("Fehler, zweimal die gleiche Variable deklariert");
+			error("Variable zweimal deklariert");
 		}
 	}
 	
@@ -164,10 +176,14 @@ public class SymbolTable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((addressMap == null) ? 0 : addressMap.hashCode());
+		result = prime * result
+				+ ((addressMap == null) ? 0 : addressMap.hashCode());
 		result = prime * result + currentAddress;
-		result = prime * result + ((descriptorMap == null) ? 0 : descriptorMap.hashCode());
-		result = prime * result + ((parentTable == null) ? 0 : parentTable.hashCode());
+		result = prime * result + currentParameterAddress;
+		result = prime * result
+				+ ((descriptorMap == null) ? 0 : descriptorMap.hashCode());
+		result = prime * result
+				+ ((parentTable == null) ? 0 : parentTable.hashCode());
 		return result;
 	}
 
@@ -186,6 +202,8 @@ public class SymbolTable {
 		} else if (!addressMap.equals(other.addressMap))
 			return false;
 		if (currentAddress != other.currentAddress)
+			return false;
+		if (currentParameterAddress != other.currentParameterAddress)
 			return false;
 		if (descriptorMap == null) {
 			if (other.descriptorMap != null)

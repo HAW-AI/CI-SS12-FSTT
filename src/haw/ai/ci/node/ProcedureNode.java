@@ -35,13 +35,16 @@ public class ProcedureNode extends AbstractNode {
 	@Override
 	public Descriptor compile(SymbolTable symbolTable){
 		
-		List<Descriptor> parameters = new ArrayList<Descriptor>();
 		SymbolTable lokal = new SymbolTable(symbolTable);
 		int label = getNextLabelNumber();
 		
-		if(declarations != null)
-			declarations.compile(lokal);
+		if(fparams != null){
+			fparams.compile(lokal);
+		}
 		
+		if(declarations != null){
+			declarations.compile(lokal);
+		}
 		int allocatedMemory = linkage + lokal.size();
 		write("LABEL, " + label);
 		
@@ -60,8 +63,6 @@ public class ProcedureNode extends AbstractNode {
 		//end of entryCode
 		
 		
-//		if(fparams != null)
-//			fparams.compile(lokal);
 		if(statseq != null){
 			statseq.compile(lokal);
 		}else{
@@ -75,10 +76,18 @@ public class ProcedureNode extends AbstractNode {
 		//to do: restore SL
 		write("POPREG, FP");
 		write("POPREG, RK");
-		write("REDUCE, " + allocatedMemory);
+		write("GETSP");
+		write("PUSHI, "+ fparams.size() );
+		write("SUB");
+		write("SETSP");
+		
+		int reduceVal = allocatedMemory + fparams.size();
+		write("REDUCE, " + reduceVal);
 		write("RET");
+		
+				
 
-		ProcDescriptor descr = new ProcDescriptor(label,lokal,parameters);
+		ProcDescriptor descr = new ProcDescriptor(label,lokal);
 		symbolTable.declare(ident.getIdentName(),descr);
 		return descr; 
 		

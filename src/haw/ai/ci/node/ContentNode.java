@@ -59,16 +59,24 @@ public class ContentNode extends AbstractNode {
     @Override
     public Descriptor compile(SymbolTable symbolTable) {
     	Descriptor d = null;
-    	if(subject instanceof IdentNode)
+    	
+    	if(subject instanceof IdentNode) {
     		d = symbolTable.descriptorFor(((IdentNode)subject).getIdentName());
+    	} else if (subject instanceof ArraySelectorNode) {
+    	    d = ((ArraySelectorNode)subject).descriptor(symbolTable);
+    	}
+    	
         if(d instanceof IntConstDescriptor){
         	write("PUSHI, "+((IntConstDescriptor)d).value());
         }else if(d instanceof RecordDescriptor || d instanceof ArrayDescriptor){
+            subject.compile(symbolTable);
+            write("CONT, " + d.size());
         	return d;
         }else{
         	subject.compile(symbolTable);
         	write("CONT, 1");
         }
+        
         return null;
     }
 

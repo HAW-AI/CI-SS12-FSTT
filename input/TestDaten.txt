@@ -1,16 +1,20 @@
+module m4;
 
-MODULE m;
-    var a : ARRAY [10] of RECORD
-            s : record
-                d : integer;
-                z : integer
-            end;
-            x : integer
-        end;
-        b : integer;
-BEGIN
-    b := 4;
-    a[2+3].s.z := 3 ;
-    PRINT a[2+3].s.z ;
-    PRINT "the previous line should have printed '3'" ;
-END m.
+var
+ a, b : array[10] of integer;
+ d, e : array[10] of array[5] of integer;
+ i,j : integer;
+ 
+begin
+ i := 0;
+ while i < 10 do
+  a[i] := i;
+  i := i + 1;
+ end;
+ b := a;
+ d[4][2*2] := 13;
+ i := 1;
+ 
+ e[1] := d[5 - 1];
+ Print e[1][4];
+end m4.

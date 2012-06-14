@@ -1,5 +1,9 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.ProcDescriptor;
+
 public class ProcedureCallNode extends AbstractNode {
 
     /**
@@ -56,6 +60,19 @@ public class ProcedureCallNode extends AbstractNode {
 		} else if (!ident.equals(other.ident))
 			return false;
 		return true;
+	}
+	
+	public Descriptor compile(SymbolTable symbolTable){
+		ProcDescriptor procedure = (ProcDescriptor) symbolTable.descriptorFor(ident.getIdentName());
+		
+		// Paramter auf den Stack
+		if(actualParameters != null){
+			actualParameters.compile(symbolTable);
+		}
+		
+		write("CALL, "+ procedure.getLabelInAssembler() );
+		return null;
+		
 	}
 
 }

@@ -1,6 +1,11 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class ActualParametersNode extends AbstractNode {
 
@@ -44,6 +49,30 @@ public class ActualParametersNode extends AbstractNode {
 		} else if (!list.equals(other.list))
 			return false;
 		return true;
+	}
+	
+	public Descriptor compile(SymbolTable table){ 
+		write("INIT, " +list.size());
+		
+		//schreibe ergebnisse der Expressions auf den Stack
+		ListIterator<AbstractNode> it = list.listIterator(list.size());
+		while(it.hasPrevious()){
+			AbstractNode actual = it.previous();
+			
+			//wert der aktuellen expression berechnen
+			actual.compile(table); 
+			
+			//berechneten Wert auf Stack 
+			write("GETSP");
+			write("ASSIGN, 1");
+			
+			//Stackpointer aktualisieren
+			write("GETSP");
+			write("PUSHI, 1");
+			write("ADD");
+			write("SETSP");
+		}
+		return null;
 	}
 
 }

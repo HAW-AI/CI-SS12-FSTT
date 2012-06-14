@@ -160,13 +160,13 @@ public class ParserTest {
 
         actual = createParser("\"hello wOrld\" / ident[7]").term();
         expected = new BinOpNode(DIV_OP, new StringNode("hello wOrld"),
-                new ArraySelectorNode(new IdentNode("ident"), new IntNode(7)));
+                new ContentNode(new ArraySelectorNode(new IdentNode("ident"), new IntNode(7))));
         assertEquals(expected, actual);
 
         actual = createParser("\"hello wOrld\" / ident[7] *   9").term();
         expected = new BinOpNode(MUL_OP, new BinOpNode(DIV_OP, new StringNode(
-                "hello wOrld"), new ArraySelectorNode(new IdentNode("ident"),
-                new IntNode(7))), new IntNode(9));
+                "hello wOrld"), new ContentNode(new ArraySelectorNode(new IdentNode("ident"),
+                new IntNode(7)))), new IntNode(9));
         assertEquals(expected, actual);
 
     }
@@ -314,6 +314,32 @@ public class ParserTest {
                         new IdentNode("string"))),
                 new ArrayList<ProcedureNode>());
         assertEquals(expected, actual);
+        
+        // konstanten
+        actual = createParser("const c1 = 10; c2 = 20;").declaration();
+		expected = new DeclarationsNode(
+				asList(new ConstDeclarationNode(new IdentNode("c1"),
+						new IntNode(10)), new ConstDeclarationNode(
+						new IdentNode("c2"), new IntNode(20))),
+				new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>(),
+				new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+        //type declaration
+        
+        actual = createParser("type t1 = array[10] of integer;"+
+						       " t2 = record a : t1; end;").declaration();
+		expected = new DeclarationsNode(
+				new ArrayList<AbstractNode>(),
+				asList(new TypeDeclarationNode(new IdentNode("t1"),
+						createParser("array[10] of integer").arrayType()),
+					   new TypeDeclarationNode(new IdentNode("t2"),
+						createParser("record a : t1; end;").recordType())
+				),
+				new ArrayList<AbstractNode>(), new ArrayList<AbstractNode>());
+        assertEquals(expected, actual);
+        
+        
+             
     }
 
     @Test(expected = ParserException.class)
@@ -495,10 +521,9 @@ public class ParserTest {
     @Test
     public void repeatStatement() {
         AbstractNode actual, expected;
-        actual = createParser("REPEAT ident1.kp:=10;PRINT h1 UNTIL 3 < 4")
-                .repeatStatement();
-        expected = new RepeatStatementNode(createParser("ident1.kp:=10;PRINT h1").statementSequence(), new BinOpNode(LO_OP, new IntNode(3),
-                new IntNode(4)));
+        actual = createParser("repeat  k := i + 1;  Print k;  i := i + 1; until i = 5; ").repeatStatement();
+        expected = new RepeatStatementNode(createParser("k := i + 1;  Print k;  i := i + 1;").statementSequence(),
+        		new BinOpNode(EQ_OP, new ContentNode(new IdentNode("i")), new IntNode(5)));
         assertEquals(expected, actual);
     }
 

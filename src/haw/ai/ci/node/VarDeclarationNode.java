@@ -75,20 +75,18 @@ public class VarDeclarationNode extends AbstractNode{
 		Descriptor d = null;
 		if(type instanceof IdentNode){
 			String s = ((IdentNode) type).getIdentName();
-			SimpleTypeDescriptor sd = null;
-			if(s.equalsIgnoreCase("integer")){
-				sd = new SimpleTypeDescriptor(Type.INTEGER);
+			if(s.equals("integer")){
+				d = new SimpleTypeDescriptor(Type.INTEGER);
 			}
-			else if(s.equalsIgnoreCase("boolean")){
-				sd = new SimpleTypeDescriptor(Type.BOOLEAN);
+			else if(s.equals("boolean")){
+				d = new SimpleTypeDescriptor(Type.BOOLEAN);
 			}
-			else if(s.equalsIgnoreCase("string")){
-				sd = new SimpleTypeDescriptor(Type.STRING);
+			else if(s.equals("string")){
+				d = new SimpleTypeDescriptor(Type.STRING);
 			}
 			else{
-				throw new CompilerException("ToDo: Typedef in VarDeclarationNode");
+				d = table.descriptorFor(s);
 			}
-			d = sd;
 		}
 		else{
 			d = type.compile(table);

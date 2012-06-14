@@ -1,0 +1,22 @@
+module m4;
+
+var
+ a, b : array[10] of integer;
+ d, e : array[10] of array[5] of integer;
+ i : integer;
+ 
+begin
+ i := 0;
+ while i < 10 do
+  a[i] := i;
+  i := i + 1;
+ end;
+ b := a;
+ Print a[9];
+ Print b[9];
+ d[4][2*2] := 99;
+ i := 1;
+ e[i][2*i] := d[5 - 1][4];
+ Print e[1][2];
+ Print 99;
+end m4.

@@ -49,6 +49,10 @@ public class CompileTest {
 		log("// a:=b + 2");
 		AssignmentNode an3 = new AssignmentNode(new IdentNode("a"), new BinOpNode(BinOpNode.BinOp.PLUS_OP, new IdentNode("b"), new IntNode(2)));
 		an3.compile(st);
+		// arrays
+//		// siehe arrayselectornode test
+		// records
+		// siehe recordselectornode test
 	}
     
     @Test(expected=CompilerException.class)
@@ -160,12 +164,6 @@ public class CompileTest {
 //		System.out.println(expected);
 		testData.compile(actual2);
 		assertEquals(expected,actual2);
-		
-		
-		
-			
-		
-		
 	}
 	
 	@Test
@@ -242,7 +240,7 @@ public class CompileTest {
 		log("-----------------RecordSelectorNode-compile()----------------------");
 		AbstractNode testData = createParser(
 				"MODULE m;" + 
-				"var a : record " +
+				"var a, c : record " +
 				"           s : record"  +
 				"                d : integer;" +
 				"                z : integer" +
@@ -274,7 +272,8 @@ public class CompileTest {
 						"    b : integer; " +
 				"BEGIN " +  //194 
 				"b := 4; " + //202 
-				"a[2+3].s.z := 3 " + 
+				"a[2+3].s.z := 3;" +
+				"PRINT a[5].s.z " + 
 				"END m.").module();
 		
 		testData.compile(new SymbolTable());
@@ -302,5 +301,68 @@ public class CompileTest {
             "    PRINT age;\n" +
             "END m."
             ).program().compile(new SymbolTable());
+	}
+	
+	@Test
+	public void testProcedureWithoutParamsAndLokals(){
+		log("--------------------Procedure1-----------------------------"); 
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+	
+				"PROCEDURE p1();\n" +
+				"BEGIN \n" +
+				"a := 1 \n" +
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"p1() \n" +
+				"END m.").program();
+		prog.compile(new SymbolTable());
+	}
+	
+	@Test
+	public void testProcedureWithLokals(){
+		log("--------------------Procedure2-----------------------------"); 
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+				"PROCEDURE p1();\n" +
+				"VAR b, c : integer;\n" +
+				"BEGIN \n" +
+				"b := 5;\n " +
+				"PRINT b;\n" +
+				"c := a;\n"+
+				"a := a+c\n"+
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"a := 3;\n" +
+				"p1() \n;" +
+				"PRINT a\n" +
+				"END m.").program();
+		prog.compile(new SymbolTable());
+	}
+	
+	@Test
+	public void testprocedureWithParameters(){
+		
+		log("-------------------------procedure3-----------------------------------");
+		AbstractNode prog = createParser(
+				"Module m;\n " +
+				"VAR a : integer;\n" +
+				"PROCEDURE p1(b : integer);\n" +
+				"VAR c : integer;\n" +
+				"BEGIN \n" +
+				"c := 5 + b;\n " +
+				"PRINT b;\n" +
+				"PRINT c\n" + 
+				"END p1 \n;" +
+				"BEGIN \n" +
+				"a := 3;\n" +
+				"p1(a + 1) \n;" +
+				"PRINT a\n" +
+				"END m.").program();
+		log("------------------Der Tree---------------------------------------------");
+		System.out.println(prog);
+		prog.compile(new SymbolTable());
 	}
 }

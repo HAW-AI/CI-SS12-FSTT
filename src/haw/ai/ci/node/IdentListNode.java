@@ -56,6 +56,13 @@ public class IdentListNode extends AbstractNode {
     	return null; //schreibt nur in die Symboltabelle --> kein geeigneter Ruechgabewert vorhanden
     }
     
+    public Descriptor compileParams(SymbolTable table, Descriptor descriptor){
+    	for(IdentNode node : idents){
+    		table.declareParams(node.getIdentName(), descriptor);
+    	}
+    	return null;
+    }
+    
 	public int size() {
 		return idents.size();
 	}

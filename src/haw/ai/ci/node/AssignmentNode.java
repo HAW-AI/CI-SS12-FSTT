@@ -1,11 +1,11 @@
 package haw.ai.ci.node;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.IntConstDescriptor;
+import haw.ai.ci.descriptor.RecordDescriptor;
 
 public class AssignmentNode extends AbstractNode {
 
@@ -70,11 +70,14 @@ public class AssignmentNode extends AbstractNode {
 	    {
 	        throw new CompilerException("Constant " + ((IdentNode)key).getIdentName() + " cannot be overriden");
 	    }
-	    
-		value.compile(symbolTable);
-		key.compile(symbolTable);
-		write("ASSIGN, 1");
-		return null;
+	    Descriptor d = value.compile(symbolTable);
+	    if(d instanceof RecordDescriptor || d instanceof ArrayDescriptor){
+	    	symbolTable.link(((IdentNode)key).getIdentName(), ((IdentNode)((ContentNode) value).getSubject()).getIdentName());
+	    }else{
+	    	key.compile(symbolTable);
+			write("ASSIGN, 1");
+	    }
+	    return null;
 	}
 
 }

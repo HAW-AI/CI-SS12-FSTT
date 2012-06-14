@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.Descriptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +47,21 @@ public class FormalParametersNode extends AbstractNode {
         } else if (!fpsections.equals(other.fpsections))
             return false;
         return true;
+    }
+    
+    public Descriptor compile(SymbolTable table){
+    	for(FPSectionNode node : fpsections){
+    		node.compile(table);
+    	}
+    	return null;
+    } 
+    
+    public int size(){
+    	int size = 0;
+    	for(FPSectionNode node : fpsections){
+    		size += node.size();
+    	}
+    	return size;
     }
     
 }

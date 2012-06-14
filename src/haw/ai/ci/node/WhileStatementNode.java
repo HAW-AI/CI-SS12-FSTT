@@ -61,7 +61,7 @@ public class WhileStatementNode extends AbstractNode {
 		exp1.compile(table);
 		write("BF, "+labelEnd);
 		stateSeq1.compile(table);
-		write("BF, "+labelWhile);
+		write("JMP, "+labelWhile);
 		write("LABEL, "+labelEnd);
 		return null;
 		

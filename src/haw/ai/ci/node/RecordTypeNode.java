@@ -51,7 +51,7 @@ public class RecordTypeNode extends AbstractNode {
     }
     
     public Descriptor compile(SymbolTable table){
-    	SymbolTable symbolTable = new SymbolTable(); //neue Symboltabelle
+    	SymbolTable symbolTable = new SymbolTable(table); //neue Symboltabelle
     	for(AbstractNode node : fieldLists){
     		node.compile(symbolTable);		//schreibe Variablen in neue Symboltabelle
     	}

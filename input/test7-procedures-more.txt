@@ -1,0 +1,29 @@
+module m8;
+
+var
+ i, j, k : integer;
+ 
+procedure p1(i : integer; var j : integer);
+begin
+ j := i*10;
+end p1;
+
+procedure p2(i : integer);
+begin
+ p1(i, k);
+end p2;
+
+procedure p3(j : integer);
+begin
+ p2(j);
+end p3;
+
+begin
+ i := 10;
+ j := 20;
+ k := 30;
+ p3(k);
+ Print i; Print 10;
+ Print j; Print 20;
+ Print k; Print 300;
+end m8.  

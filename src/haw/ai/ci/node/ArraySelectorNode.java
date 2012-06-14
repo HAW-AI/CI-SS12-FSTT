@@ -17,7 +17,7 @@ public class ArraySelectorNode extends SelectorNode {
     public ArraySelectorNode(SelectorNode subject, AbstractNode selector) {
         this((AbstractNode)subject, selector);
     }
-
+    
     private ArraySelectorNode(AbstractNode subject, AbstractNode selector) {
         this.subject = subject;
         this.selector = selector;

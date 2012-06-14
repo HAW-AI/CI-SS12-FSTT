@@ -1,0 +1,21 @@
+module m5;
+
+var
+ r1, r2 : record
+           a,b,c : integer;
+           d : record 
+                x, y : integer
+               end;
+          end;
+
+begin                
+ r1.a := 10;
+ r1.b := r1.a * 10;
+ r1.c := r1.b * 10;   
+ r1.d.x := r1.c * 10;
+ r1.d.y := r1.c * 10;
+ Print r1.d.y;
+ r2 := r1;
+ Print r2.d.y;
+ Print 10000;        
+end m5.

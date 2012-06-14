@@ -1,0 +1,21 @@
+module m6;
+
+const
+ c1 = 10;
+ 
+type
+ t1 = array[10] of integer;
+ t2 = record
+       a, b : t1;
+       c : integer;
+      end;
+      
+var
+ v, w : array[c1] of t2;   
+ 
+begin
+v[2].b[1] := 99;
+w := v;
+Print w[2].b[1] * 2;
+Print 99 * 2;     
+end m6.

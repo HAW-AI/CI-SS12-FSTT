@@ -1,0 +1,38 @@
+module m7;
+
+var
+ i, j, k : integer;
+ 
+procedure p1();
+begin
+ i := k * 10;
+end p1;
+
+procedure p2(i, j : integer);
+begin
+ Print i+j;
+ Print 3030;
+end p2;
+
+procedure p3(var i : integer; j : integer);
+begin
+ i := j - 500;
+ j := 99;
+end p3;
+
+begin
+ i := 10;
+ j := 20;
+ k := 30;
+ p1();
+ Print i;
+ Print 300;
+
+ p2(k, 100*k);
+ 
+ k := 10000;
+ p3(k, k);
+ Print i; Print 300;
+ Print j; Print 20;
+ Print k; Print 9500;
+end m7.  

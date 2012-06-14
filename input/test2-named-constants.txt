@@ -1,0 +1,15 @@
+module m3;
+
+const
+ c1 = 10;
+ c2 = 20;
+ 
+var 
+ i : integer;
+ 
+begin
+ i := 10;
+ i := i * (c1 + c2);
+ Print i;
+ Print c1 + c2;  
+end m3.

@@ -61,20 +61,18 @@ public class FieldListNode extends AbstractNode {
     	Descriptor d = null;
 		if(type instanceof IdentNode){
 			String s = ((IdentNode) type).getIdentName();
-			SimpleTypeDescriptor sd = null;
 			if(s.equals("integer")){
-				sd = new SimpleTypeDescriptor(Type.INTEGER);
+				d = new SimpleTypeDescriptor(Type.INTEGER);
 			}
 			else if(s.equals("boolean")){
-				sd = new SimpleTypeDescriptor(Type.BOOLEAN);
+				d = new SimpleTypeDescriptor(Type.BOOLEAN);
 			}
 			else if(s.equals("string")){
-				sd = new SimpleTypeDescriptor(Type.STRING);
+				d = new SimpleTypeDescriptor(Type.STRING);
 			}
 			else{
-				System.out.println("ToDo: Typedef in VarDeclarationNode");
+				d = table.descriptorFor(s);
 			}
-			d = sd;
 		}
 		else{
 			d = type.compile(table);

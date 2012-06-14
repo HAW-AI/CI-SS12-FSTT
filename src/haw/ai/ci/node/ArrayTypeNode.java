@@ -63,6 +63,8 @@ public class ArrayTypeNode extends AbstractNode {
     	int size;
     	if(node instanceof IdentNode){
     		size = ((IntConstDescriptor)table.descriptorFor(((IdentNode)node).getIdentName())).value();
+    	}else if(node instanceof ContentNode){
+    		size = ((IntConstDescriptor)table.descriptorFor((((IdentNode)((ContentNode)node).getSubject()).getIdentName()))).value();
     	}else{
     		size = ((IntNode)node).getVal();
     	}

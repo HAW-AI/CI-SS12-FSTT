@@ -1,5 +1,8 @@
 package haw.ai.ci.node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.ProcDescriptor;
@@ -16,6 +19,7 @@ public class ProcedureNode extends AbstractNode {
     // body
 	private final DeclarationsNode declarations;
     private final AbstractNode statseq;
+    private final int linkage = 2;
     
 
 	public ProcedureNode(IdentNode declEndIdent, IdentNode subject, FormalParametersNode fparams,
@@ -30,17 +34,64 @@ public class ProcedureNode extends AbstractNode {
 	
 	@Override
 	public Descriptor compile(SymbolTable symbolTable){
-		SymbolTable sm = new SymbolTable(symbolTable);
 		
-		if(fparams != null)
-			fparams.compile(sm);
-		if(declarations != null)
-			declarations.compile(sm);
-		if(statseq != null)
-			statseq.compile(sm);
-		write("REDUCE, " + declarations.size());
+		SymbolTable lokal = new SymbolTable(symbolTable);
+		int label = getNextLabelNumber();
 		
-		return new ProcDescriptor(sm);
+		if(fparams != null){
+			fparams.compile(lokal);
+		}
+		
+		if(declarations != null){
+			declarations.compile(lokal);
+		}
+		int allocatedMemory = linkage + lokal.size();
+		write("LABEL, " + label);
+		
+		//entry Code starts here
+		write("INIT, " + allocatedMemory);
+		write("PUSHREG, RK");
+		write("PUSHREG, FP");
+		//to do: SL Register
+		//SP := SP + lokale Variablen laenge
+		write("GETSP");
+		write("SETFP");
+		write("GETSP");
+		write("PUSHI, " + lokal.size());
+		write("ADD");
+		write("SETSP");
+		//end of entryCode
+		
+		
+		if(statseq != null){
+			statseq.compile(lokal);
+		}else{
+			error("Kein StatementSequenzNode");
+		}
+		
+		//exitCode starts here
+		//FP := SP
+		write("GETFP");
+		write("SETSP");
+		//to do: restore SL
+		write("POPREG, FP");
+		write("POPREG, RK");
+		write("GETSP");
+		write("PUSHI, "+ fparams.size() );
+		write("SUB");
+		write("SETSP");
+		
+		int reduceVal = allocatedMemory + fparams.size();
+		write("REDUCE, " + reduceVal);
+		write("RET");
+		
+				
+
+		ProcDescriptor descr = new ProcDescriptor(label,lokal);
+		symbolTable.declare(ident.getIdentName(),descr);
+		return descr; 
+		
+		
 	}
 	
 	@Override

@@ -3,7 +3,6 @@ package haw.ai.ci.node;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 

@@ -1,5 +1,5 @@
 package haw.ai.ci;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import haw.ai.ci.descriptor.Descriptor;
 
 import org.junit.Test;

@@ -1,16 +1,13 @@
 package haw.ai.ci.node;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
-import cip.descriptor.ArrayDescr;
 import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ArraySelectorNode extends SelectorNode {
     private static final long serialVersionUID = 1L;

@@ -71,24 +71,28 @@ public class AssignmentNode extends AbstractNode {
 	        throw new CompilerException("Constant " + ((IdentNode)key).getIdentName() + " cannot be overriden");
 	    }
 	    Descriptor rightDescr = value.compile(symbolTable);
-	    if(rightDescr instanceof RecordDescriptor || rightDescr instanceof ArrayDescriptor){
-	        if (((ContentNode)value).getSubject() instanceof IdentNode) {
-	            symbolTable.link(((IdentNode)key).getIdentName(), ((IdentNode)((ContentNode) value).getSubject()).getIdentName());
-	        } else if (((ContentNode)value).getSubject() instanceof ArraySelectorNode) {
-	            Descriptor leftDescr = key.compile(symbolTable);
-	            
-	            if (!leftDescr.equals(rightDescr)) {
-	                throw new CompilerException("left type (" + leftDescr + ") is not compatible with right type (" + rightDescr + ")");
-	            }
-	            
-	            write("ASSIGN, " + rightDescr.size());
-	        } else {
-	            throw new CompilerException("We can only handle IdentNodes and ArraySelectorNodes");
-	        }
-	    }else{
-	    	key.compile(symbolTable);
-			write("ASSIGN, 1");
-	    }
+	    Descriptor leftDescr = key.compile(symbolTable);
+	    if(rightDescr == null)
+	    	write("ASSIGN, 1");
+	    else
+	    	write("ASSIGN, "+rightDescr.size());
+//	    if(rightDescr instanceof RecordDescriptor || rightDescr instanceof ArrayDescriptor){
+//	        if (((ContentNode)value).getSubject() instanceof IdentNode 
+//	        		|| ((ContentNode)value).getSubject() instanceof ArraySelectorNode) {
+//	            Descriptor leftDescr = key.compile(symbolTable);
+//	            
+//	            if (!leftDescr.equals(rightDescr)) {
+//	                throw new CompilerException("left type (" + leftDescr + ") is not compatible with right type (" + rightDescr + ")");
+//	            }
+//	            
+//	            write("ASSIGN, " + rightDescr.size());
+//	        } else {
+//	            throw new CompilerException("We can only handle IdentNodes and ArraySelectorNodes");
+//	        }
+//	    }else{
+//	    	key.compile(symbolTable);
+//			write("ASSIGN, 1");
+//	    }
 	    return null;
 	}
 

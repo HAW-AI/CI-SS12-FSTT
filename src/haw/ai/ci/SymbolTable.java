@@ -31,19 +31,6 @@ public class SymbolTable {
 		return (this.parentTable != null);
 	}
 	
-	public void link(String ident, String toIdent){
-		if(addressMap.containsKey(ident) && addressMap.containsKey(toIdent) 
-		&& descriptorFor(ident)  == descriptorFor(toIdent)){
-			addressMap.put(ident, addressOf(toIdent));
-		}else{
-			if(!addressMap.containsKey(ident))
-				error(ident+" isn't declarated");
-			if(!addressMap.containsKey(toIdent))
-				error(ident+" isn't declarated");
-			if(descriptorFor(ident) != descriptorFor(toIdent))
-				error("Cann't link address. "+ident+" and "+ toIdent+ " have different types.");
-		}
-	}
 	public int currentLvl(){
 		if(this.parentTable == null) return 0;
 		else return 1+parentTable.currentLvl();

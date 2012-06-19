@@ -1,19 +1,53 @@
 package haw.ai.ci;
 
-import haw.ai.ci.node.*;
-
-import static haw.ai.ci.node.BinOpNode.BinOp.*;
 import static haw.ai.ci.TokenID.ASSIGN;
 import static haw.ai.ci.TokenID.IDENT;
 import static haw.ai.ci.TokenID.INT;
+import static haw.ai.ci.node.BinOpNode.BinOp.DIV_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.EQ_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.HI_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.LO_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.MINUS_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.MUL_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.NEQ_OP;
+import static haw.ai.ci.node.BinOpNode.BinOp.PLUS_OP;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import haw.ai.ci.node.AbstractNode;
+import haw.ai.ci.node.ActualParametersNode;
+import haw.ai.ci.node.ArraySelectorNode;
+import haw.ai.ci.node.ArrayTypeNode;
+import haw.ai.ci.node.AssignmentNode;
+import haw.ai.ci.node.BinOpNode;
+import haw.ai.ci.node.ConstDeclarationNode;
+import haw.ai.ci.node.ContentNode;
+import haw.ai.ci.node.DeclarationsNode;
+import haw.ai.ci.node.FPSectionNode;
+import haw.ai.ci.node.FieldListNode;
+import haw.ai.ci.node.FormalParametersNode;
+import haw.ai.ci.node.IdentListNode;
+import haw.ai.ci.node.IdentNode;
+import haw.ai.ci.node.IfStatementNode;
+import haw.ai.ci.node.IntNode;
+import haw.ai.ci.node.ModuleNode;
+import haw.ai.ci.node.NegationNode;
+import haw.ai.ci.node.PrintNode;
+import haw.ai.ci.node.ProcedureCallNode;
+import haw.ai.ci.node.ProcedureNode;
+import haw.ai.ci.node.ReadNode;
+import haw.ai.ci.node.RecordSelectorNode;
+import haw.ai.ci.node.RecordTypeNode;
+import haw.ai.ci.node.RepeatStatementNode;
+import haw.ai.ci.node.StatementSequenceNode;
+import haw.ai.ci.node.StringNode;
+import haw.ai.ci.node.TypeDeclarationNode;
+import haw.ai.ci.node.VarDeclarationNode;
+import haw.ai.ci.node.WhileStatementNode;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Test;

@@ -2,7 +2,49 @@
 
 package haw.ai.ci;
 
-import static haw.ai.ci.TokenID.*;
+import static haw.ai.ci.TokenID.ARRAY;
+import static haw.ai.ci.TokenID.ASSIGN;
+import static haw.ai.ci.TokenID.BEGIN;
+import static haw.ai.ci.TokenID.COLON;
+import static haw.ai.ci.TokenID.COMMA;
+import static haw.ai.ci.TokenID.CONST;
+import static haw.ai.ci.TokenID.DIV;
+import static haw.ai.ci.TokenID.DO;
+import static haw.ai.ci.TokenID.DOT;
+import static haw.ai.ci.TokenID.ELSE;
+import static haw.ai.ci.TokenID.ELSIF;
+import static haw.ai.ci.TokenID.END;
+import static haw.ai.ci.TokenID.EQ;
+import static haw.ai.ci.TokenID.ERROR;
+import static haw.ai.ci.TokenID.HI;
+import static haw.ai.ci.TokenID.HIEQ;
+import static haw.ai.ci.TokenID.IDENT;
+import static haw.ai.ci.TokenID.IF;
+import static haw.ai.ci.TokenID.INT;
+import static haw.ai.ci.TokenID.LBRAC;
+import static haw.ai.ci.TokenID.LO;
+import static haw.ai.ci.TokenID.LOEQ;
+import static haw.ai.ci.TokenID.LPAR;
+import static haw.ai.ci.TokenID.MINUS;
+import static haw.ai.ci.TokenID.MODULE;
+import static haw.ai.ci.TokenID.MUL;
+import static haw.ai.ci.TokenID.NEQ;
+import static haw.ai.ci.TokenID.OF;
+import static haw.ai.ci.TokenID.PLUS;
+import static haw.ai.ci.TokenID.PRINT;
+import static haw.ai.ci.TokenID.PROCEDURE;
+import static haw.ai.ci.TokenID.RBRAC;
+import static haw.ai.ci.TokenID.READ;
+import static haw.ai.ci.TokenID.RECORD;
+import static haw.ai.ci.TokenID.REPEAT;
+import static haw.ai.ci.TokenID.RPAR;
+import static haw.ai.ci.TokenID.SEMICOLON;
+import static haw.ai.ci.TokenID.STR;
+import static haw.ai.ci.TokenID.THEN;
+import static haw.ai.ci.TokenID.TYPE;
+import static haw.ai.ci.TokenID.UNTIL;
+import static haw.ai.ci.TokenID.VAR;
+import static haw.ai.ci.TokenID.WHILE;
 
 
 

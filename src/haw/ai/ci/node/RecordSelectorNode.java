@@ -1,6 +1,12 @@
 package haw.ai.ci.node;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
+import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.RecordDescriptor;
 
@@ -79,6 +85,41 @@ public class RecordSelectorNode extends SelectorNode {
     		return d.descriptorFor(((IdentNode)selector).getIdentName());
     	}
     }
+
+//    public Descriptor descriptor(SymbolTable symbolTable) {
+//        return descriptor(symbolTable, new LinkedList<Integer>());
+//    }
+//
+//    public Descriptor descriptor(SymbolTable symbolTable, List<Integer> idxs) {
+//        if (selector instanceof IdentNode) {
+//            throw new CompilerException("We cannot handle idents as indices :(");
+//        }
+//        idxs.add((Integer)selector.getVal());
+//        
+//        if (subject instanceof IdentNode) {
+//            String name = ((IdentNode)subject).getIdentName();
+//            ArrayDescriptor d = (ArrayDescriptor)symbolTable.descriptorFor(name);
+//            
+//            idxs = new ArrayList<Integer>(idxs);
+//            
+//            for (int i = idxs.size()-1; i > 0; --i) {
+//                // doppeltgemoppelt?!
+//                if (!(d instanceof ArrayDescriptor)) {
+//                    throw new CompilerException("We can only handle ArrayDescriptors :(");
+//                }
+//                
+//                d = (ArrayDescriptor)d.basetype();
+//            }
+//            
+//            return d.basetype();
+//        } else {
+//            if (subject instanceof ArraySelectorNode) {
+//                return ((ArraySelectorNode)subject).descriptor(symbolTable, idxs); 
+//            } else {
+//                throw new CompilerException("Subject is not an ArraySelectorNode but: " + subject);
+//            }
+//        }
+//    }
     
     
     

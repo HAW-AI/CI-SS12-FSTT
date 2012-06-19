@@ -1,6 +1,5 @@
 package haw.ai.ci.node;
 
-import haw.ai.ci.CompilerException;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor;

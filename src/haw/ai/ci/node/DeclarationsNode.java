@@ -96,7 +96,7 @@ public class DeclarationsNode extends AbstractNode {
 			memSize += constNode.compile(table).size();
 		}
 		for(AbstractNode typeNode : types){
-			memSize += typeNode.compile(table).size();
+			typeNode.compile(table).size();
 		}
 		for(AbstractNode varNode : vars){
 			memSize += varNode.compile(table).size()*varNode.size(); //TODO: unschön. besser: identlistdescriptor

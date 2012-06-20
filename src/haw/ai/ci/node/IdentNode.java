@@ -52,7 +52,8 @@ public class IdentNode extends AbstractNode {
 			write("PUSHI, " + symbolTable.addressOf(identName)); //variable im Hauptprogramm
 		}
 		else{
-			write("GETFP");
+			write("PUSHI, " + symbolTable.levelOf(identName));
+			write("GETSL");
 			write("PUSHI, " + symbolTable.addressOf(identName));
 			write("ADD");
 		}

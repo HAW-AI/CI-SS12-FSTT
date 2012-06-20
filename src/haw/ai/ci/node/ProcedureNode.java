@@ -19,7 +19,7 @@ public class ProcedureNode extends AbstractNode {
     // body
 	private final DeclarationsNode declarations;
     private final AbstractNode statseq;
-    private final int linkage = 2;
+    private final int linkage = 3;
     
 
 	public ProcedureNode(IdentNode declEndIdent, IdentNode subject, FormalParametersNode fparams,
@@ -52,10 +52,17 @@ public class ProcedureNode extends AbstractNode {
 		write("INIT, " + allocatedMemory);
 		write("PUSHREG, RK");
 		write("PUSHREG, FP");
-		//to do: SL Register
-		//SP := SP + lokale Variablen laenge
+		//SL Register retten
+		write("PUSHI, " + lokal.currentLvl());
+		write("PUSHREG, SL");
+		//FP := SP
 		write("GETSP");
 		write("SETFP");
+		//SL := FP
+		write("GETFP");
+		write("PUSHI, " + lokal.currentLvl());
+		write("SETSL");
+		//SP := SP + lokale variablen
 		write("GETSP");
 		write("PUSHI, " + lokal.size());
 		write("ADD");
@@ -70,12 +77,15 @@ public class ProcedureNode extends AbstractNode {
 		}
 		
 		//exitCode starts here
-		//FP := SP
+		//SP := FP
 		write("GETFP");
 		write("SETSP");
-		//to do: restore SL
+		//Restore SL
+		write("PUSHI, " + lokal.currentLvl());
+		write("POPREG, SL");
 		write("POPREG, FP");
 		write("POPREG, RK");
+		//SP := SP - Parameter
 		write("GETSP");
 		write("PUSHI, "+ fparams.size() );
 		write("SUB");

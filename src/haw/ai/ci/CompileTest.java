@@ -365,4 +365,43 @@ public class CompileTest {
 		System.out.println(prog);
 		prog.compile(new SymbolTable());
 	}
+	
+	@Test
+	public void testprocedureWithProcedure(){
+		
+		log("-------------------------Geschachtelte Procedures-----------------------------------");
+		AbstractNode prog = createParser(
+				"module m9;\n"+
+
+				"var\n"+
+				 "i, j, k : integer;\n"+
+				 
+				"procedure p1(j : integer);\n"+
+				 "var i : integer;\n"+
+				 
+				 "procedure p11(j : integer);\n"+
+				 "begin\n"+
+				  "i := j*10;\n"+
+				 "end p11;\n"+
+
+				"begin\n"+
+				 "i := 99;\n"+
+				 "p11(i);\n"+
+				 "j := i * 10;\n"+
+				 "k := 2 * k;\n"+
+				"end p1;\n"+
+
+				"begin\n"+
+				 "i := 10;\n"+
+				 "j := 20;\n"+
+				 "k := 30;\n"+
+				 "p1(k); \n"+
+				 "Print i; Print 10;\n"+
+				 "Print j; Print 20;\n"+
+				 "Print k; Print 19800;\n"+
+				"end m9.").program();
+		log("------------------Der Tree---------------------------------------------");
+		System.out.println(prog);
+		prog.compile(new SymbolTable());
+	}
 }

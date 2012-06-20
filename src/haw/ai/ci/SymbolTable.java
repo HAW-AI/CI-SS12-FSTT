@@ -11,7 +11,7 @@ public class SymbolTable {
 	private Map<String, Integer> addressMap = new HashMap<String, Integer>();
 	private Map<String, Descriptor> descriptorMap = new HashMap<String,Descriptor>();
 	private int currentAddress = 0;
-	private int currentParameterAddress = -2; //muss spaeter geaendert werden -> wenn SL-Register eingebaut
+	private int currentParameterAddress = -3; //muss spaeter geaendert werden -> wenn SL-Register eingebaut
 	private SymbolTable parentTable;
 	
 	

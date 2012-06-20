@@ -1,8 +1,5 @@
 package haw.ai.ci.node;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.ProcDescriptor;

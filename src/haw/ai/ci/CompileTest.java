@@ -1,10 +1,7 @@
 package haw.ai.ci;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
-
-import java.io.StringReader;
-
+import static org.junit.Assert.assertEquals;
 import haw.ai.ci.descriptor.ArrayDescriptor;
 import haw.ai.ci.descriptor.Descriptor;
 import haw.ai.ci.descriptor.RecordDescriptor;
@@ -13,12 +10,13 @@ import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 import haw.ai.ci.node.AbstractNode;
 import haw.ai.ci.node.AssignmentNode;
 import haw.ai.ci.node.BinOpNode;
-import haw.ai.ci.node.ContentNode;
 import haw.ai.ci.node.IdentListNode;
 import haw.ai.ci.node.IdentNode;
 import haw.ai.ci.node.IfStatementNode;
 import haw.ai.ci.node.IntNode;
 import haw.ai.ci.node.VarDeclarationNode;
+
+import java.io.StringReader;
 
 import org.junit.Test;
 

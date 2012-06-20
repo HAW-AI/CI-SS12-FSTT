@@ -9,30 +9,31 @@ import haw.ai.ci.descriptor.RecordDescriptor;
 
 public class AssignmentNode extends AbstractNode {
 
-    private static final long serialVersionUID = 1L;
-    
-    private final AbstractNode key;
-    private final AbstractNode value;
+	private static final long serialVersionUID = 1L;
 
-    public AssignmentNode( IdentNode selector,AbstractNode expression) {
-        this.key = selector;
-        this.value = expression;
-    }
-    
-    public AssignmentNode( SelectorNode selector,AbstractNode expression) {
-        this.key = selector;
-        this.value = expression;
-    }
-    
+	private final AbstractNode key;
+	private final AbstractNode value;
+
+	public AssignmentNode(IdentNode selector, AbstractNode expression) {
+		this.key = selector;
+		this.value = expression;
+	}
+
+	public AssignmentNode(SelectorNode selector, AbstractNode expression) {
+		this.key = selector;
+		this.value = expression;
+	}
+
 	@Override
 	protected String toString(int indent) {
-        String str = toString(indent, "AssignmentNode\n");
-		if(key != null)
-        str += key.toString(indent+1) + "\n";
-		if(value != null)
-        str += value.toString(indent+1);
-        return str;
+		String str = toString(indent, "AssignmentNode\n");
+		if (key != null)
+			str += key.toString(indent + 1) + "\n";
+		if (value != null)
+			str += value.toString(indent + 1);
+		return str;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -41,6 +42,7 @@ public class AssignmentNode extends AbstractNode {
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -62,34 +64,26 @@ public class AssignmentNode extends AbstractNode {
 			return false;
 		return true;
 	}
-	
-	public Descriptor compile(SymbolTable symbolTable){
-	    // prevent overriding of constants
-	    if (key instanceof IdentNode &&
-	        symbolTable.descriptorFor(((IdentNode)key).getIdentName()) instanceof IntConstDescriptor)
-	    {
-	        throw new CompilerException("Constant " + ((IdentNode)key).getIdentName() + " cannot be overriden");
-	    }
-	    Descriptor rightDescr = value.compile(symbolTable);
-	    if(rightDescr instanceof RecordDescriptor || rightDescr instanceof ArrayDescriptor){
-	        if (((ContentNode)value).getSubject() instanceof IdentNode) {
-	            symbolTable.link(((IdentNode)key).getIdentName(), ((IdentNode)((ContentNode) value).getSubject()).getIdentName());
-	        } else if (((ContentNode)value).getSubject() instanceof ArraySelectorNode) {
-	            Descriptor leftDescr = key.compile(symbolTable);
-	            
-	            if (!leftDescr.equals(rightDescr)) {
-	                throw new CompilerException("left type (" + leftDescr + ") is not compatible with right type (" + rightDescr + ")");
-	            }
-	            
-	            write("ASSIGN, " + rightDescr.size());
-	        } else {
-	            throw new CompilerException("We can only handle IdentNodes and ArraySelectorNodes");
-	        }
-	    }else{
-	    	key.compile(symbolTable);
+
+	public Descriptor compile(SymbolTable symbolTable) {
+		// prevent overriding of constants
+		if (key instanceof IdentNode && symbolTable.descriptorFor(((IdentNode) key).getIdentName()) instanceof IntConstDescriptor) {
+			throw new CompilerException("Constant " + ((IdentNode) key).getIdentName() + " cannot be overriden");
+		}
+		Descriptor rightDescr = value.compile(symbolTable);
+		if (rightDescr instanceof RecordDescriptor || rightDescr instanceof ArrayDescriptor) {
+			Descriptor leftDescr = key.compile(symbolTable);
+
+			if (!leftDescr.equals(rightDescr)) {
+				throw new CompilerException("left type (" + leftDescr + ") is not compatible with right type (" + rightDescr + ")");
+			}
+
+			write("ASSIGN, " + rightDescr.size());
+		} else {
+			key.compile(symbolTable);
 			write("ASSIGN, 1");
-	    }
-	    return null;
+		}
+		return null;
 	}
 
 }

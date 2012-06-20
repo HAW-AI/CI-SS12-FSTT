@@ -2,6 +2,8 @@ package haw.ai.ci.node;
 
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 public class StringNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
@@ -49,6 +51,6 @@ public class StringNode extends AbstractNode {
 	@Override
 	public Descriptor compile(SymbolTable symbolTable) {
 		write("PUSHS, " + strVal);
-		return null;
+		return new SimpleTypeDescriptor(Type.STRING);
 	}
 }

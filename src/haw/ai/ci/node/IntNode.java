@@ -1,7 +1,10 @@
 package haw.ai.ci.node;
 
+import cip.descriptor.SimpleTypeDescr;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 public class IntNode extends AbstractNode {
     private static final long serialVersionUID = 1L;
@@ -48,6 +51,6 @@ public class IntNode extends AbstractNode {
 	@Override
 	public Descriptor compile(SymbolTable symbolTable) {
 		write("PUSHI, "+intVal);
-		return super.compile(symbolTable);
+		return new SimpleTypeDescriptor(Type.INTEGER);
 	}
 }

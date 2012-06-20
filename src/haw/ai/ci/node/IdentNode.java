@@ -57,6 +57,6 @@ public class IdentNode extends AbstractNode {
 			write("PUSHI, " + symbolTable.addressOf(identName));
 			write("ADD");
 		}
-		return null;
+		return symbolTable.descriptorFor(identName);
 	}
 }

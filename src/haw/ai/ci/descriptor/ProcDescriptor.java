@@ -2,8 +2,6 @@ package haw.ai.ci.descriptor;
 
 import haw.ai.ci.SymbolTable;
 
-import java.util.List;
-
 public class ProcDescriptor implements Descriptor{
 
 	private int labelInAssembler;

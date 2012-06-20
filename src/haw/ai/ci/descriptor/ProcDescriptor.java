@@ -17,7 +17,6 @@ public class ProcDescriptor implements Descriptor{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + labelInAssembler;
-		result = prime * result + ((lokal == null) ? 0 : lokal.hashCode());
 		return result;
 	}
 	

@@ -48,11 +48,21 @@ public class IdentNode extends AbstractNode {
     }
 	@Override
 	public Descriptor compile(SymbolTable symbolTable) {
-		if(symbolTable.levelOf(identName) == 0){
+//		if(symbolTable.currentLvl() == 2){
+//			System.out.println("Ausgabe SymbolTable");
+//			System.out.println(symbolTable);
+//			System.out.println("Parent");
+//			SymbolTable parent =symbolTable.parentTable();
+//			System.out.println(parent);
+//			System.out.println("last");
+//			System.out.println(parent.parentTable());
+//		}
+		int varLevel = symbolTable.currentLvl() - symbolTable.levelOf(identName);
+		if( varLevel == 0){
 			write("PUSHI, " + symbolTable.addressOf(identName)); //variable im Hauptprogramm
 		}
 		else{
-			write("PUSHI, " + symbolTable.levelOf(identName));
+			write("PUSHI, " + varLevel);
 			write("GETSL");
 			write("PUSHI, " + symbolTable.addressOf(identName));
 			write("ADD");

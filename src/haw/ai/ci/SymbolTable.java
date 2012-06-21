@@ -19,6 +19,10 @@ public class SymbolTable {
 		this.parentTable = null;
 	}
 	
+	public SymbolTable parentTable(){
+		return this.parentTable;
+	}
+	
 	public SymbolTable(SymbolTable table){
 		this.parentTable = table;
 	}
@@ -45,7 +49,7 @@ public class SymbolTable {
 			if(this.parentTable == null) error("variable nicht gefunden:" + ident);
 			i = 1 + parentTable.levelOf(ident);
 		}
-		return this.currentLvl() - i;
+		return i;
 	}
 	
 	public void declareParams(String ident, Descriptor descr){

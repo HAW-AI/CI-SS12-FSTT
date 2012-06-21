@@ -1,9 +1,8 @@
 package haw.ai.ci.node;
 
-import cip.descriptor.SimpleTypeDescr;
+import haw.ai.ci.descriptor.SimpleTypeDescriptor;
 import haw.ai.ci.SymbolTable;
 import haw.ai.ci.descriptor.Descriptor;
-import haw.ai.ci.descriptor.SimpleTypeDescriptor;
 import haw.ai.ci.descriptor.SimpleTypeDescriptor.Type;
 
 public class IntNode extends AbstractNode {

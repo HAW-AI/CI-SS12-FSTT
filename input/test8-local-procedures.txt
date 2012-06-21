@@ -9,6 +9,7 @@ procedure p1(var j : integer);
  procedure p11(j : integer);
  begin
   i := j*10;
+  print i;
  end p11;
 
 begin

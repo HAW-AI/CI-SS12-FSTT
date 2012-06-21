@@ -29,5 +29,9 @@ local.properties
 
 # tmp files
 src/haw/ai/ci/Scanner.java~
+codetxt
+codelst
+lib/
+tmpinstr
 
 .DS_Store

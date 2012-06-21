@@ -42,6 +42,11 @@ public class ProcedureNode extends AbstractNode {
 		if(declarations != null){
 			declarations.compile(lokal);
 		}
+		
+		ProcDescriptor descr = new ProcDescriptor(label,lokal);
+		symbolTable.declare(ident.getIdentName(),descr);
+		
+		
 		int allocatedMemory = linkage + lokal.size();
 		write("LABEL, " + label);
 		
@@ -92,10 +97,6 @@ public class ProcedureNode extends AbstractNode {
 		write("REDUCE, " + reduceVal);
 		write("RET");
 		
-				
-
-		ProcDescriptor descr = new ProcDescriptor(label,lokal);
-		symbolTable.declare(ident.getIdentName(),descr);
 		return descr; 
 		
 		
